@@ -1,0 +1,566 @@
+SQL> CREATE TABLE CUSTOMER(
+  2  	CustomerID INT PRIMARY KEY NOT NULL,
+  3  	FirstName CHAR(25) NOT NULL,
+  4  	LastName CHAR(25) NOT NULL,
+  5  	Phone CHAR(12),
+  6  	Email VARCHAR2(100)
+  7  );
+
+테이블이 생성되었습니다.
+
+SQL> INSERT INTO CUSTOMER VALUES(1, 'Nikki', 'Kaccaton','723-543-1233', 'Nikki.Kaccaton@somewhere.com');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO CUSTOMER VALUES(2, 'Brenda', 'Catnazaro','723-543-2344', 'Brenda.Catnazaro@somewhere.com');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO CUSTOMER VALUES(3, 'Bruce', 'LeCat', '723-543-3455', 'Bruce.LeCat@somewhere.com');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO CUSTOMER VALUES(4, 'Betsy', 'Miller', '725-654-3211', 'Betsy.Miller@somewhere.com');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO CUSTOMER VALUES(5, 'George', 'Miller', '725-654-4322', 'George.Miller@somewhere.com');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO CUSTOMER VALUES(6, 'Kathy', 'Miller', '723-514-9877', 'Kathy.Miller@somewhere.com');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO CUSTOMER VALUES(7, 'Betsy', 'Miller', '723-514-8766', 'Betsy.Miller@elsewhere.com');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> CREATE TABLE INVOICE(
+  2  	InvoiceNumber INT PRIMARY KEY NOT NULL,
+  3  	CustomerNumber INT NOT NULL REFERENCES CUSTOMER(CustomerID),
+  4  	DateIn Date NOT NULL,
+  5  	DateOut Date,
+  6  	TotalAmount NUMBER(8,2)
+  7  );
+
+테이블이 생성되었습니다.
+
+SQL> INSERT INTO INVOICE VALUES(2015001, 1, TO_DATE('20041015','YYYYMMDD'), TO_DATE('20061015','YYYYMMDD'), 158.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE VALUES(2015002, 2, TO_DATE('20041015','YYYYMMDD'), TO_DATE('20061015','YYYYMMDD'), 25.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE VALUES(2015003, 1, TO_DATE('20061015','YYYYMMDD'), TO_DATE('20081015','YYYYMMDD'), 49.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE VALUES(2015004, 4, TO_DATE('20061015','YYYYMMDD'), TO_DATE('20081015','YYYYMMDD'), 17.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE VALUES(2015005, 6, TO_DATE('20071015','YYYYMMDD'), TO_DATE('20111015','YYYYMMDD'), 12.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE VALUES(2015006, 3, TO_DATE('20111015','YYYYMMDD'), TO_DATE('20131015','YYYYMMDD'), 152.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE VALUES(2015007, 3, TO_DATE('20111015','YYYYMMDD'), TO_DATE('20131015','YYYYMMDD'), 7.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE VALUES(2015008, 7, TO_DATE('20121015','YYYYMMDD'), TO_DATE('20141015','YYYYMMDD'), 140.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE VALUES(2015009, 5, TO_DATE('20121015','YYYYMMDD'), TO_DATE('20141015','YYYYMMDD'), 27.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> CREATE TABLE INVOICE_ITEM(
+  2  	InvoiceNumber INT REFERENCES INVOICE(InvoiceNumber) NOT NULL,
+  3  	ItemNumber INT NOT NULL,
+  4  	Item CHAR(50) NOT NULL,
+  5  	Quantity INT NOT NULL,
+  6  	UnitPrice NUMBER(8,2) NOT NULL,
+  7  	CONSTRAINT Invoice_item_PK PRIMARY KEY(InvoiceNumber, ItemNumber)
+  8  );
+
+테이블이 생성되었습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015001, 1, 'Blouse', 2, 3.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015001, 2, 'Dress Shirt', 5, 2.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015001, 3, 'Formal Gown', 2, 10.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015001, 4, 'Slacks-Mens', 10, 5.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015001, 5, 'Slacks-Womens', 10, 6.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015001, 6, 'Suit-Mens', 1, 9.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015002, 1, 'Dress Shirt', 10, 2.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015003, 1, 'Slacks-Mens', 5, 5.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015003, 2, 'Slacks-Womens', 4, 6.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015004, 1, 'Dress Shirt', 7, 2.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015005, 1, 'Blouse', 2, 3.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015005, 2, 'Dress Shirt', 2, 2.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015006, 1, 'Blouse', 5, 3.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015006, 2, 'Dress Shirt', 10, 2.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015006, 3, 'Slacks-Mens', 10, 5.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015006, 4, 'Slacks-Womens', 10, 6.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015007, 1, 'Blouse', 2, 3.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015008, 1, 'Blouse', 3, 3.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015008, 2, 'Dress Shirt', 12, 2.50);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015008, 3, 'Slacks-Mens', 8, 5.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015008, 4, 'Slacks-Womens', 10, 6.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO INVOICE_ITEM VALUES(2015009, 1, 'Suit-Mens', 3, 9.00);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> SELECT * FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+SALGRADE                       TABLE                                            
+INVOICE_ITEM                   TABLE                                            
+INVOICE                        TABLE                                            
+EMP                            TABLE                                            
+DEPT                           TABLE                                            
+CUSTOMER                       TABLE                                            
+
+6 행이 선택되었습니다.
+
+SQL> DESC CUSTOMER;
+ 이름                                      널?      유형
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMERID                                NOT NULL NUMBER(38)
+ FIRSTNAME                                 NOT NULL CHAR(25)
+ LASTNAME                                  NOT NULL CHAR(25)
+ PHONE                                              CHAR(12)
+ EMAIL                                              VARCHAR2(100)
+
+SQL> SELECT * FROM CUSTOMER;
+
+CUSTOMERID FIRSTNAME                 LASTNAME                  PHONE            
+---------- ------------------------- ------------------------- ------------     
+EMAIL                                                                           
+--------------------------------------------------------------------------------
+         1 Nikki                     Kaccaton                  723-543-1233     
+Nikki.Kaccaton@somewhere.com                                                    
+                                                                                
+         2 Brenda                    Catnazaro                 723-543-2344     
+Brenda.Catnazaro@somewhere.com                                                  
+                                                                                
+         3 Bruce                     LeCat                     723-543-3455     
+Bruce.LeCat@somewhere.com                                                       
+                                                                                
+
+CUSTOMERID FIRSTNAME                 LASTNAME                  PHONE            
+---------- ------------------------- ------------------------- ------------     
+EMAIL                                                                           
+--------------------------------------------------------------------------------
+         4 Betsy                     Miller                    725-654-3211     
+Betsy.Miller@somewhere.com                                                      
+                                                                                
+         5 George                    Miller                    725-654-4322     
+George.Miller@somewhere.com                                                     
+                                                                                
+         6 Kathy                     Miller                    723-514-9877     
+Kathy.Miller@somewhere.com                                                      
+                                                                                
+
+CUSTOMERID FIRSTNAME                 LASTNAME                  PHONE            
+---------- ------------------------- ------------------------- ------------     
+EMAIL                                                                           
+--------------------------------------------------------------------------------
+         7 Betsy                     Miller                    723-514-8766     
+Betsy.Miller@elsewhere.com                                                      
+                                                                                
+
+7 행이 선택되었습니다.
+
+SQL> DESC INVOICE;
+ 이름                                      널?      유형
+ ----------------------------------------- -------- ----------------------------
+ INVOICENUMBER                             NOT NULL NUMBER(38)
+ CUSTOMERNUMBER                            NOT NULL NUMBER(38)
+ DATEIN                                    NOT NULL DATE
+ DATEOUT                                            DATE
+ TOTALAMOUNT                                        NUMBER(8,2)
+
+SQL> SELECT * FROM INVOICE;
+
+INVOICENUMBER CUSTOMERNUMBER DATEIN   DATEOUT  TOTALAMOUNT                      
+------------- -------------- -------- -------- -----------                      
+      2015001              1 04/10/15 06/10/15       158.5                      
+      2015002              2 04/10/15 06/10/15          25                      
+      2015003              1 06/10/15 08/10/15          49                      
+      2015004              4 06/10/15 08/10/15        17.5                      
+      2015005              6 07/10/15 11/10/15          12                      
+      2015006              3 11/10/15 13/10/15       152.5                      
+      2015007              3 11/10/15 13/10/15           7                      
+      2015008              7 12/10/15 14/10/15       140.5                      
+      2015009              5 12/10/15 14/10/15          27                      
+
+9 행이 선택되었습니다.
+
+SQL> DESC INVOICE_ITEM;
+ 이름                                      널?      유형
+ ----------------------------------------- -------- ----------------------------
+ INVOICENUMBER                             NOT NULL NUMBER(38)
+ ITEMNUMBER                                NOT NULL NUMBER(38)
+ ITEM                                      NOT NULL CHAR(50)
+ QUANTITY                                  NOT NULL NUMBER(38)
+ UNITPRICE                                 NOT NULL NUMBER(8,2)
+
+SQL> SELECT * FROM INVOICE_ITEM;
+
+INVOICENUMBER ITEMNUMBER ITEM                                                   
+------------- ---------- --------------------------------------------------     
+  QUANTITY  UNITPRICE                                                           
+---------- ----------                                                           
+      2015001          1 Blouse                                                 
+         2        3.5                                                           
+                                                                                
+      2015001          2 Dress Shirt                                            
+         5        2.5                                                           
+                                                                                
+      2015001          3 Formal Gown                                            
+         2         10                                                           
+                                                                                
+
+INVOICENUMBER ITEMNUMBER ITEM                                                   
+------------- ---------- --------------------------------------------------     
+  QUANTITY  UNITPRICE                                                           
+---------- ----------                                                           
+      2015001          4 Slacks-Mens                                            
+        10          5                                                           
+                                                                                
+      2015001          5 Slacks-Womens                                          
+        10          6                                                           
+                                                                                
+      2015001          6 Suit-Mens                                              
+         1          9                                                           
+                                                                                
+
+INVOICENUMBER ITEMNUMBER ITEM                                                   
+------------- ---------- --------------------------------------------------     
+  QUANTITY  UNITPRICE                                                           
+---------- ----------                                                           
+      2015002          1 Dress Shirt                                            
+        10        2.5                                                           
+                                                                                
+      2015003          1 Slacks-Mens                                            
+         5          5                                                           
+                                                                                
+      2015003          2 Slacks-Womens                                          
+         4          6                                                           
+                                                                                
+
+INVOICENUMBER ITEMNUMBER ITEM                                                   
+------------- ---------- --------------------------------------------------     
+  QUANTITY  UNITPRICE                                                           
+---------- ----------                                                           
+      2015004          1 Dress Shirt                                            
+         7        2.5                                                           
+                                                                                
+      2015005          1 Blouse                                                 
+         2        3.5                                                           
+                                                                                
+      2015005          2 Dress Shirt                                            
+         2        2.5                                                           
+                                                                                
+
+INVOICENUMBER ITEMNUMBER ITEM                                                   
+------------- ---------- --------------------------------------------------     
+  QUANTITY  UNITPRICE                                                           
+---------- ----------                                                           
+      2015006          1 Blouse                                                 
+         5        3.5                                                           
+                                                                                
+      2015006          2 Dress Shirt                                            
+        10        2.5                                                           
+                                                                                
+      2015006          3 Slacks-Mens                                            
+        10          5                                                           
+                                                                                
+
+INVOICENUMBER ITEMNUMBER ITEM                                                   
+------------- ---------- --------------------------------------------------     
+  QUANTITY  UNITPRICE                                                           
+---------- ----------                                                           
+      2015006          4 Slacks-Womens                                          
+        10          6                                                           
+                                                                                
+      2015007          1 Blouse                                                 
+         2        3.5                                                           
+                                                                                
+      2015008          1 Blouse                                                 
+         3        3.5                                                           
+                                                                                
+
+INVOICENUMBER ITEMNUMBER ITEM                                                   
+------------- ---------- --------------------------------------------------     
+  QUANTITY  UNITPRICE                                                           
+---------- ----------                                                           
+      2015008          2 Dress Shirt                                            
+        12        2.5                                                           
+                                                                                
+      2015008          3 Slacks-Mens                                            
+         8          5                                                           
+                                                                                
+      2015008          4 Slacks-Womens                                          
+        10          6                                                           
+                                                                                
+
+INVOICENUMBER ITEMNUMBER ITEM                                                   
+------------- ---------- --------------------------------------------------     
+  QUANTITY  UNITPRICE                                                           
+---------- ----------                                                           
+      2015009          1 Suit-Mens                                              
+         3          9                                                           
+                                                                                
+
+22 행이 선택되었습니다.
+
+SQL> -- Q1.
+SQL> SELECT INVOICE.DateIn, INVOICE.DateOut, CUSTOMER.Phone
+  2  FROM INVOICE JOIN CUSTOMER ON INVOICE.CustomerNumber = CUSTOMER.CustomerID
+  3  WHERE INVOICE.TotalAmount >= 100.00;
+
+DATEIN   DATEOUT  PHONE                                                         
+-------- -------- ------------                                                  
+04/10/15 06/10/15 723-543-1233                                                  
+11/10/15 13/10/15 723-543-3455                                                  
+12/10/15 14/10/15 723-514-8766                                                  
+
+SQL> -- Q2.
+SQL> SELECT FirstName, Phone
+  2  FROM CUSTOMER
+  3  WHERE FirstName LIKE 'B%';
+
+FIRSTNAME                 PHONE                                                 
+------------------------- ------------                                          
+Brenda                    723-543-2344                                          
+Bruce                     723-543-3455                                          
+Betsy                     725-654-3211                                          
+Betsy                     723-514-8766                                          
+
+SQL> -- Q3.
+SQL> SELECT MAX(TotalAmount), MIN(TotalAmount), AVG(TotalAmount) FROM INVOICE;
+
+MAX(TOTALAMOUNT) MIN(TOTALAMOUNT) AVG(TOTALAMOUNT)                              
+---------------- ---------------- ----------------                              
+           158.5                7       65.4444444                              
+
+SQL> -- Q4.
+SQL> SELECT FirstName, LastName, Phone
+  2  FROM CUSTOMER
+  3  WHERE CustomerID IN (
+  4  	SELECT INVOICE.CustomerNumber
+  5  	FROM INVOICE
+  6  	WHERE INVOICE.TotalAmount >= 100.00
+  7  )
+  8  ORDER BY LastName ASC, FirstName DESC;
+
+FIRSTNAME                 LASTNAME                  PHONE                       
+------------------------- ------------------------- ------------                
+Nikki                     Kaccaton                  723-543-1233                
+Bruce                     LeCat                     723-543-3455                
+Betsy                     Miller                    723-514-8766                
+
+SQL> -- Q5.
+SQL> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+  2  FROM CUSTOMER
+  3  INNER JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber
+  4  WHERE INVOICE.TotalAmount >= 100.00
+  5  ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
+
+FIRSTNAME                 LASTNAME                  PHONE                       
+------------------------- ------------------------- ------------                
+Nikki                     Kaccaton                  723-543-1233                
+Bruce                     LeCat                     723-543-3455                
+Betsy                     Miller                    723-514-8766                
+
+SQL> -- Q6.
+SQL> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+  2  FROM CUSTOMER JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber
+  3  WHERE INVOICE.TotalAmount >= 100.00
+  4  ORDERBY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
+ORDERBY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC
+*
+4행에 오류:
+ORA-00933: SQL 명령어가 올바르게 종료되지 않았습니다 
+
+
+SQL> -- Q7.
+SQL> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+  2  FROM CUSTOMER
+  3  WHERE CUSTOMER.CustomerID IN (
+  4  	SELECT DISTINCT INVOICE.CustomerNumber
+  5  	FROM INVOICE_ITEM
+  6  	INNER JOIN INVOICE ON INVOICE_ITEM.InvoiceNumber = INVOICE.InvoiceNumber
+  7  	WHERE INVOICE_ITEM.Item = 'Dress Shirt'
+  8  )
+  9  ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
+
+FIRSTNAME                 LASTNAME                  PHONE                       
+------------------------- ------------------------- ------------                
+Brenda                    Catnazaro                 723-543-2344                
+Nikki                     Kaccaton                  723-543-1233                
+Bruce                     LeCat                     723-543-3455                
+Kathy                     Miller                    723-514-9877                
+Betsy                     Miller                    723-514-8766                
+Betsy                     Miller                    725-654-3211                
+
+6 행이 선택되었습니다.
+
+SQL> -- Q8.
+SQL> SELECT DISTINCT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+  2  FROM CUSTOMER
+  3  JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber
+  4  JOIN INVOICE_ITEM ON INVOICE.InvoiceNumber = INVOICE_ITEM.InvoiceNumber
+  5  WHERE INVOICE_ITEM.Item = 'Dress Shirt'
+  6  ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
+
+FIRSTNAME                 LASTNAME                  PHONE                       
+------------------------- ------------------------- ------------                
+Brenda                    Catnazaro                 723-543-2344                
+Nikki                     Kaccaton                  723-543-1233                
+Bruce                     LeCat                     723-543-3455                
+Kathy                     Miller                    723-514-9877                
+Betsy                     Miller                    723-514-8766                
+Betsy                     Miller                    725-654-3211                
+
+6 행이 선택되었습니다.
+
+SQL> -- Q9.
+SQL> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+  2  FROM CUSTOMER
+  3  JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber
+  4  JOIN INVOICE_ITEM ON INVOICE.InvoiceNumber = INVOICE_ITEM.InvoiceNumber AND INVOICE_ITEM.Item = 'Dress Shirt'
+  5  ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
+
+FIRSTNAME                 LASTNAME                  PHONE                       
+------------------------- ------------------------- ------------                
+Brenda                    Catnazaro                 723-543-2344                
+Nikki                     Kaccaton                  723-543-1233                
+Bruce                     LeCat                     723-543-3455                
+Kathy                     Miller                    723-514-9877                
+Betsy                     Miller                    725-654-3211                
+Betsy                     Miller                    723-514-8766                
+
+6 행이 선택되었습니다.
+
+SQL> -- Q10.
+SQL> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+  2  FROM CUSTOMER
+  3  JOIN (
+  4      SELECT DISTINCT INVOICE.CustomerNumber
+  5      FROM INVOICE
+  6      JOIN INVOICE_ITEM ON INVOICE.InvoiceNumber = INVOICE_ITEM.InvoiceNumber
+  7      WHERE INVOICE_ITEM.Item = 'Dress Shirt'
+  8  ) Subquery
+  9  ON CUSTOMER.CustomerID = Subquery.CustomerNumber
+ 10  ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
+
+FIRSTNAME                 LASTNAME                  PHONE                       
+------------------------- ------------------------- ------------                
+Brenda                    Catnazaro                 723-543-2344                
+Nikki                     Kaccaton                  723-543-1233                
+Bruce                     LeCat                     723-543-3455                
+Kathy                     Miller                    723-514-9877                
+Betsy                     Miller                    725-654-3211                
+Betsy                     Miller                    723-514-8766                
+
+6 행이 선택되었습니다.
+
+SQL> -- Q11.
+SQL> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone, SUM(INVOICE.TotalAmount) AS TotalAmount
+  2  FROM CUSTOMER
+  3  JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber
+  4  JOIN INVOICE_ITEM ON INVOICE.InvoiceNumber = INVOICE_ITEM.InvoiceNumber
+  5  WHERE INVOICE_ITEM.Item = 'Dress Shirt'
+  6  GROUP BY CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+  7  ORDER BY TotalAmount ASC, CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
+
+FIRSTNAME                 LASTNAME                  PHONE        TOTALAMOUNT    
+------------------------- ------------------------- ------------ -----------    
+Kathy                     Miller                    723-514-9877          12    
+Betsy                     Miller                    725-654-3211        17.5    
+Brenda                    Catnazaro                 723-543-2344          25    
+Betsy                     Miller                    723-514-8766       140.5    
+Bruce                     LeCat                     723-543-3455       152.5    
+Nikki                     Kaccaton                  723-543-1233       158.5    
+
+6 행이 선택되었습니다.
+
+SQL> spool off;
