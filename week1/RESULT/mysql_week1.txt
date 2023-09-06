@@ -1,0 +1,438 @@
+mysql> CREATE TABLE CUSTOMER(
+    -> CustomerID INT PRIMARY KEY NOT NULL,
+    -> FirstName CHAR(25) NOT NULL,
+    -> LastName CHAR(25) NOT NULL,
+    -> Phone CHAR(12),
+    -> Email VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(1, 'Nikki', 'Kaccaton','723-543-1233', 'Nikki.Kaccaton@somewhere.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(2, 'Brenda', 'Catnazaro','723-543-2344', 'Brenda.Catnazaro@somewhere.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(3, 'Bruce', 'LeCat', '723-543-3455', 'Bruce.LeCat@somewhere.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(4, 'Betsy', 'Miller', '725-654-3211', 'Betsy.Miller@somewhere.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(5, 'George', 'Miller', '725-654-4322', 'George.Miller@somewhere.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(6, 'Kathy', 'Miller', '723-514-9877', 'Kathy.Miller@somewhere.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO CUSTOMER VALUES(7, 'Betsy', 'Miller', '723-514-8766', 'Betsy.Miller@elsewhere.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> CREATE TABLE INVOICE(
+    -> InvoiceNumber INT PRIMARY KEY NOT NULL,
+    -> CustomerNumber INT NOT NULL,
+    -> DateIn Date NOT NULL,
+    -> DateOut Date,
+    -> TotalAmount DECIMAL(8,2),
+    -> FOREIGN KEY (CustomerNumber)
+    -> REFERENCES CUSTOMER(CustomerID) ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO INVOICE VALUES(2015001, 1, '2004-10-15', '20061015', 158.50);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO INVOICE VALUES(2015002, 2, '2004-10-15', '20061015', 25.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE VALUES(2015003, 1, '2006-10-15', '20081015', 49.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE VALUES(2015004, 4, '2006-10-15', '20081015', 17.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE VALUES(2015005, 6, '2007-10-15', '20111015', 12.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE VALUES(2015006, 3, '2011-10-15', '20131015', 152.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE VALUES(2015007, 3, '2011-10-15', '20131015', 7.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE VALUES(2015008, 7, '2012-10-15', '20141015', 140.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE VALUES(2015009, 5, '2012-10-15', '20141015', 27.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> CREATE TABLE INVOICE_ITEM(
+    -> InvoiceNumber INT NOT NULL,
+    -> ItemNumber INT NOT NULL,
+    -> Item CHAR(50) NOT NULL,
+    -> Quantity INT NOT NULL,
+    -> UnitPrice DECIMAL(8,2) NOT NULL,
+    -> FOREIGN KEY (InvoiceNumber)
+    -> REFERENCES INVOICE(InvoiceNumber) ON UPDATE CASCADE,
+    -> PRIMARY KEY (InvoiceNumber, ItemNumber)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015001, 1, 'Blouse', 2, 3.50);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015001, 2, 'Dress Shirt', 5, 2.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015001, 3, 'Formal Gown', 2, 10.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015001, 4, 'Slacks-Mens', 10, 5.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015001, 5, 'Slacks-Womens', 10, 6.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015001, 6, 'Suit-Mens', 1, 9.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015002, 1, 'Dress Shirt', 10, 2.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015003, 1, 'Slacks-Mens', 5, 5.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015003, 2, 'Slacks-Womens', 4, 6.00);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015004, 1, 'Dress Shirt', 7, 2.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015005, 1, 'Blouse', 2, 3.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015005, 2, 'Dress Shirt', 2, 2.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015006, 1, 'Blouse', 5, 3.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015006, 2, 'Dress Shirt', 10, 2.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015006, 3, 'Slacks-Mens', 10, 5.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015006, 4, 'Slacks-Womens', 10, 6.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015007, 1, 'Blouse', 2, 3.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015008, 1, 'Blouse', 3, 3.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015008, 2, 'Dress Shirt', 12, 2.50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015008, 3, 'Slacks-Mens', 8, 5.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015008, 4, 'Slacks-Womens', 10, 6.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO INVOICE_ITEM VALUES(2015009, 1, 'Suit-Mens', 3, 9.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SHOW TABLES;
++------------------------+
+| Tables_in_dbp_homework |
++------------------------+
+| customer               |
+| invoice                |
+| invoice_item           |
++------------------------+
+3 rows in set (0.00 sec)
+
+mysql> DESC CUSTOMER;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| CustomerID | int          | NO   | PRI | NULL    |       |
+| FirstName  | char(25)     | NO   |     | NULL    |       |
+| LastName   | char(25)     | NO   |     | NULL    |       |
+| Phone      | char(12)     | YES  |     | NULL    |       |
+| Email      | varchar(100) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM CUSTOMER;
++------------+-----------+-----------+--------------+--------------------------------+
+| CustomerID | FirstName | LastName  | Phone        | Email                          |
++------------+-----------+-----------+--------------+--------------------------------+
+|          1 | Nikki     | Kaccaton  | 723-543-1233 | Nikki.Kaccaton@somewhere.com   |
+|          2 | Brenda    | Catnazaro | 723-543-2344 | Brenda.Catnazaro@somewhere.com |
+|          3 | Bruce     | LeCat     | 723-543-3455 | Bruce.LeCat@somewhere.com      |
+|          4 | Betsy     | Miller    | 725-654-3211 | Betsy.Miller@somewhere.com     |
+|          5 | George    | Miller    | 725-654-4322 | George.Miller@somewhere.com    |
+|          6 | Kathy     | Miller    | 723-514-9877 | Kathy.Miller@somewhere.com     |
+|          7 | Betsy     | Miller    | 723-514-8766 | Betsy.Miller@elsewhere.com     |
++------------+-----------+-----------+--------------+--------------------------------+
+7 rows in set (0.00 sec)
+
+mysql> DESC INVOICE;
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| InvoiceNumber  | int          | NO   | PRI | NULL    |       |
+| CustomerNumber | int          | NO   | MUL | NULL    |       |
+| DateIn         | date         | NO   |     | NULL    |       |
+| DateOut        | date         | YES  |     | NULL    |       |
+| TotalAmount    | decimal(8,2) | YES  |     | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM INVOICE;
++---------------+----------------+------------+------------+-------------+
+| InvoiceNumber | CustomerNumber | DateIn     | DateOut    | TotalAmount |
++---------------+----------------+------------+------------+-------------+
+|       2015001 |              1 | 2004-10-15 | 2006-10-15 |      158.50 |
+|       2015002 |              2 | 2004-10-15 | 2006-10-15 |       25.00 |
+|       2015003 |              1 | 2006-10-15 | 2008-10-15 |       49.00 |
+|       2015004 |              4 | 2006-10-15 | 2008-10-15 |       17.50 |
+|       2015005 |              6 | 2007-10-15 | 2011-10-15 |       12.00 |
+|       2015006 |              3 | 2011-10-15 | 2013-10-15 |      152.50 |
+|       2015007 |              3 | 2011-10-15 | 2013-10-15 |        7.00 |
+|       2015008 |              7 | 2012-10-15 | 2014-10-15 |      140.50 |
+|       2015009 |              5 | 2012-10-15 | 2014-10-15 |       27.00 |
++---------------+----------------+------------+------------+-------------+
+9 rows in set (0.00 sec)
+
+mysql> DESC INVOICE_ITEM;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| InvoiceNumber | int          | NO   | PRI | NULL    |       |
+| ItemNumber    | int          | NO   | PRI | NULL    |       |
+| Item          | char(50)     | NO   |     | NULL    |       |
+| Quantity      | int          | NO   |     | NULL    |       |
+| UnitPrice     | decimal(8,2) | NO   |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM INVOICE_ITEM;
++---------------+------------+---------------+----------+-----------+
+| InvoiceNumber | ItemNumber | Item          | Quantity | UnitPrice |
++---------------+------------+---------------+----------+-----------+
+|       2015001 |          1 | Blouse        |        2 |      3.50 |
+|       2015001 |          2 | Dress Shirt   |        5 |      2.50 |
+|       2015001 |          3 | Formal Gown   |        2 |     10.00 |
+|       2015001 |          4 | Slacks-Mens   |       10 |      5.00 |
+|       2015001 |          5 | Slacks-Womens |       10 |      6.00 |
+|       2015001 |          6 | Suit-Mens     |        1 |      9.00 |
+|       2015002 |          1 | Dress Shirt   |       10 |      2.50 |
+|       2015003 |          1 | Slacks-Mens   |        5 |      5.00 |
+|       2015003 |          2 | Slacks-Womens |        4 |      6.00 |
+|       2015004 |          1 | Dress Shirt   |        7 |      2.50 |
+|       2015005 |          1 | Blouse        |        2 |      3.50 |
+|       2015005 |          2 | Dress Shirt   |        2 |      2.50 |
+|       2015006 |          1 | Blouse        |        5 |      3.50 |
+|       2015006 |          2 | Dress Shirt   |       10 |      2.50 |
+|       2015006 |          3 | Slacks-Mens   |       10 |      5.00 |
+|       2015006 |          4 | Slacks-Womens |       10 |      6.00 |
+|       2015007 |          1 | Blouse        |        2 |      3.50 |
+|       2015008 |          1 | Blouse        |        3 |      3.50 |
+|       2015008 |          2 | Dress Shirt   |       12 |      2.50 |
+|       2015008 |          3 | Slacks-Mens   |        8 |      5.00 |
+|       2015008 |          4 | Slacks-Womens |       10 |      6.00 |
+|       2015009 |          1 | Suit-Mens     |        3 |      9.00 |
++---------------+------------+---------------+----------+-----------+
+22 rows in set (0.00 sec)
+
+mysql> -- Q1. 
+mysql> SELECT INVOICE.DateIn, INVOICE.DateOut, CUSTOMER.Phone
+    -> FROM INVOICE
+    -> JOIN CUSTOMER ON INVOICE.CustomerNumber = CUSTOMER.CustomerID
+    -> WHERE INVOICE.TotalAmount >= 100.00;
++------------+------------+--------------+
+| DateIn     | DateOut    | Phone        |
++------------+------------+--------------+
+| 2004-10-15 | 2006-10-15 | 723-543-1233 |
+| 2011-10-15 | 2013-10-15 | 723-543-3455 |
+| 2012-10-15 | 2014-10-15 | 723-514-8766 |
++------------+------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> -- Q2. 
+mysql> SELECT FirstName, Phone
+    -> FROM CUSTOMER
+    -> WHERE FirstName LIKE 'B%';
++-----------+--------------+
+| FirstName | Phone        |
++-----------+--------------+
+| Brenda    | 723-543-2344 |
+| Bruce     | 723-543-3455 |
+| Betsy     | 725-654-3211 |
+| Betsy     | 723-514-8766 |
++-----------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> -- Q3. 
+mysql> SELECT MAX(TotalAmount) AS MaxTotalAmount, MIN(TotalAmount) AS MinTotalAmount, AVG(TotalAmount) AS AvgTotalAmount
+    -> FROM INVOICE;
++----------------+----------------+----------------+
+| MaxTotalAmount | MinTotalAmount | AvgTotalAmount |
++----------------+----------------+----------------+
+|         158.50 |           7.00 |      65.444444 |
++----------------+----------------+----------------+
+1 row in set (0.00 sec)
+
+mysql> -- Q4. 
+mysql> SELECT FirstName, LastName, Phone
+    -> FROM CUSTOMER
+    -> WHERE CustomerID IN (
+    ->     SELECT INVOICE.CustomerNumber
+    ->     FROM INVOICE
+    ->     WHERE INVOICE.TotalAmount >= 100.00
+    -> )
+    -> ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
++-----------+----------+--------------+
+| FirstName | LastName | Phone        |
++-----------+----------+--------------+
+| Nikki     | Kaccaton | 723-543-1233 |
+| Bruce     | LeCat    | 723-543-3455 |
+| Betsy     | Miller   | 723-514-8766 |
++-----------+----------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> -- Q5. 
+mysql> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+    -> FROM CUSTOMER
+    -> JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber
+    -> WHERE INVOICE.TotalAmount >= 100.00
+    -> ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
++-----------+----------+--------------+
+| FirstName | LastName | Phone        |
++-----------+----------+--------------+
+| Nikki     | Kaccaton | 723-543-1233 |
+| Bruce     | LeCat    | 723-543-3455 |
+| Betsy     | Miller   | 723-514-8766 |
++-----------+----------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> -- Q6. 
+mysql> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+    -> FROM CUSTOMER
+    -> JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber AND INVOICE.TotalAmount >= 100.00
+    -> ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
++-----------+----------+--------------+
+| FirstName | LastName | Phone        |
++-----------+----------+--------------+
+| Nikki     | Kaccaton | 723-543-1233 |
+| Bruce     | LeCat    | 723-543-3455 |
+| Betsy     | Miller   | 723-514-8766 |
++-----------+----------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> -- Q7. 
+mysql> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+    -> FROM CUSTOMER
+    -> WHERE CUSTOMER.CustomerID IN (
+    ->     SELECT INVOICE.CustomerNumber
+    ->     FROM INVOICE_ITEM
+    ->     JOIN INVOICE ON INVOICE_ITEM.InvoiceNumber = INVOICE.InvoiceNumber
+    ->     WHERE INVOICE_ITEM.Item = 'Dress Shirt'
+    -> )
+    -> ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
++-----------+-----------+--------------+
+| FirstName | LastName  | Phone        |
++-----------+-----------+--------------+
+| Brenda    | Catnazaro | 723-543-2344 |
+| Nikki     | Kaccaton  | 723-543-1233 |
+| Bruce     | LeCat     | 723-543-3455 |
+| Kathy     | Miller    | 723-514-9877 |
+| Betsy     | Miller    | 725-654-3211 |
+| Betsy     | Miller    | 723-514-8766 |
++-----------+-----------+--------------+
+6 rows in set (0.00 sec)
+
+mysql> -- Q8. 
+mysql> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+    -> FROM CUSTOMER
+    -> JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber
+    -> JOIN INVOICE_ITEM ON INVOICE.InvoiceNumber = INVOICE_ITEM.InvoiceNumber
+    -> WHERE INVOICE_ITEM.Item = 'Dress Shirt'
+    -> ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
++-----------+-----------+--------------+
+| FirstName | LastName  | Phone        |
++-----------+-----------+--------------+
+| Brenda    | Catnazaro | 723-543-2344 |
+| Nikki     | Kaccaton  | 723-543-1233 |
+| Bruce     | LeCat     | 723-543-3455 |
+| Kathy     | Miller    | 723-514-9877 |
+| Betsy     | Miller    | 725-654-3211 |
+| Betsy     | Miller    | 723-514-8766 |
++-----------+-----------+--------------+
+6 rows in set (0.00 sec)
+
+mysql> -- Q9. 
+mysql> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+    -> FROM CUSTOMER
+    -> JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber
+    -> JOIN INVOICE_ITEM ON INVOICE.InvoiceNumber = INVOICE_ITEM.InvoiceNumber AND INVOICE_ITEM.Item = 'Dress Shirt'
+    -> ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
++-----------+-----------+--------------+
+| FirstName | LastName  | Phone        |
++-----------+-----------+--------------+
+| Brenda    | Catnazaro | 723-543-2344 |
+| Nikki     | Kaccaton  | 723-543-1233 |
+| Bruce     | LeCat     | 723-543-3455 |
+| Kathy     | Miller    | 723-514-9877 |
+| Betsy     | Miller    | 725-654-3211 |
+| Betsy     | Miller    | 723-514-8766 |
++-----------+-----------+--------------+
+6 rows in set (0.00 sec)
+
+mysql> -- Q10. 
+mysql> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone
+    -> FROM CUSTOMER
+    -> JOIN (
+    ->     SELECT INVOICE.CustomerNumber
+    ->     FROM INVOICE_ITEM
+    ->     JOIN INVOICE ON INVOICE_ITEM.InvoiceNumber = INVOICE.InvoiceNumber
+    ->     WHERE INVOICE_ITEM.Item = 'Dress Shirt'
+    -> ) AS subquery ON CUSTOMER.CustomerID = subquery.CustomerNumber
+    -> ORDER BY CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
++-----------+-----------+--------------+
+| FirstName | LastName  | Phone        |
++-----------+-----------+--------------+
+| Brenda    | Catnazaro | 723-543-2344 |
+| Nikki     | Kaccaton  | 723-543-1233 |
+| Bruce     | LeCat     | 723-543-3455 |
+| Kathy     | Miller    | 723-514-9877 |
+| Betsy     | Miller    | 725-654-3211 |
+| Betsy     | Miller    | 723-514-8766 |
++-----------+-----------+--------------+
+6 rows in set (0.00 sec)
+
+mysql> -- Q11. 
+mysql> SELECT CUSTOMER.FirstName, CUSTOMER.LastName, CUSTOMER.Phone, SUM(INVOICE.TotalAmount) AS TotalAmount
+    -> FROM CUSTOMER
+    -> JOIN INVOICE ON CUSTOMER.CustomerID = INVOICE.CustomerNumber
+    -> JOIN INVOICE_ITEM ON INVOICE.InvoiceNumber = INVOICE_ITEM.InvoiceNumber
+    -> WHERE INVOICE_ITEM.Item = 'Dress Shirt'
+    -> GROUP BY CUSTOMER.CustomerID
+    -> ORDER BY TotalAmount ASC, CUSTOMER.LastName ASC, CUSTOMER.FirstName DESC;
++-----------+-----------+--------------+-------------+
+| FirstName | LastName  | Phone        | TotalAmount |
++-----------+-----------+--------------+-------------+
+| Kathy     | Miller    | 723-514-9877 |       12.00 |
+| Betsy     | Miller    | 725-654-3211 |       17.50 |
+| Brenda    | Catnazaro | 723-543-2344 |       25.00 |
+| Betsy     | Miller    | 723-514-8766 |      140.50 |
+| Bruce     | LeCat     | 723-543-3455 |      152.50 |
+| Nikki     | Kaccaton  | 723-543-1233 |      158.50 |
++-----------+-----------+--------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> \t;
