@@ -18,3 +18,12 @@
 - IDE : Intellij, Visual Studio Code
 - Testing : Postman, Chrome
 - Project Start : Sprint Initializer
+
+## Lectures
+
+- Lec1) Introduction
+- Lec2) Database Design Using Normalization
+- Lec3) Data Modeling with the Entity-Relationship Model
+- Lec4) Transforming Data Models into Database Designs
+- Lec5) Database Redesign
+- Lec6) Managing Multiuser Databases
