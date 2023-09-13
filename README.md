@@ -1,4 +1,4 @@
-# dgu_database_programming
+# dgu_database-programming
 
 ## Intro
 
