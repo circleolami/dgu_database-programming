@@ -1,0 +1,772 @@
+SQL> /*Q1 : 1NF -> 2NF*/
+SQL> DROP TABLE STUDENT_GRADE CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE STUDENT_SCORE_2NF CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE STUDENT_CLASS_2NF CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> 
+SQL> CREATE TABLE STUDENT_GRADE(
+  2       Sid VARCHAR(10) NOT NULL,
+  3       Cid VARCHAR(10) NOT NULL,
+  4       Score NUMBER(4),
+  5       Grade VARCHAR(5),
+  6       Cname VARCHAR(15),
+  7       Cunit VARCHAR(2),
+  8       PRIMARY KEY(Sid, Cid));
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO STUDENT_GRADE VALUES('2016127059','C100',95,'A','CLanguage','3');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_GRADE VALUES('2016127060','C200',81,'B','Database','3');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_GRADE VALUES('2016127061','C200',84,'B','Database','3');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_GRADE VALUES('2016127062','C300',70,'C','Programing','3');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> CREATE TABLE STUDENT_CLASS_2NF(
+  2      Cid VARCHAR(10) NOT NULL,
+  3      Cname VARCHAR(15),
+  4      Cunit VARCHAR(2),
+  5      PRIMARY KEY(Cid)
+  6  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO STUDENT_CLASS_2NF VALUES('C100', 'CLanguage', '3');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_CLASS_2NF VALUES('C200', 'Database', '3');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_CLASS_2NF VALUES('C300', 'Programing', '3');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> CREATE TABLE STUDENT_SCORE_2NF(
+  2      Sid VARCHAR(10) NOT NULL,
+  3      Cid VARCHAR(10) NOT NULL,
+  4      Score NUMBER(4),
+  5      Grade VARCHAR(5),
+  6      PRIMARY KEY(Sid, Cid)
+  7  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO STUDENT_SCORE_2NF VALUES('2016127059','C100',95,'A');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_SCORE_2NF VALUES('2016127060','C200',81,'B');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_SCORE_2NF VALUES('2016127061','C200',84,'B');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_SCORE_2NF VALUES('2016127062','C300',70,'C');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> -- 변환 결과
+SQL> SELECT * FROM STUDENT_GRADE;
+
+SID        CID             SCORE GRADE CNAME           CU                       
+---------- ---------- ---------- ----- --------------- --                       
+2016127059 C100               95 A     CLanguage       3                        
+2016127060 C200               81 B     Database        3                        
+2016127061 C200               84 B     Database        3                        
+2016127062 C300               70 C     Programing      3                        
+
+SQL> SELECT * FROM STUDENT_CLASS_2NF;
+
+CID        CNAME           CU                                                   
+---------- --------------- --                                                   
+C100       CLanguage       3                                                    
+C200       Database        3                                                    
+C300       Programing      3                                                    
+
+SQL> SELECT * FROM STUDENT_SCORE_2NF;
+
+SID        CID             SCORE GRADE                                          
+---------- ---------- ---------- -----                                          
+2016127059 C100               95 A                                              
+2016127060 C200               81 B                                              
+2016127061 C200               84 B                                              
+2016127062 C300               70 C                                              
+
+SQL> 
+SQL> -- 참조 무결성 확인
+SQL> SELECT Cid
+  2  FROM STUDENT_SCORE_2NF
+  3  WHERE Cid NOT IN (
+  4      SELECT STUDENT_SCORE_2NF.Cid
+  5      FROM STUDENT_SCORE_2NF, STUDENT_CLASS_2NF
+  6      WHERE STUDENT_SCORE_2NF.Cid = STUDENT_CLASS_2NF.Cid
+  7  );
+
+선택된 레코드가 없습니다.
+
+SQL> 
+SQL> -- 변환 전후
+SQL> SELECT Sid, Cid, Score, Grade, Cname, Cunit
+  2  FROM STUDENT_SCORE_2NF NATURAL JOIN STUDENT_CLASS_2NF
+  3  ORDER BY Sid asc, Cid desc;
+
+SID        CID             SCORE GRADE CNAME           CU                       
+---------- ---------- ---------- ----- --------------- --                       
+2016127059 C100               95 A     CLanguage       3                        
+2016127060 C200               81 B     Database        3                        
+2016127061 C200               84 B     Database        3                        
+2016127062 C300               70 C     Programing      3                        
+
+SQL> SELECT * FROM STUDENT_GRADE;
+
+SID        CID             SCORE GRADE CNAME           CU                       
+---------- ---------- ---------- ----- --------------- --                       
+2016127059 C100               95 A     CLanguage       3                        
+2016127060 C200               81 B     Database        3                        
+2016127061 C200               84 B     Database        3                        
+2016127062 C300               70 C     Programing      3                        
+
+SQL> 
+SQL> /* 변환 타당성
+SQL> 2NF는 1NF를 만족하고 부분 함수 종속이 없어야 한다.
+SQL> 하지만 STUDENT_GRADE에서 Cname과 Cunit이 Cid에만 종속되어 있다.
+SQL> 따라서
+SQL> STUDENT_SCORE_2NF(Sid, Cid, Score, Grade),
+SQL> STUDENT_CLASS_2NF(Cid, Cname, Cunit)
+SQL> 의 두 릴레이션으로 분리하여 2NF를 만족하게 하였다.
+SQL> */
+SQL> 
+SQL> /*Q2 : 2NF -> 3NF*/
+SQL> DROP TABLE STUDENT_INFO_1 CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE STUDENT_MAJOR_3NF CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE STUDENT_PERSONAL_3NF CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> 
+SQL> CREATE TABLE STUDENT_INFO_1(
+  2       Sid VARCHAR(10) NOT NULL,
+  3       Sname VARCHAR(25),
+  4       Phone VARCHAR(25),
+  5       Mid VARCHAR(5),
+  6       Mname VARCHAR(25),
+  7       PRIMARY KEY(Sid));
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO STUDENT_INFO_1 VALUES('2018121001','James','010-1234-5678','C1041','ComputerScience');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_1 VALUES('2018121002','Michael','010-8765-4321','C1041','ComputerScience');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_1 VALUES('2018121003','Lisa','010-4433-2211','A2004','ArtificialIntelligence');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_1 VALUES('2018121004','Carol','010-9876-5555','A2004','ArtificialIntelligence');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> CREATE TABLE STUDENT_MAJOR_3NF(
+  2      Mid VARCHAR(5) NOT NULL,
+  3      Mname VARCHAR(25),
+  4      PRIMARY KEY(Mid)
+  5  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> CREATE TABLE STUDENT_PERSONAL_3NF(
+  2      Sid VARCHAR(10) NOT NULL,
+  3      Sname VARCHAR(25),
+  4      Phone VARCHAR(25),
+  5      Mid VARCHAR(5),
+  6      PRIMARY KEY(Sid),
+  7      FOREIGN KEY (Mid) REFERENCES STUDENT_MAJOR(Mid)
+  8  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO STUDENT_MAJOR_3NF VALUES('C1041','ComputerScience');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_MAJOR_3NF VALUES('A2004','ArtificialIntelligence');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> INSERT INTO STUDENT_PERSONAL_3NF VALUES('2018121001','James','010-1234-5678','C1041');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_PERSONAL_3NF VALUES('2018121002','Michael','010-8765-4321','C1041');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_PERSONAL_3NF VALUES('2018121003','Lisa','010-4433-2211','A2004');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_PERSONAL_3NF VALUES('2018121004','Carol','010-9876-5555','A2004');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> -- 변환 결과
+SQL> SELECT * FROM STUDENT_INFO_1;
+
+SID        SNAME                     PHONE                     MID              
+---------- ------------------------- ------------------------- -----            
+MNAME                                                                           
+-------------------------                                                       
+2018121001 James                     010-1234-5678             C1041            
+ComputerScience                                                                 
+                                                                                
+2018121002 Michael                   010-8765-4321             C1041            
+ComputerScience                                                                 
+                                                                                
+2018121003 Lisa                      010-4433-2211             A2004            
+ArtificialIntelligence                                                          
+                                                                                
+
+SID        SNAME                     PHONE                     MID              
+---------- ------------------------- ------------------------- -----            
+MNAME                                                                           
+-------------------------                                                       
+2018121004 Carol                     010-9876-5555             A2004            
+ArtificialIntelligence                                                          
+                                                                                
+
+SQL> SELECT * FROM STUDENT_MAJOR_3NF;
+
+MID   MNAME                                                                     
+----- -------------------------                                                 
+C1041 ComputerScience                                                           
+A2004 ArtificialIntelligence                                                    
+
+SQL> SELECT * FROM STUDENT_PERSONAL_3NF;
+
+SID        SNAME                     PHONE                     MID              
+---------- ------------------------- ------------------------- -----            
+2018121001 James                     010-1234-5678             C1041            
+2018121002 Michael                   010-8765-4321             C1041            
+2018121003 Lisa                      010-4433-2211             A2004            
+2018121004 Carol                     010-9876-5555             A2004            
+
+SQL> 
+SQL> -- 참조 무결성 확인
+SQL> SELECT Mid FROM STUDENT_PERSONAL_3NF
+  2  WHERE Mid NOT IN (
+  3      SELECT STUDENT_PERSONAL_3NF.Mid
+  4      FROM STUDENT_PERSONAL_3NF, STUDENT_MAJOR_3NF
+  5      WHERE STUDENT_PERSONAL_3NF.Mid = STUDENT_MAJOR_3NF.Mid
+  6  );
+
+선택된 레코드가 없습니다.
+
+SQL> 
+SQL> -- 변환 전후
+SQL> SELECT Sid, Sname, Phone, Mid, Mname
+  2  FROM STUDENT_PERSONAL_3NF NATURAL JOIN STUDENT_MAJOR_3NF
+  3  ORDER BY Sid;
+
+SID        SNAME                     PHONE                     MID              
+---------- ------------------------- ------------------------- -----            
+MNAME                                                                           
+-------------------------                                                       
+2018121001 James                     010-1234-5678             C1041            
+ComputerScience                                                                 
+                                                                                
+2018121002 Michael                   010-8765-4321             C1041            
+ComputerScience                                                                 
+                                                                                
+2018121003 Lisa                      010-4433-2211             A2004            
+ArtificialIntelligence                                                          
+                                                                                
+
+SID        SNAME                     PHONE                     MID              
+---------- ------------------------- ------------------------- -----            
+MNAME                                                                           
+-------------------------                                                       
+2018121004 Carol                     010-9876-5555             A2004            
+ArtificialIntelligence                                                          
+                                                                                
+
+SQL> SELECT * FROM STUDENT_INFO_1;
+
+SID        SNAME                     PHONE                     MID              
+---------- ------------------------- ------------------------- -----            
+MNAME                                                                           
+-------------------------                                                       
+2018121001 James                     010-1234-5678             C1041            
+ComputerScience                                                                 
+                                                                                
+2018121002 Michael                   010-8765-4321             C1041            
+ComputerScience                                                                 
+                                                                                
+2018121003 Lisa                      010-4433-2211             A2004            
+ArtificialIntelligence                                                          
+                                                                                
+
+SID        SNAME                     PHONE                     MID              
+---------- ------------------------- ------------------------- -----            
+MNAME                                                                           
+-------------------------                                                       
+2018121004 Carol                     010-9876-5555             A2004            
+ArtificialIntelligence                                                          
+                                                                                
+
+SQL> 
+SQL> /* 변환 타당성
+SQL> 3NF는 2NF를 만족하고 이행 함수 종속이 없어야 한다.
+SQL> 하지만 STUDENT_INFO_1에서 FD2를 보면 Mname은 Mid에만 종속되어 있다.
+SQL> 따라서 이를 없애기 위해
+SQL> STUDENT_MAJOR_3NF(Mid, Mname)
+SQL> STUDENT_PERSONAL_3NF(Sid, Sname, Phone, Mid)
+SQL> 로 나누어 3NF를 만족하게 하였다.
+SQL> */
+SQL> 
+SQL> /*Q3 : 3NF -> BCNF*/
+SQL> DROP TABLE PROJECT_INFO CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE PROJECT_DEPARTMENT_BCNF CASCADE CONSTRAINTS PURGE;
+DROP TABLE PROJECT_DEPARTMENT_BCNF CASCADE CONSTRAINTS PURGE
+           *
+1행에 오류:
+ORA-00942: 테이블 또는 뷰가 존재하지 않습니다 
+
+
+SQL> DROP TABLE PROJECT_PROJECT_BCNF CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> 
+SQL> CREATE TABLE PROJECT_INFO(
+  2       Pname VARCHAR(25) NOT NULL,
+  3       Dname VARCHAR(25) NOT NULL,
+  4       Manager VARCHAR(25) NOT NULL,
+  5       PRIMARY KEY(Pname, Dname));
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO PROJECT_INFO VALUES('SchoolProject','Management','Michelle');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO PROJECT_INFO VALUES('ProgrammingProject','Development','Sarah');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO PROJECT_INFO VALUES('RobotProject', 'MachineryDivision', 'Ruth');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO PROJECT_INFO VALUES('RobotProject', 'TechnicalSupport', 'Donna');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> CREATE TABLE PROJECT_PROJECT_BCNF(
+  2      Manager VARCHAR(25) NOT NULL,
+  3      Pname VARCHAR(25) NOT NULL,
+  4      PRIMARY KEY(Manager)
+  5  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> CREATE TABLE PROJECT_DEPARTMENT_BCNF(
+  2      Pname VARCHAR(25) NOT NULL,
+  3      Dname VARCHAR(25) NOT NULL,
+  4      Manager VARCHAR(25) NOT NULL,
+  5      PRIMARY KEY(Pname, Dname),
+  6      FOREIGN KEY(Manager) REFERENCES PROJECT_PROJECT_BCNF(Manager)
+  7  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO PROJECT_PROJECT_BCNF VALUES('Michelle', 'SchoolProject');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO PROJECT_PROJECT_BCNF VALUES('Sarah', 'ProgrammingProject');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO PROJECT_PROJECT_BCNF VALUES('Ruth', 'RobotProject');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO PROJECT_PROJECT_BCNF VALUES('Donna', 'RobotProject');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> INSERT INTO PROJECT_DEPARTMENT_BCNF VALUES('SchoolProject','Management','Michelle');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO PROJECT_DEPARTMENT_BCNF VALUES('ProgrammingProject','Development','Sarah');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO PROJECT_DEPARTMENT_BCNF VALUES('RobotProject', 'MachineryDivision', 'Ruth');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO PROJECT_DEPARTMENT_BCNF VALUES('RobotProject', 'TechnicalSupport', 'Donna');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> -- 변환 결과
+SQL> SELECT * FROM PROJECT_INFO;
+
+PNAME                     DNAME                     MANAGER                     
+------------------------- ------------------------- -------------------------   
+SchoolProject             Management                Michelle                    
+ProgrammingProject        Development               Sarah                       
+RobotProject              MachineryDivision         Ruth                        
+RobotProject              TechnicalSupport          Donna                       
+
+SQL> SELECT * FROM PROJECT_DEPARTMENT_BCNF;
+
+PNAME                     DNAME                     MANAGER                     
+------------------------- ------------------------- -------------------------   
+SchoolProject             Management                Michelle                    
+ProgrammingProject        Development               Sarah                       
+RobotProject              MachineryDivision         Ruth                        
+RobotProject              TechnicalSupport          Donna                       
+
+SQL> SELECT * FROM PROJECT_PROJECT_BCNF;
+
+MANAGER                   PNAME                                                 
+------------------------- -------------------------                             
+Michelle                  SchoolProject                                         
+Sarah                     ProgrammingProject                                    
+Ruth                      RobotProject                                          
+Donna                     RobotProject                                          
+
+SQL> 
+SQL> -- 참조 무결성 확인
+SQL> SELECT Manager FROM PROJECT_DEPARTMENT_BCNF
+  2  WHERE Manager NOT IN (
+  3      SELECT PROJECT_DEPARTMENT_BCNF.Manager
+  4      FROM PROJECT_PROJECT_BCNF, PROJECT_DEPARTMENT_BCNF
+  5      WHERE PROJECT_DEPARTMENT_BCNF.Manager = PROJECT_PROJECT_BCNF.Manager
+  6  );
+
+선택된 레코드가 없습니다.
+
+SQL> 
+SQL> -- 변환 전후
+SQL> SELECT Pname, Dname, Manager
+  2  FROM PROJECT_DEPARTMENT_BCNF NATURAL JOIN PROJECT_PROJECT_BCNF;
+
+PNAME                     DNAME                     MANAGER                     
+------------------------- ------------------------- -------------------------   
+SchoolProject             Management                Michelle                    
+ProgrammingProject        Development               Sarah                       
+RobotProject              MachineryDivision         Ruth                        
+RobotProject              TechnicalSupport          Donna                       
+
+SQL> SELECT * FROM PROJECT_INFO;
+
+PNAME                     DNAME                     MANAGER                     
+------------------------- ------------------------- -------------------------   
+SchoolProject             Management                Michelle                    
+ProgrammingProject        Development               Sarah                       
+RobotProject              MachineryDivision         Ruth                        
+RobotProject              TechnicalSupport          Donna                       
+
+SQL> 
+SQL> /* 변환 타당성
+SQL> BCNF는 3NF를 만족하면서 모든 attribute가 후보키이어야 한다.
+SQL> 그러나 PROJECT_INFO의 FD2를 보면 Manager는 키가 아니지만 Pname에 대한 함수 종속성을 가진다.
+SQL> 따라서
+SQL> PROJECT_DEPARTMENT_BCNF(Pname, Dname, Manager)
+SQL> PROJECT_PROJECT_BCNF(Manager, Pname)
+SQL> 의 두 릴레이션으로 나누어 BCNF를 만족하게 하였다.
+SQL> */
+SQL> 
+SQL> /*Q4 : BCNF -> 4NF*/
+SQL> DROP TABLE STUDENT_INFO_2 CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE STUDENT_CLUB_4NF CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE STUDENT_VOLUNTEER_4NF CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> 
+SQL> CREATE TABLE STUDENT_INFO_2(
+  2       Sname VARCHAR(10) NOT NULL,
+  3       Club VARCHAR(25) NOT NULL,
+  4       Volunteer VARCHAR(25) NOT NULL,
+  5       PRIMARY KEY(Sname, Club, Volunteer));
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO STUDENT_INFO_2 VALUES('Chau','PhotographyClub','SeniorCenter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_2 VALUES('Chau','BookClub','SeniorCenter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_2 VALUES('Green','CookingClub','Orphanage');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_2 VALUES('Jones','MusicClub','HomelessShelter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_2 VALUES('Jones','MusicClub','SeniorCenter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_2 VALUES('Jones','DanceClub','HomelessShelter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_2 VALUES('Jones','DanceClub','SeniorCenter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_2 VALUES('Jones','BadmintonClub','HomelessShelter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_INFO_2 VALUES('Jones','BadmintonClub','SeniorCenter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> CREATE TABLE STUDENT_CLUB_4NF(
+  2      Sname VARCHAR(10) NOT NULL,
+  3      Club VARCHAR(25) NOT NULL,
+  4      PRIMARY KEY(Sname, Club)
+  5  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> CREATE TABLE STUDENT_VOLUNTEER_4NF(
+  2       Sname VARCHAR(10) NOT NULL,
+  3       Volunteer VARCHAR(25) NOT NULL,
+  4       PRIMARY KEY(Sname, Volunteer)
+  5  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO STUDENT_CLUB_4NF VALUES('Chau','PhotographyClub');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_CLUB_4NF VALUES('Chau','BookClub');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_CLUB_4NF VALUES('Green','CookingClub');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_CLUB_4NF VALUES('Jones','MusicClub');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_CLUB_4NF VALUES('Jones','DanceClub');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_CLUB_4NF VALUES('Jones','BadmintonClub');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> INSERT INTO STUDENT_VOLUNTEER_4NF VALUES('Chau','SeniorCenter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_VOLUNTEER_4NF VALUES('Green','Orphanage');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_VOLUNTEER_4NF VALUES('Jones','HomelessShelter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO STUDENT_VOLUNTEER_4NF VALUES('Jones','SeniorCenter');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> -- 변환 결과
+SQL> SELECT * FROM STUDENT_INFO_2;
+
+SNAME      CLUB                      VOLUNTEER                                  
+---------- ------------------------- -------------------------                  
+Chau       BookClub                  SeniorCenter                               
+Chau       PhotographyClub           SeniorCenter                               
+Green      CookingClub               Orphanage                                  
+Jones      BadmintonClub             HomelessShelter                            
+Jones      BadmintonClub             SeniorCenter                               
+Jones      DanceClub                 HomelessShelter                            
+Jones      DanceClub                 SeniorCenter                               
+Jones      MusicClub                 HomelessShelter                            
+Jones      MusicClub                 SeniorCenter                               
+
+9 행이 선택되었습니다.
+
+SQL> SELECT * FROM STUDENT_CLUB_4NF;
+
+SNAME      CLUB                                                                 
+---------- -------------------------                                            
+Chau       BookClub                                                             
+Chau       PhotographyClub                                                      
+Green      CookingClub                                                          
+Jones      BadmintonClub                                                        
+Jones      DanceClub                                                            
+Jones      MusicClub                                                            
+
+6 행이 선택되었습니다.
+
+SQL> SELECT * FROM STUDENT_VOLUNTEER_4NF;
+
+SNAME      VOLUNTEER                                                            
+---------- -------------------------                                            
+Chau       SeniorCenter                                                         
+Green      Orphanage                                                            
+Jones      HomelessShelter                                                      
+Jones      SeniorCenter                                                         
+
+SQL> 
+SQL> -- 참조 무결성 확인
+SQL> SELECT Sname FROM STUDENT_CLUB_4NF
+  2  WHERE Sname NOT IN (
+  3      SELECT STUDENT_CLUB_4NF.Sname
+  4      FROM STUDENT_CLUB_4NF, STUDENT_VOLUNTEER_4NF
+  5      WHERE STUDENT_CLUB_4NF.Sname = STUDENT_VOLUNTEER_4NF.Sname
+  6  );
+
+선택된 레코드가 없습니다.
+
+SQL> 
+SQL> -- 변환 전후
+SQL> SELECT Sname, Club, Volunteer
+  2  FROM STUDENT_CLUB_4NF NATURAL JOIN STUDENT_VOLUNTEER_4NF
+  3  ORDER BY Club;
+
+SNAME      CLUB                      VOLUNTEER                                  
+---------- ------------------------- -------------------------                  
+Jones      BadmintonClub             HomelessShelter                            
+Jones      BadmintonClub             SeniorCenter                               
+Chau       BookClub                  SeniorCenter                               
+Green      CookingClub               Orphanage                                  
+Jones      DanceClub                 SeniorCenter                               
+Jones      DanceClub                 HomelessShelter                            
+Jones      MusicClub                 SeniorCenter                               
+Jones      MusicClub                 HomelessShelter                            
+Chau       PhotographyClub           SeniorCenter                               
+
+9 행이 선택되었습니다.
+
+SQL> SELECT * FROM STUDENT_INFO_2;
+
+SNAME      CLUB                      VOLUNTEER                                  
+---------- ------------------------- -------------------------                  
+Chau       BookClub                  SeniorCenter                               
+Chau       PhotographyClub           SeniorCenter                               
+Green      CookingClub               Orphanage                                  
+Jones      BadmintonClub             HomelessShelter                            
+Jones      BadmintonClub             SeniorCenter                               
+Jones      DanceClub                 HomelessShelter                            
+Jones      DanceClub                 SeniorCenter                               
+Jones      MusicClub                 HomelessShelter                            
+Jones      MusicClub                 SeniorCenter                               
+
+9 행이 선택되었습니다.
+
+SQL> 
+SQL> /* 변환 타당성
+SQL> 4NF는 모든 attribute들이 super key이고, 어떤 attribute도 2개 이상의 다치 종속성을 가지면 안된다.
+SQL> 하지만 STUDENT_INFO_2에서 Sname은 Club과 Volunteer에 대해 다치 종속성을 갖는다.
+SQL> 따라서
+SQL> STUDENT_CLUB_4NF(Sname, Club)
+SQL> STUDENT_VOLUNTEER_4NF(Sname, Volunteer)
+SQL> 의 2개의 릴레이션으로 나누어 4NF를 만족하게 하였다.
+SQL> */
+SQL> 
+SQL> spool off;

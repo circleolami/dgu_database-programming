@@ -1,0 +1,29 @@
+Q1. 다음은 1NF를 만족하는 릴레이션과 함수 종속이다. 이를 2NF로 변환하라.
+- 학생의 성적을 관리하는 릴레이션이다.  
+- STUDENT_GRADE(Sid, Cid, Score, Grade, Cname, Cunit)
+- Key: Sid, Cid
+- FD1: {Sid, Cid} -> Score, Grade, Cname, Cunit
+- FD2: Cid -> Cname, Cunit
+
+Q2. 다음은 2NF를 만족하는 릴레이션과 함수 종속이다. 3NF로 변환하라. 
+- 학생의 정보를 관리하는 릴레이션이다. 
+- 전공 번호는 후보키이다. 
+- STUDENT_INFO_1(Sid, Sname, Phone, Mid, Mname)
+- Key: Sid
+- FD1: Sid -> Sname, Phone, Mid, Mname
+- FD2: Mid -> Mname
+
+Q3. 다음은 3NF를 만족하는 릴레이션과 함수 종속이다. BCNF로 변환하라.
+- 프로젝트의 정보를 관리하는 릴레이션이다. 
+- 프로젝트와 부서가 관리자를 결정하며, 관리자는 한 건의 프로젝트만 담당한다. 
+- PROJECT_INFO(Pname, Dname, Manager)
+- Key: Pname, Dname
+- FD1: {Pname, Dname} -> Manager
+- FD2: Manager -> Pname
+
+Q4. 다음은 BCNF를 만족하는 릴레이션과 다치 종속이다. 4NF로 변환하라. 
+- 학생의 정보를 관리하는 릴레이션이다. 
+- 학생은 여러 개의 동아리에 참여할 수 있고, 여러 개의 봉사활동에 참여할 수 있다. 
+- STUDENT_INFO_2(Sname, Club, Volunteer)
+- MVD1: Sname ->-> Club
+- MVD2: Sname ->-> Volunteer 
