@@ -1,671 +1,1451 @@
 
-CREATE TABLE ARTIST07
+CREATE TABLE W5_ALBUM
 (
-	ArtistID              INT  NOT NULL ,
-	FirstName             CHAR(25)  NOT NULL ,
-	LastName              CHAR(25)  NOT NULL ,
-	Nationality           CHAR(30)  NULL  CONSTRAINT  ARTIST07_Nationality_545895331 CHECK (Nationality IN ('Canadian', 'English', 'French', 'German', 'Mexican', 'Russian',
-'Spanish', 'United States')),
-	DateOfBirth           DECIMAL(4)  NULL  CONSTRAINT  ARTIST07_DateOfBirth_306684739 CHECK (DateOfBirth BETWEEN 1900 AND 2999),
-	DateDeceased          DECIMAL(4)  NULL  CONSTRAINT  ARTIST07_DateDeceas_1904242081 CHECK (DateDeceased BETWEEN 1900 AND 2999)
+	AlbumID               NUMBER  NOT NULL ,
+	Title                 CHAR(18)  NOT NULL ,
+	RegistrationDate      DATE  NOT NULL ,
+	MusicianID            NUMBER  NOT NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKARTIST07 ON ARTIST07
-(ArtistID  ASC);
+CREATE UNIQUE INDEX XPKALBUM ON W5_ALBUM
+(AlbumID  ASC);
 
 
 
-ALTER TABLE ARTIST07
-	ADD CONSTRAINT  XPKARTIST07 PRIMARY KEY (ArtistID);
+ALTER TABLE W5_ALBUM
+	ADD CONSTRAINT  XPKALBUM PRIMARY KEY (AlbumID);
 
 
 
-CREATE TABLE CUSTOMER07
+CREATE TABLE W5_CONTRACT
 (
-	CustomerID            INT  NOT NULL ,
-	LantName              CHAR(25)  NOT NULL ,
-	FirstName             CHAR(25)  NOT NULL ,
-	AreaCode              CHAR(3)  NULL ,
-	PhoneNumber           CHAR(11)  NULL ,
-	City                  CHAR(35)  NULL ,
-	Street                CHAR(30)  NULL ,
-	State                 CHAR(2)  NULL ,
-	ZipPostalCode         CHAR(9)  NULL ,
-	Country               CHAR(50)  NULL ,
-	Email                 VARCHAR2(100)  NULL 
+	StaffID               NUMBER  NOT NULL ,
+	CustomerID            NUMBER  NOT NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKCUSTOMER07 ON CUSTOMER07
+CREATE UNIQUE INDEX XPKW5_CONTRACT ON W5_CONTRACT
+(StaffID  ASC,CustomerID  ASC);
+
+
+
+ALTER TABLE W5_CONTRACT
+	ADD CONSTRAINT  XPKW5_CONTRACT PRIMARY KEY (StaffID,CustomerID);
+
+
+
+CREATE TABLE W5_CUSTOMER
+(
+	CustomerID            NUMBER  NOT NULL ,
+	Name                  CHAR(18)  NOT NULL ,
+	PostalCode            NUMBER  NOT NULL ,
+	PhoneNumber           CHAR(18)  NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKW5_CUSTOMER ON W5_CUSTOMER
 (CustomerID  ASC);
 
 
 
-ALTER TABLE CUSTOMER07
-	ADD CONSTRAINT  XPKCUSTOMER07 PRIMARY KEY (CustomerID);
+ALTER TABLE W5_CUSTOMER
+	ADD CONSTRAINT  XPKW5_CUSTOMER PRIMARY KEY (CustomerID);
 
 
 
-CREATE TABLE CUSTOMER_ARTIST_INT07
+CREATE TABLE W5_FURNITURE
 (
-	CustomerID            INT  NOT NULL ,
-	ArtistID              INT  NOT NULL 
+	FurnitureID           NUMBER  NOT NULL ,
+	FurnitureName         CHAR(18)  NOT NULL ,
+	Price                 CHAR(18)  NOT NULL ,
+	StockQuantity         NUMBER  NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKCUSTOMER_ARTIST_INT07 ON CUSTOMER_ARTIST_INT07
-(CustomerID  ASC,ArtistID  ASC);
+CREATE UNIQUE INDEX XPKW5_FURNITURE ON W5_FURNITURE
+(FurnitureID  ASC);
 
 
 
-ALTER TABLE CUSTOMER_ARTIST_INT07
-	ADD CONSTRAINT  XPKCUSTOMER_ARTIST_INT07 PRIMARY KEY (CustomerID,ArtistID);
+ALTER TABLE W5_FURNITURE
+	ADD CONSTRAINT  XPKW5_FURNITURE PRIMARY KEY (FurnitureID);
 
 
 
-CREATE TABLE TRANS07
+CREATE TABLE W5_INSTRUMENT
 (
-	TransactionID         INT  NOT NULL ,
-	DateAcquired          DATE  NOT NULL ,
-	AccuistionPrice       DECIMAL(8,2)  NOT NULL ,
-	DateSold              DATE  NULL ,
-	SalesPrice            DECIMAL(8,2)  NULL  CONSTRAINT  TRANS07_SalesPrice_801426720 CHECK (SalesPrice > 0 AND SalesPrice <= 500000),
-	AskingPrice           DECIMAL(8,2)  NULL ,
-	CustomerID            INT  NULL ,
-	WorkID                INT  NOT NULL 
+	InstrumentID          NUMBER  NOT NULL ,
+	InstrumentName        CHAR(18)  NOT NULL ,
+	InstrumentType        CHAR(18)  NOT NULL ,
+	Album                 CHAR(18)  NULL ,
+	MusicianID            NUMBER  NOT NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKTRANS07 ON TRANS07
-(TransactionID  ASC);
+CREATE UNIQUE INDEX XPKINSTRUMENT ON W5_INSTRUMENT
+(InstrumentID  ASC);
 
 
 
-ALTER TABLE TRANS07
-	ADD CONSTRAINT  XPKTRANS07 PRIMARY KEY (TransactionID);
+ALTER TABLE W5_INSTRUMENT
+	ADD CONSTRAINT  XPKINSTRUMENT PRIMARY KEY (InstrumentID);
 
 
 
-CREATE TABLE WORK07
+CREATE TABLE W5_MENU
 (
-	WorkID                INT  NOT NULL ,
-	ArtistID              INT  NULL ,
-	Title                 CHAR(35)  NOT NULL ,
-	Copy                  CHAR(12)  NOT NULL ,
-	Medium                CHAR(35)  NULL ,
-	Description           VARCHAR2(1000)   DEFAULT  'Unknown Provenance' NULL 
+	MenuID                NUMBER  NOT NULL ,
+	MenuName              CHAR(18)  NOT NULL ,
+	Price                 NUMBER  NOT NULL ,
+	Sale                  CHAR(18)  NOT NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKWORK07 ON WORK07
-(WorkID  ASC);
+CREATE UNIQUE INDEX XPKMENU ON W5_MENU
+(MenuID  ASC);
 
 
 
-ALTER TABLE WORK07
-	ADD CONSTRAINT  XPKWORK07 PRIMARY KEY (WorkID);
+ALTER TABLE W5_MENU
+	ADD CONSTRAINT  XPKMENU PRIMARY KEY (MenuID);
 
 
 
-ALTER TABLE CUSTOMER_ARTIST_INT07
-	ADD (CONSTRAINT  R_134 FOREIGN KEY (ArtistID) REFERENCES ARTIST07(ArtistID));
+CREATE TABLE W5_MUSICIAN
+(
+	MusicianID            NUMBER  NOT NULL ,
+	Name                  CHAR(18)  NOT NULL ,
+	Address               CHAR(18)  NOT NULL ,
+	PhoneNumber           CHAR(18)  NULL ,
+	Song                  CHAR(18)  NULL 
+);
 
 
 
-ALTER TABLE CUSTOMER_ARTIST_INT07
-	ADD (CONSTRAINT  R_135 FOREIGN KEY (CustomerID) REFERENCES CUSTOMER07(CustomerID));
+CREATE UNIQUE INDEX XPKMUSICIAN ON W5_MUSICIAN
+(MusicianID  ASC);
 
 
 
-ALTER TABLE TRANS07
-	ADD (CONSTRAINT  R_136 FOREIGN KEY (CustomerID) REFERENCES CUSTOMER07(CustomerID) ON DELETE SET NULL);
+ALTER TABLE W5_MUSICIAN
+	ADD CONSTRAINT  XPKMUSICIAN PRIMARY KEY (MusicianID);
 
 
 
-ALTER TABLE TRANS07
-	ADD (CONSTRAINT  R_139 FOREIGN KEY (WorkID) REFERENCES WORK07(WorkID));
+CREATE TABLE W5_ORDER
+(
+	OrderID               NUMBER  NOT NULL ,
+	PaymentDate           DATE  NOT NULL ,
+	DeliveryDate          DATE  NOT NULL ,
+	FurnitureID           NUMBER  NOT NULL ,
+	StaffID               NUMBER  NOT NULL ,
+	Quantity              CHAR(18)  NULL ,
+	CustomerID            NUMBER  NOT NULL 
+);
 
 
 
-ALTER TABLE WORK07
-	ADD (CONSTRAINT  R_137 FOREIGN KEY (ArtistID) REFERENCES ARTIST07(ArtistID) ON DELETE SET NULL);
+CREATE UNIQUE INDEX XPKW5_ORDER ON W5_ORDER
+(OrderID  ASC);
 
 
 
-CREATE  TRIGGER tD_ARTIST07 AFTER DELETE ON ARTIST07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- DELETE trigger on ARTIST07 
+ALTER TABLE W5_ORDER
+	ADD CONSTRAINT  XPKW5_ORDER PRIMARY KEY (OrderID);
+
+
+
+CREATE TABLE W5_RESTAURANT
+(
+	RestaurantID          NUMBER  NOT NULL ,
+	Address               CHAR(18)  NOT NULL ,
+	Menu                  CHAR(18)  NULL ,
+	PhoneNumber           NUMBER  NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKRESTAURANT ON W5_RESTAURANT
+(RestaurantID  ASC);
+
+
+
+ALTER TABLE W5_RESTAURANT
+	ADD CONSTRAINT  XPKRESTAURANT PRIMARY KEY (RestaurantID);
+
+
+
+CREATE TABLE W5_SALES
+(
+	SaleID                NUMBER  NOT NULL ,
+	RestaurantID          NUMBER  NOT NULL ,
+	DateTime              DATE  NOT NULL ,
+	MenuItemsQuantity     CHAR(18)  NULL ,
+	MenuID                NUMBER  NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKSALES ON W5_SALES
+(SaleID  ASC,RestaurantID  ASC);
+
+
+
+ALTER TABLE W5_SALES
+	ADD CONSTRAINT  XPKSALES PRIMARY KEY (SaleID,RestaurantID);
+
+
+
+CREATE TABLE W5_SONG
+(
+	SongID                NUMBER  NOT NULL ,
+	Title                 CHAR(18)  NOT NULL ,
+	Composer              CHAR(18)  NOT NULL ,
+	ReleaseDate           DATE  NOT NULL ,
+	Instrument            CHAR(18)  NOT NULL ,
+	MusicianID            NUMBER  NOT NULL ,
+	AlbumID               NUMBER  NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKSONG ON W5_SONG
+(SongID  ASC,AlbumID  ASC);
+
+
+
+ALTER TABLE W5_SONG
+	ADD CONSTRAINT  XPKSONG PRIMARY KEY (SongID,AlbumID);
+
+
+
+CREATE TABLE W5_STAFF
+(
+	StaffID               NUMBER  NOT NULL ,
+	Name                  CHAR(18)  NOT NULL ,
+	PostalCode            NUMBER  NOT NULL ,
+	PhoneNumber           CHAR(18)  NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKW5_STAFF ON W5_STAFF
+(StaffID  ASC);
+
+
+
+ALTER TABLE W5_STAFF
+	ADD CONSTRAINT  XPKW5_STAFF PRIMARY KEY (StaffID);
+
+
+
+ALTER TABLE W5_ALBUM
+	ADD (CONSTRAINT  R_133 FOREIGN KEY (MusicianID) REFERENCES W5_MUSICIAN(MusicianID));
+
+
+
+ALTER TABLE W5_CONTRACT
+	ADD (CONSTRAINT  R_109 FOREIGN KEY (StaffID) REFERENCES W5_STAFF(StaffID));
+
+
+
+ALTER TABLE W5_CONTRACT
+	ADD (CONSTRAINT  R_110 FOREIGN KEY (CustomerID) REFERENCES W5_CUSTOMER(CustomerID));
+
+
+
+ALTER TABLE W5_INSTRUMENT
+	ADD (CONSTRAINT  R_130 FOREIGN KEY (MusicianID) REFERENCES W5_MUSICIAN(MusicianID));
+
+
+
+ALTER TABLE W5_ORDER
+	ADD (CONSTRAINT  R_111 FOREIGN KEY (StaffID,CustomerID) REFERENCES W5_CONTRACT(StaffID,CustomerID));
+
+
+
+ALTER TABLE W5_ORDER
+	ADD (CONSTRAINT  R_112 FOREIGN KEY (FurnitureID) REFERENCES W5_FURNITURE(FurnitureID));
+
+
+
+ALTER TABLE W5_SALES
+	ADD (CONSTRAINT  R_114 FOREIGN KEY (RestaurantID) REFERENCES W5_RESTAURANT(RestaurantID));
+
+
+
+ALTER TABLE W5_SALES
+	ADD (CONSTRAINT  R_118 FOREIGN KEY (MenuID) REFERENCES W5_MENU(MenuID));
+
+
+
+ALTER TABLE W5_SONG
+	ADD (CONSTRAINT  R_119 FOREIGN KEY (MusicianID) REFERENCES W5_MUSICIAN(MusicianID) ON DELETE SET NULL);
+
+
+
+ALTER TABLE W5_SONG
+	ADD (CONSTRAINT  R_120 FOREIGN KEY (AlbumID) REFERENCES W5_ALBUM(AlbumID));
+
+
+
+CREATE  TRIGGER tI_W5_ALBUM BEFORE INSERT ON W5_ALBUM for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- INSERT trigger on W5_ALBUM 
 DECLARE NUMROWS INTEGER;
 BEGIN
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* ARTIST07  WORK07 on parent delete set null */
-    /* ERWIN_RELATION:CHECKSUM="0001d5f0", PARENT_OWNER="", PARENT_TABLE="ARTIST07"
-    CHILD_OWNER="", CHILD_TABLE="WORK07"
-    P2C_VERB_PHRASE="R/133", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_137", FK_COLUMNS="ArtistID" */
-    UPDATE WORK07
-      SET
-        /* %SetFK(WORK07,NULL) */
-        WORK07.ArtistID = NULL
-      WHERE
-        /* %JoinFKPK(WORK07,:%Old," = "," AND") */
-        WORK07.ArtistID = :old.ArtistID;
-
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* ARTIST07  CUSTOMER_ARTIST_INT07 on parent delete restrict */
-    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="ARTIST07"
-    CHILD_OWNER="", CHILD_TABLE="CUSTOMER_ARTIST_INT07"
-    P2C_VERB_PHRASE="R/134", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_134", FK_COLUMNS="ArtistID" */
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_MUSICIAN  W5_ALBUM on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000fc6e", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_ALBUM"
+    P2C_VERB_PHRASE="R/126", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_133", FK_COLUMNS="MusicianID" */
     SELECT count(*) INTO NUMROWS
-      FROM CUSTOMER_ARTIST_INT07
+      FROM W5_MUSICIAN
       WHERE
-        /*  %JoinFKPK(CUSTOMER_ARTIST_INT07,:%Old," = "," AND") */
-        CUSTOMER_ARTIST_INT07.ArtistID = :old.ArtistID;
-    IF (NUMROWS > 0)
+        /* %JoinFKPK(:%New,W5_MUSICIAN," = "," AND") */
+        :new.MusicianID = W5_MUSICIAN.MusicianID;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
     THEN
       raise_application_error(
-        -20001,
-        'Cannot delete ARTIST07 because CUSTOMER_ARTIST_INT07 exists.'
+        -20002,
+        'Cannot insert W5_ALBUM because W5_MUSICIAN does not exist.'
       );
     END IF;
 
 
--- ERwin Builtin Mon Oct 16 19:53:01 2023
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
 END;
 /
 
-CREATE  TRIGGER tU_ARTIST07 AFTER UPDATE ON ARTIST07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- UPDATE trigger on ARTIST07 
+CREATE  TRIGGER tD_W5_ALBUM AFTER DELETE ON W5_ALBUM for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- DELETE trigger on W5_ALBUM 
 DECLARE NUMROWS INTEGER;
 BEGIN
-  /* ARTIST07  WORK07 on parent update set null */
-  /* ERWIN_RELATION:CHECKSUM="000229ed", PARENT_OWNER="", PARENT_TABLE="ARTIST07"
-    CHILD_OWNER="", CHILD_TABLE="WORK07"
-    P2C_VERB_PHRASE="R/133", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_137", FK_COLUMNS="ArtistID" */
-  IF
-    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
-    :old.ArtistID <> :new.ArtistID
-  THEN
-    UPDATE WORK07
-      SET
-        /* %SetFK(WORK07,NULL) */
-        WORK07.ArtistID = NULL
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_ALBUM  W5_SONG on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000dbb7", PARENT_OWNER="", PARENT_TABLE="W5_ALBUM"
+    CHILD_OWNER="", CHILD_TABLE="W5_SONG"
+    P2C_VERB_PHRASE="R/120", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_120", FK_COLUMNS="AlbumID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_SONG
       WHERE
-        /* %JoinFKPK(WORK07,:%Old," = ",",") */
-        WORK07.ArtistID = :old.ArtistID;
-  END IF;
+        /*  %JoinFKPK(W5_SONG,:%Old," = "," AND") */
+        W5_SONG.AlbumID = :old.AlbumID;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete W5_ALBUM because W5_SONG exists.'
+      );
+    END IF;
 
-  /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-  /* ARTIST07  CUSTOMER_ARTIST_INT07 on parent update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="ARTIST07"
-    CHILD_OWNER="", CHILD_TABLE="CUSTOMER_ARTIST_INT07"
-    P2C_VERB_PHRASE="R/134", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_134", FK_COLUMNS="ArtistID" */
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_ALBUM AFTER UPDATE ON W5_ALBUM for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_ALBUM 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_ALBUM  W5_SONG on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="000205b8", PARENT_OWNER="", PARENT_TABLE="W5_ALBUM"
+    CHILD_OWNER="", CHILD_TABLE="W5_SONG"
+    P2C_VERB_PHRASE="R/120", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_120", FK_COLUMNS="AlbumID" */
   IF
     /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
-    :old.ArtistID <> :new.ArtistID
+    :old.AlbumID <> :new.AlbumID
   THEN
     SELECT count(*) INTO NUMROWS
-      FROM CUSTOMER_ARTIST_INT07
+      FROM W5_SONG
       WHERE
-        /*  %JoinFKPK(CUSTOMER_ARTIST_INT07,:%Old," = "," AND") */
-        CUSTOMER_ARTIST_INT07.ArtistID = :old.ArtistID;
+        /*  %JoinFKPK(W5_SONG,:%Old," = "," AND") */
+        W5_SONG.AlbumID = :old.AlbumID;
     IF (NUMROWS > 0)
     THEN 
       raise_application_error(
         -20005,
-        'Cannot update ARTIST07 because CUSTOMER_ARTIST_INT07 exists.'
+        'Cannot update W5_ALBUM because W5_SONG exists.'
       );
     END IF;
   END IF;
 
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_MUSICIAN  W5_ALBUM on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_ALBUM"
+    P2C_VERB_PHRASE="R/126", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_133", FK_COLUMNS="MusicianID" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_MUSICIAN
+    WHERE
+      /* %JoinFKPK(:%New,W5_MUSICIAN," = "," AND") */
+      :new.MusicianID = W5_MUSICIAN.MusicianID;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_ALBUM because W5_MUSICIAN does not exist.'
+    );
+  END IF;
 
--- ERwin Builtin Mon Oct 16 19:53:01 2023
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
 END;
 /
 
 
-CREATE  TRIGGER tD_CUSTOMER07 AFTER DELETE ON CUSTOMER07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- DELETE trigger on CUSTOMER07 
+CREATE  TRIGGER tI_W5_CONTRACT BEFORE INSERT ON W5_CONTRACT for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- INSERT trigger on W5_CONTRACT 
 DECLARE NUMROWS INTEGER;
 BEGIN
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* CUSTOMER07  CUSTOMER_ARTIST_INT07 on parent delete restrict */
-    /* ERWIN_RELATION:CHECKSUM="0001d043", PARENT_OWNER="", PARENT_TABLE="CUSTOMER07"
-    CHILD_OWNER="", CHILD_TABLE="CUSTOMER_ARTIST_INT07"
-    P2C_VERB_PHRASE="R/135", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_135", FK_COLUMNS="CustomerID" */
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_STAFF  W5_CONTRACT on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="00020b2e", PARENT_OWNER="", PARENT_TABLE="W5_STAFF"
+    CHILD_OWNER="", CHILD_TABLE="W5_CONTRACT"
+    P2C_VERB_PHRASE="R/109", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_109", FK_COLUMNS="StaffID" */
     SELECT count(*) INTO NUMROWS
-      FROM CUSTOMER_ARTIST_INT07
+      FROM W5_STAFF
       WHERE
-        /*  %JoinFKPK(CUSTOMER_ARTIST_INT07,:%Old," = "," AND") */
-        CUSTOMER_ARTIST_INT07.CustomerID = :old.CustomerID;
+        /* %JoinFKPK(:%New,W5_STAFF," = "," AND") */
+        :new.StaffID = W5_STAFF.StaffID;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_CONTRACT because W5_STAFF does not exist.'
+      );
+    END IF;
+
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_CUSTOMER  W5_CONTRACT on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_CUSTOMER"
+    CHILD_OWNER="", CHILD_TABLE="W5_CONTRACT"
+    P2C_VERB_PHRASE="R/110", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_110", FK_COLUMNS="CustomerID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_CUSTOMER
+      WHERE
+        /* %JoinFKPK(:%New,W5_CUSTOMER," = "," AND") */
+        :new.CustomerID = W5_CUSTOMER.CustomerID;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_CONTRACT because W5_CUSTOMER does not exist.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tD_W5_CONTRACT AFTER DELETE ON W5_CONTRACT for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- DELETE trigger on W5_CONTRACT 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_CONTRACT  W5_ORDER on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000f08b", PARENT_OWNER="", PARENT_TABLE="W5_CONTRACT"
+    CHILD_OWNER="", CHILD_TABLE="W5_ORDER"
+    P2C_VERB_PHRASE="R/111", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_111", FK_COLUMNS="StaffID""CustomerID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_ORDER
+      WHERE
+        /*  %JoinFKPK(W5_ORDER,:%Old," = "," AND") */
+        W5_ORDER.StaffID = :old.StaffID AND
+        W5_ORDER.CustomerID = :old.CustomerID;
     IF (NUMROWS > 0)
     THEN
       raise_application_error(
         -20001,
-        'Cannot delete CUSTOMER07 because CUSTOMER_ARTIST_INT07 exists.'
+        'Cannot delete W5_CONTRACT because W5_ORDER exists.'
       );
     END IF;
 
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* CUSTOMER07  TRANS07 on parent delete set null */
-    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="CUSTOMER07"
-    CHILD_OWNER="", CHILD_TABLE="TRANS07"
-    P2C_VERB_PHRASE="R/136", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_136", FK_COLUMNS="CustomerID" */
-    UPDATE TRANS07
-      SET
-        /* %SetFK(TRANS07,NULL) */
-        TRANS07.CustomerID = NULL
-      WHERE
-        /* %JoinFKPK(TRANS07,:%Old," = "," AND") */
-        TRANS07.CustomerID = :old.CustomerID;
 
-
--- ERwin Builtin Mon Oct 16 19:53:01 2023
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
 END;
 /
 
-CREATE  TRIGGER tU_CUSTOMER07 AFTER UPDATE ON CUSTOMER07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- UPDATE trigger on CUSTOMER07 
+CREATE  TRIGGER tU_W5_CONTRACT AFTER UPDATE ON W5_CONTRACT for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_CONTRACT 
 DECLARE NUMROWS INTEGER;
 BEGIN
-  /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-  /* CUSTOMER07  CUSTOMER_ARTIST_INT07 on parent update restrict */
-  /* ERWIN_RELATION:CHECKSUM="0001fed7", PARENT_OWNER="", PARENT_TABLE="CUSTOMER07"
-    CHILD_OWNER="", CHILD_TABLE="CUSTOMER_ARTIST_INT07"
-    P2C_VERB_PHRASE="R/135", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_135", FK_COLUMNS="CustomerID" */
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_CONTRACT  W5_ORDER on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00035783", PARENT_OWNER="", PARENT_TABLE="W5_CONTRACT"
+    CHILD_OWNER="", CHILD_TABLE="W5_ORDER"
+    P2C_VERB_PHRASE="R/111", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_111", FK_COLUMNS="StaffID""CustomerID" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.StaffID <> :new.StaffID OR 
+    :old.CustomerID <> :new.CustomerID
+  THEN
+    SELECT count(*) INTO NUMROWS
+      FROM W5_ORDER
+      WHERE
+        /*  %JoinFKPK(W5_ORDER,:%Old," = "," AND") */
+        W5_ORDER.StaffID = :old.StaffID AND
+        W5_ORDER.CustomerID = :old.CustomerID;
+    IF (NUMROWS > 0)
+    THEN 
+      raise_application_error(
+        -20005,
+        'Cannot update W5_CONTRACT because W5_ORDER exists.'
+      );
+    END IF;
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_STAFF  W5_CONTRACT on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_STAFF"
+    CHILD_OWNER="", CHILD_TABLE="W5_CONTRACT"
+    P2C_VERB_PHRASE="R/109", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_109", FK_COLUMNS="StaffID" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_STAFF
+    WHERE
+      /* %JoinFKPK(:%New,W5_STAFF," = "," AND") */
+      :new.StaffID = W5_STAFF.StaffID;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_CONTRACT because W5_STAFF does not exist.'
+    );
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_CUSTOMER  W5_CONTRACT on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_CUSTOMER"
+    CHILD_OWNER="", CHILD_TABLE="W5_CONTRACT"
+    P2C_VERB_PHRASE="R/110", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_110", FK_COLUMNS="CustomerID" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_CUSTOMER
+    WHERE
+      /* %JoinFKPK(:%New,W5_CUSTOMER," = "," AND") */
+      :new.CustomerID = W5_CUSTOMER.CustomerID;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_CONTRACT because W5_CUSTOMER does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+
+CREATE  TRIGGER tD_W5_CUSTOMER AFTER DELETE ON W5_CUSTOMER for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- DELETE trigger on W5_CUSTOMER 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_CUSTOMER  W5_CONTRACT on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000eae2", PARENT_OWNER="", PARENT_TABLE="W5_CUSTOMER"
+    CHILD_OWNER="", CHILD_TABLE="W5_CONTRACT"
+    P2C_VERB_PHRASE="R/110", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_110", FK_COLUMNS="CustomerID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_CONTRACT
+      WHERE
+        /*  %JoinFKPK(W5_CONTRACT,:%Old," = "," AND") */
+        W5_CONTRACT.CustomerID = :old.CustomerID;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete W5_CUSTOMER because W5_CONTRACT exists.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_CUSTOMER AFTER UPDATE ON W5_CUSTOMER for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_CUSTOMER 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_CUSTOMER  W5_CONTRACT on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00010970", PARENT_OWNER="", PARENT_TABLE="W5_CUSTOMER"
+    CHILD_OWNER="", CHILD_TABLE="W5_CONTRACT"
+    P2C_VERB_PHRASE="R/110", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_110", FK_COLUMNS="CustomerID" */
   IF
     /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
     :old.CustomerID <> :new.CustomerID
   THEN
     SELECT count(*) INTO NUMROWS
-      FROM CUSTOMER_ARTIST_INT07
+      FROM W5_CONTRACT
       WHERE
-        /*  %JoinFKPK(CUSTOMER_ARTIST_INT07,:%Old," = "," AND") */
-        CUSTOMER_ARTIST_INT07.CustomerID = :old.CustomerID;
+        /*  %JoinFKPK(W5_CONTRACT,:%Old," = "," AND") */
+        W5_CONTRACT.CustomerID = :old.CustomerID;
     IF (NUMROWS > 0)
     THEN 
       raise_application_error(
         -20005,
-        'Cannot update CUSTOMER07 because CUSTOMER_ARTIST_INT07 exists.'
+        'Cannot update W5_CUSTOMER because W5_CONTRACT exists.'
       );
     END IF;
   END IF;
 
-  /* CUSTOMER07  TRANS07 on parent update set null */
-  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="CUSTOMER07"
-    CHILD_OWNER="", CHILD_TABLE="TRANS07"
-    P2C_VERB_PHRASE="R/136", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_136", FK_COLUMNS="CustomerID" */
-  IF
-    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
-    :old.CustomerID <> :new.CustomerID
-  THEN
-    UPDATE TRANS07
-      SET
-        /* %SetFK(TRANS07,NULL) */
-        TRANS07.CustomerID = NULL
-      WHERE
-        /* %JoinFKPK(TRANS07,:%Old," = ",",") */
-        TRANS07.CustomerID = :old.CustomerID;
-  END IF;
 
-
--- ERwin Builtin Mon Oct 16 19:53:01 2023
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
 END;
 /
 
 
-CREATE  TRIGGER tI_CUSTOMER_ARTIST_INT07 BEFORE INSERT ON CUSTOMER_ARTIST_INT07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- INSERT trigger on CUSTOMER_ARTIST_INT07 
+CREATE  TRIGGER tD_W5_FURNITURE AFTER DELETE ON W5_FURNITURE for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- DELETE trigger on W5_FURNITURE 
 DECLARE NUMROWS INTEGER;
 BEGIN
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* ARTIST07  CUSTOMER_ARTIST_INT07 on child insert restrict */
-    /* ERWIN_RELATION:CHECKSUM="000233df", PARENT_OWNER="", PARENT_TABLE="ARTIST07"
-    CHILD_OWNER="", CHILD_TABLE="CUSTOMER_ARTIST_INT07"
-    P2C_VERB_PHRASE="R/134", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_134", FK_COLUMNS="ArtistID" */
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_FURNITURE  W5_ORDER on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000ec92", PARENT_OWNER="", PARENT_TABLE="W5_FURNITURE"
+    CHILD_OWNER="", CHILD_TABLE="W5_ORDER"
+    P2C_VERB_PHRASE="R/112", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_112", FK_COLUMNS="FurnitureID" */
     SELECT count(*) INTO NUMROWS
-      FROM ARTIST07
+      FROM W5_ORDER
       WHERE
-        /* %JoinFKPK(:%New,ARTIST07," = "," AND") */
-        :new.ArtistID = ARTIST07.ArtistID;
-    IF (
-      /* %NotnullFK(:%New," IS NOT NULL AND") */
-      
-      NUMROWS = 0
-    )
-    THEN
-      raise_application_error(
-        -20002,
-        'Cannot insert CUSTOMER_ARTIST_INT07 because ARTIST07 does not exist.'
-      );
-    END IF;
-
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* CUSTOMER07  CUSTOMER_ARTIST_INT07 on child insert restrict */
-    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="CUSTOMER07"
-    CHILD_OWNER="", CHILD_TABLE="CUSTOMER_ARTIST_INT07"
-    P2C_VERB_PHRASE="R/135", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_135", FK_COLUMNS="CustomerID" */
-    SELECT count(*) INTO NUMROWS
-      FROM CUSTOMER07
-      WHERE
-        /* %JoinFKPK(:%New,CUSTOMER07," = "," AND") */
-        :new.CustomerID = CUSTOMER07.CustomerID;
-    IF (
-      /* %NotnullFK(:%New," IS NOT NULL AND") */
-      
-      NUMROWS = 0
-    )
-    THEN
-      raise_application_error(
-        -20002,
-        'Cannot insert CUSTOMER_ARTIST_INT07 because CUSTOMER07 does not exist.'
-      );
-    END IF;
-
-
--- ERwin Builtin Mon Oct 16 19:53:01 2023
-END;
-/
-
-CREATE  TRIGGER tU_CUSTOMER_ARTIST_INT07 AFTER UPDATE ON CUSTOMER_ARTIST_INT07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- UPDATE trigger on CUSTOMER_ARTIST_INT07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-  /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-  /* ARTIST07  CUSTOMER_ARTIST_INT07 on child update restrict */
-  /* ERWIN_RELATION:CHECKSUM="0002239d", PARENT_OWNER="", PARENT_TABLE="ARTIST07"
-    CHILD_OWNER="", CHILD_TABLE="CUSTOMER_ARTIST_INT07"
-    P2C_VERB_PHRASE="R/134", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_134", FK_COLUMNS="ArtistID" */
-  SELECT count(*) INTO NUMROWS
-    FROM ARTIST07
-    WHERE
-      /* %JoinFKPK(:%New,ARTIST07," = "," AND") */
-      :new.ArtistID = ARTIST07.ArtistID;
-  IF (
-    /* %NotnullFK(:%New," IS NOT NULL AND") */
-    
-    NUMROWS = 0
-  )
-  THEN
-    raise_application_error(
-      -20007,
-      'Cannot update CUSTOMER_ARTIST_INT07 because ARTIST07 does not exist.'
-    );
-  END IF;
-
-  /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-  /* CUSTOMER07  CUSTOMER_ARTIST_INT07 on child update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="CUSTOMER07"
-    CHILD_OWNER="", CHILD_TABLE="CUSTOMER_ARTIST_INT07"
-    P2C_VERB_PHRASE="R/135", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_135", FK_COLUMNS="CustomerID" */
-  SELECT count(*) INTO NUMROWS
-    FROM CUSTOMER07
-    WHERE
-      /* %JoinFKPK(:%New,CUSTOMER07," = "," AND") */
-      :new.CustomerID = CUSTOMER07.CustomerID;
-  IF (
-    /* %NotnullFK(:%New," IS NOT NULL AND") */
-    
-    NUMROWS = 0
-  )
-  THEN
-    raise_application_error(
-      -20007,
-      'Cannot update CUSTOMER_ARTIST_INT07 because CUSTOMER07 does not exist.'
-    );
-  END IF;
-
-
--- ERwin Builtin Mon Oct 16 19:53:01 2023
-END;
-/
-
-
-CREATE  TRIGGER tI_TRANS07 BEFORE INSERT ON TRANS07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- INSERT trigger on TRANS07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* CUSTOMER07  TRANS07 on child insert set null */
-    /* ERWIN_RELATION:CHECKSUM="00020763", PARENT_OWNER="", PARENT_TABLE="CUSTOMER07"
-    CHILD_OWNER="", CHILD_TABLE="TRANS07"
-    P2C_VERB_PHRASE="R/136", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_136", FK_COLUMNS="CustomerID" */
-    UPDATE TRANS07
-      SET
-        /* %SetFK(TRANS07,NULL) */
-        TRANS07.CustomerID = NULL
-      WHERE
-        NOT EXISTS (
-          SELECT * FROM CUSTOMER07
-            WHERE
-              /* %JoinFKPK(:%New,CUSTOMER07," = "," AND") */
-              :new.CustomerID = CUSTOMER07.CustomerID
-        ) 
-        /* %JoinPKPK(TRANS07,:%New," = "," AND") */
-         and TRANS07.TransactionID = :new.TransactionID;
-
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* WORK07  TRANS07 on child insert restrict */
-    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="WORK07"
-    CHILD_OWNER="", CHILD_TABLE="TRANS07"
-    P2C_VERB_PHRASE="R/139", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_139", FK_COLUMNS="WorkID" */
-    SELECT count(*) INTO NUMROWS
-      FROM WORK07
-      WHERE
-        /* %JoinFKPK(:%New,WORK07," = "," AND") */
-        :new.WorkID = WORK07.WorkID;
-    IF (
-      /* %NotnullFK(:%New," IS NOT NULL AND") */
-      
-      NUMROWS = 0
-    )
-    THEN
-      raise_application_error(
-        -20002,
-        'Cannot insert TRANS07 because WORK07 does not exist.'
-      );
-    END IF;
-
-
--- ERwin Builtin Mon Oct 16 19:53:01 2023
-END;
-/
-
-CREATE  TRIGGER tU_TRANS07 AFTER UPDATE ON TRANS07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- UPDATE trigger on TRANS07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-  /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-  /* CUSTOMER07  TRANS07 on child update no action */
-  /* ERWIN_RELATION:CHECKSUM="000207b4", PARENT_OWNER="", PARENT_TABLE="CUSTOMER07"
-    CHILD_OWNER="", CHILD_TABLE="TRANS07"
-    P2C_VERB_PHRASE="R/136", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_136", FK_COLUMNS="CustomerID" */
-  SELECT count(*) INTO NUMROWS
-    FROM CUSTOMER07
-    WHERE
-      /* %JoinFKPK(:%New,CUSTOMER07," = "," AND") */
-      :new.CustomerID = CUSTOMER07.CustomerID;
-  IF (
-    /* %NotnullFK(:%New," IS NOT NULL AND") */
-    :new.CustomerID IS NOT NULL AND
-    NUMROWS = 0
-  )
-  THEN
-    raise_application_error(
-      -20007,
-      'Cannot update TRANS07 because CUSTOMER07 does not exist.'
-    );
-  END IF;
-
-  /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-  /* WORK07  TRANS07 on child update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="WORK07"
-    CHILD_OWNER="", CHILD_TABLE="TRANS07"
-    P2C_VERB_PHRASE="R/139", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_139", FK_COLUMNS="WorkID" */
-  SELECT count(*) INTO NUMROWS
-    FROM WORK07
-    WHERE
-      /* %JoinFKPK(:%New,WORK07," = "," AND") */
-      :new.WorkID = WORK07.WorkID;
-  IF (
-    /* %NotnullFK(:%New," IS NOT NULL AND") */
-    
-    NUMROWS = 0
-  )
-  THEN
-    raise_application_error(
-      -20007,
-      'Cannot update TRANS07 because WORK07 does not exist.'
-    );
-  END IF;
-
-
--- ERwin Builtin Mon Oct 16 19:53:01 2023
-END;
-/
-
-
-CREATE  TRIGGER tI_WORK07 BEFORE INSERT ON WORK07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- INSERT trigger on WORK07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* ARTIST07  WORK07 on child insert set null */
-    /* ERWIN_RELATION:CHECKSUM="0000f60d", PARENT_OWNER="", PARENT_TABLE="ARTIST07"
-    CHILD_OWNER="", CHILD_TABLE="WORK07"
-    P2C_VERB_PHRASE="R/133", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_137", FK_COLUMNS="ArtistID" */
-    UPDATE WORK07
-      SET
-        /* %SetFK(WORK07,NULL) */
-        WORK07.ArtistID = NULL
-      WHERE
-        NOT EXISTS (
-          SELECT * FROM ARTIST07
-            WHERE
-              /* %JoinFKPK(:%New,ARTIST07," = "," AND") */
-              :new.ArtistID = ARTIST07.ArtistID
-        ) 
-        /* %JoinPKPK(WORK07,:%New," = "," AND") */
-         and WORK07.WorkID = :new.WorkID;
-
-
--- ERwin Builtin Mon Oct 16 19:53:01 2023
-END;
-/
-
-CREATE  TRIGGER tD_WORK07 AFTER DELETE ON WORK07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- DELETE trigger on WORK07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-    /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-    /* WORK07  TRANS07 on parent delete restrict */
-    /* ERWIN_RELATION:CHECKSUM="0000d635", PARENT_OWNER="", PARENT_TABLE="WORK07"
-    CHILD_OWNER="", CHILD_TABLE="TRANS07"
-    P2C_VERB_PHRASE="R/139", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_139", FK_COLUMNS="WorkID" */
-    SELECT count(*) INTO NUMROWS
-      FROM TRANS07
-      WHERE
-        /*  %JoinFKPK(TRANS07,:%Old," = "," AND") */
-        TRANS07.WorkID = :old.WorkID;
+        /*  %JoinFKPK(W5_ORDER,:%Old," = "," AND") */
+        W5_ORDER.FurnitureID = :old.FurnitureID;
     IF (NUMROWS > 0)
     THEN
       raise_application_error(
         -20001,
-        'Cannot delete WORK07 because TRANS07 exists.'
+        'Cannot delete W5_FURNITURE because W5_ORDER exists.'
       );
     END IF;
 
 
--- ERwin Builtin Mon Oct 16 19:53:01 2023
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
 END;
 /
 
-CREATE  TRIGGER tU_WORK07 AFTER UPDATE ON WORK07 for each row
--- ERwin Builtin Mon Oct 16 19:53:01 2023
--- UPDATE trigger on WORK07 
+CREATE  TRIGGER tU_W5_FURNITURE AFTER UPDATE ON W5_FURNITURE for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_FURNITURE 
 DECLARE NUMROWS INTEGER;
 BEGIN
-  /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-  /* WORK07  TRANS07 on parent update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00020daa", PARENT_OWNER="", PARENT_TABLE="WORK07"
-    CHILD_OWNER="", CHILD_TABLE="TRANS07"
-    P2C_VERB_PHRASE="R/139", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_139", FK_COLUMNS="WorkID" */
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_FURNITURE  W5_ORDER on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="0001150e", PARENT_OWNER="", PARENT_TABLE="W5_FURNITURE"
+    CHILD_OWNER="", CHILD_TABLE="W5_ORDER"
+    P2C_VERB_PHRASE="R/112", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_112", FK_COLUMNS="FurnitureID" */
   IF
     /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
-    :old.WorkID <> :new.WorkID
+    :old.FurnitureID <> :new.FurnitureID
   THEN
     SELECT count(*) INTO NUMROWS
-      FROM TRANS07
+      FROM W5_ORDER
       WHERE
-        /*  %JoinFKPK(TRANS07,:%Old," = "," AND") */
-        TRANS07.WorkID = :old.WorkID;
+        /*  %JoinFKPK(W5_ORDER,:%Old," = "," AND") */
+        W5_ORDER.FurnitureID = :old.FurnitureID;
     IF (NUMROWS > 0)
     THEN 
       raise_application_error(
         -20005,
-        'Cannot update WORK07 because TRANS07 exists.'
+        'Cannot update W5_FURNITURE because W5_ORDER exists.'
       );
     END IF;
   END IF;
 
-  /* ERwin Builtin Mon Oct 16 19:53:01 2023 */
-  /* ARTIST07  WORK07 on child update no action */
-  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="ARTIST07"
-    CHILD_OWNER="", CHILD_TABLE="WORK07"
-    P2C_VERB_PHRASE="R/133", C2P_VERB_PHRASE="", 
-    FK_CONSTRAINT="R_137", FK_COLUMNS="ArtistID" */
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+
+CREATE  TRIGGER tI_W5_INSTRUMENT BEFORE INSERT ON W5_INSTRUMENT for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- INSERT trigger on W5_INSTRUMENT 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_MUSICIAN  W5_INSTRUMENT on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000fd39", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_INSTRUMENT"
+    P2C_VERB_PHRASE="R/127", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_130", FK_COLUMNS="MusicianID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_MUSICIAN
+      WHERE
+        /* %JoinFKPK(:%New,W5_MUSICIAN," = "," AND") */
+        :new.MusicianID = W5_MUSICIAN.MusicianID;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_INSTRUMENT because W5_MUSICIAN does not exist.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_INSTRUMENT AFTER UPDATE ON W5_INSTRUMENT for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_INSTRUMENT 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_MUSICIAN  W5_INSTRUMENT on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="0000fcf0", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_INSTRUMENT"
+    P2C_VERB_PHRASE="R/127", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_130", FK_COLUMNS="MusicianID" */
   SELECT count(*) INTO NUMROWS
-    FROM ARTIST07
+    FROM W5_MUSICIAN
     WHERE
-      /* %JoinFKPK(:%New,ARTIST07," = "," AND") */
-      :new.ArtistID = ARTIST07.ArtistID;
+      /* %JoinFKPK(:%New,W5_MUSICIAN," = "," AND") */
+      :new.MusicianID = W5_MUSICIAN.MusicianID;
   IF (
     /* %NotnullFK(:%New," IS NOT NULL AND") */
-    :new.ArtistID IS NOT NULL AND
+    
     NUMROWS = 0
   )
   THEN
     raise_application_error(
       -20007,
-      'Cannot update WORK07 because ARTIST07 does not exist.'
+      'Cannot update W5_INSTRUMENT because W5_MUSICIAN does not exist.'
     );
   END IF;
 
 
--- ERwin Builtin Mon Oct 16 19:53:01 2023
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+
+CREATE  TRIGGER tD_W5_MENU AFTER DELETE ON W5_MENU for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- DELETE trigger on W5_MENU 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_MENU  W5_SALES on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000d3e6", PARENT_OWNER="", PARENT_TABLE="W5_MENU"
+    CHILD_OWNER="", CHILD_TABLE="W5_SALES"
+    P2C_VERB_PHRASE="R/118", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_118", FK_COLUMNS="MenuID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_SALES
+      WHERE
+        /*  %JoinFKPK(W5_SALES,:%Old," = "," AND") */
+        W5_SALES.MenuID = :old.MenuID;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete W5_MENU because W5_SALES exists.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_MENU AFTER UPDATE ON W5_MENU for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_MENU 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_MENU  W5_SALES on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="0001022d", PARENT_OWNER="", PARENT_TABLE="W5_MENU"
+    CHILD_OWNER="", CHILD_TABLE="W5_SALES"
+    P2C_VERB_PHRASE="R/118", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_118", FK_COLUMNS="MenuID" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.MenuID <> :new.MenuID
+  THEN
+    SELECT count(*) INTO NUMROWS
+      FROM W5_SALES
+      WHERE
+        /*  %JoinFKPK(W5_SALES,:%Old," = "," AND") */
+        W5_SALES.MenuID = :old.MenuID;
+    IF (NUMROWS > 0)
+    THEN 
+      raise_application_error(
+        -20005,
+        'Cannot update W5_MENU because W5_SALES exists.'
+      );
+    END IF;
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+
+CREATE  TRIGGER tD_W5_MUSICIAN AFTER DELETE ON W5_MUSICIAN for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- DELETE trigger on W5_MUSICIAN 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_MUSICIAN  W5_SONG on parent delete set null */
+    /* ERWIN_RELATION:CHECKSUM="0002aadc", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_SONG"
+    P2C_VERB_PHRASE="R/119", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_119", FK_COLUMNS="MusicianID" */
+    UPDATE W5_SONG
+      SET
+        /* %SetFK(W5_SONG,NULL) */
+        W5_SONG.MusicianID = NULL
+      WHERE
+        /* %JoinFKPK(W5_SONG,:%Old," = "," AND") */
+        W5_SONG.MusicianID = :old.MusicianID;
+
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_MUSICIAN  W5_ALBUM on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_ALBUM"
+    P2C_VERB_PHRASE="R/126", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_133", FK_COLUMNS="MusicianID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_ALBUM
+      WHERE
+        /*  %JoinFKPK(W5_ALBUM,:%Old," = "," AND") */
+        W5_ALBUM.MusicianID = :old.MusicianID;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete W5_MUSICIAN because W5_ALBUM exists.'
+      );
+    END IF;
+
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_MUSICIAN  W5_INSTRUMENT on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_INSTRUMENT"
+    P2C_VERB_PHRASE="R/127", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_130", FK_COLUMNS="MusicianID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_INSTRUMENT
+      WHERE
+        /*  %JoinFKPK(W5_INSTRUMENT,:%Old," = "," AND") */
+        W5_INSTRUMENT.MusicianID = :old.MusicianID;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete W5_MUSICIAN because W5_INSTRUMENT exists.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_MUSICIAN AFTER UPDATE ON W5_MUSICIAN for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_MUSICIAN 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* W5_MUSICIAN  W5_SONG on parent update set null */
+  /* ERWIN_RELATION:CHECKSUM="00032a4f", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_SONG"
+    P2C_VERB_PHRASE="R/119", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_119", FK_COLUMNS="MusicianID" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.MusicianID <> :new.MusicianID
+  THEN
+    UPDATE W5_SONG
+      SET
+        /* %SetFK(W5_SONG,NULL) */
+        W5_SONG.MusicianID = NULL
+      WHERE
+        /* %JoinFKPK(W5_SONG,:%Old," = ",",") */
+        W5_SONG.MusicianID = :old.MusicianID;
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_MUSICIAN  W5_ALBUM on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_ALBUM"
+    P2C_VERB_PHRASE="R/126", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_133", FK_COLUMNS="MusicianID" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.MusicianID <> :new.MusicianID
+  THEN
+    SELECT count(*) INTO NUMROWS
+      FROM W5_ALBUM
+      WHERE
+        /*  %JoinFKPK(W5_ALBUM,:%Old," = "," AND") */
+        W5_ALBUM.MusicianID = :old.MusicianID;
+    IF (NUMROWS > 0)
+    THEN 
+      raise_application_error(
+        -20005,
+        'Cannot update W5_MUSICIAN because W5_ALBUM exists.'
+      );
+    END IF;
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_MUSICIAN  W5_INSTRUMENT on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_INSTRUMENT"
+    P2C_VERB_PHRASE="R/127", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_130", FK_COLUMNS="MusicianID" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.MusicianID <> :new.MusicianID
+  THEN
+    SELECT count(*) INTO NUMROWS
+      FROM W5_INSTRUMENT
+      WHERE
+        /*  %JoinFKPK(W5_INSTRUMENT,:%Old," = "," AND") */
+        W5_INSTRUMENT.MusicianID = :old.MusicianID;
+    IF (NUMROWS > 0)
+    THEN 
+      raise_application_error(
+        -20005,
+        'Cannot update W5_MUSICIAN because W5_INSTRUMENT exists.'
+      );
+    END IF;
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+
+CREATE  TRIGGER tI_W5_ORDER BEFORE INSERT ON W5_ORDER for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- INSERT trigger on W5_ORDER 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_CONTRACT  W5_ORDER on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="000224fc", PARENT_OWNER="", PARENT_TABLE="W5_CONTRACT"
+    CHILD_OWNER="", CHILD_TABLE="W5_ORDER"
+    P2C_VERB_PHRASE="R/111", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_111", FK_COLUMNS="StaffID""CustomerID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_CONTRACT
+      WHERE
+        /* %JoinFKPK(:%New,W5_CONTRACT," = "," AND") */
+        :new.StaffID = W5_CONTRACT.StaffID AND
+        :new.CustomerID = W5_CONTRACT.CustomerID;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_ORDER because W5_CONTRACT does not exist.'
+      );
+    END IF;
+
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_FURNITURE  W5_ORDER on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_FURNITURE"
+    CHILD_OWNER="", CHILD_TABLE="W5_ORDER"
+    P2C_VERB_PHRASE="R/112", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_112", FK_COLUMNS="FurnitureID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_FURNITURE
+      WHERE
+        /* %JoinFKPK(:%New,W5_FURNITURE," = "," AND") */
+        :new.FurnitureID = W5_FURNITURE.FurnitureID;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_ORDER because W5_FURNITURE does not exist.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_ORDER AFTER UPDATE ON W5_ORDER for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_ORDER 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_CONTRACT  W5_ORDER on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00021a7f", PARENT_OWNER="", PARENT_TABLE="W5_CONTRACT"
+    CHILD_OWNER="", CHILD_TABLE="W5_ORDER"
+    P2C_VERB_PHRASE="R/111", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_111", FK_COLUMNS="StaffID""CustomerID" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_CONTRACT
+    WHERE
+      /* %JoinFKPK(:%New,W5_CONTRACT," = "," AND") */
+      :new.StaffID = W5_CONTRACT.StaffID AND
+      :new.CustomerID = W5_CONTRACT.CustomerID;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_ORDER because W5_CONTRACT does not exist.'
+    );
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_FURNITURE  W5_ORDER on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_FURNITURE"
+    CHILD_OWNER="", CHILD_TABLE="W5_ORDER"
+    P2C_VERB_PHRASE="R/112", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_112", FK_COLUMNS="FurnitureID" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_FURNITURE
+    WHERE
+      /* %JoinFKPK(:%New,W5_FURNITURE," = "," AND") */
+      :new.FurnitureID = W5_FURNITURE.FurnitureID;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_ORDER because W5_FURNITURE does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+
+CREATE  TRIGGER tD_W5_RESTAURANT AFTER DELETE ON W5_RESTAURANT for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- DELETE trigger on W5_RESTAURANT 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_RESTAURANT  W5_SALES on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000eec2", PARENT_OWNER="", PARENT_TABLE="W5_RESTAURANT"
+    CHILD_OWNER="", CHILD_TABLE="W5_SALES"
+    P2C_VERB_PHRASE="R/114", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_114", FK_COLUMNS="RestaurantID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_SALES
+      WHERE
+        /*  %JoinFKPK(W5_SALES,:%Old," = "," AND") */
+        W5_SALES.RestaurantID = :old.RestaurantID;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete W5_RESTAURANT because W5_SALES exists.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_RESTAURANT AFTER UPDATE ON W5_RESTAURANT for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_RESTAURANT 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_RESTAURANT  W5_SALES on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="000114be", PARENT_OWNER="", PARENT_TABLE="W5_RESTAURANT"
+    CHILD_OWNER="", CHILD_TABLE="W5_SALES"
+    P2C_VERB_PHRASE="R/114", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_114", FK_COLUMNS="RestaurantID" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.RestaurantID <> :new.RestaurantID
+  THEN
+    SELECT count(*) INTO NUMROWS
+      FROM W5_SALES
+      WHERE
+        /*  %JoinFKPK(W5_SALES,:%Old," = "," AND") */
+        W5_SALES.RestaurantID = :old.RestaurantID;
+    IF (NUMROWS > 0)
+    THEN 
+      raise_application_error(
+        -20005,
+        'Cannot update W5_RESTAURANT because W5_SALES exists.'
+      );
+    END IF;
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+
+CREATE  TRIGGER tI_W5_SALES BEFORE INSERT ON W5_SALES for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- INSERT trigger on W5_SALES 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_RESTAURANT  W5_SALES on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="0001ff2a", PARENT_OWNER="", PARENT_TABLE="W5_RESTAURANT"
+    CHILD_OWNER="", CHILD_TABLE="W5_SALES"
+    P2C_VERB_PHRASE="R/114", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_114", FK_COLUMNS="RestaurantID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_RESTAURANT
+      WHERE
+        /* %JoinFKPK(:%New,W5_RESTAURANT," = "," AND") */
+        :new.RestaurantID = W5_RESTAURANT.RestaurantID;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_SALES because W5_RESTAURANT does not exist.'
+      );
+    END IF;
+
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_MENU  W5_SALES on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_MENU"
+    CHILD_OWNER="", CHILD_TABLE="W5_SALES"
+    P2C_VERB_PHRASE="R/118", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_118", FK_COLUMNS="MenuID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_MENU
+      WHERE
+        /* %JoinFKPK(:%New,W5_MENU," = "," AND") */
+        :new.MenuID = W5_MENU.MenuID;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_SALES because W5_MENU does not exist.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_SALES AFTER UPDATE ON W5_SALES for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_SALES 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_RESTAURANT  W5_SALES on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="0001fcbd", PARENT_OWNER="", PARENT_TABLE="W5_RESTAURANT"
+    CHILD_OWNER="", CHILD_TABLE="W5_SALES"
+    P2C_VERB_PHRASE="R/114", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_114", FK_COLUMNS="RestaurantID" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_RESTAURANT
+    WHERE
+      /* %JoinFKPK(:%New,W5_RESTAURANT," = "," AND") */
+      :new.RestaurantID = W5_RESTAURANT.RestaurantID;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_SALES because W5_RESTAURANT does not exist.'
+    );
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_MENU  W5_SALES on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_MENU"
+    CHILD_OWNER="", CHILD_TABLE="W5_SALES"
+    P2C_VERB_PHRASE="R/118", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_118", FK_COLUMNS="MenuID" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_MENU
+    WHERE
+      /* %JoinFKPK(:%New,W5_MENU," = "," AND") */
+      :new.MenuID = W5_MENU.MenuID;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_SALES because W5_MENU does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+
+CREATE  TRIGGER tI_W5_SONG BEFORE INSERT ON W5_SONG for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- INSERT trigger on W5_SONG 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_MUSICIAN  W5_SONG on child insert set null */
+    /* ERWIN_RELATION:CHECKSUM="0002067b", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_SONG"
+    P2C_VERB_PHRASE="R/119", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_119", FK_COLUMNS="MusicianID" */
+    UPDATE W5_SONG
+      SET
+        /* %SetFK(W5_SONG,NULL) */
+        W5_SONG.MusicianID = NULL
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM W5_MUSICIAN
+            WHERE
+              /* %JoinFKPK(:%New,W5_MUSICIAN," = "," AND") */
+              :new.MusicianID = W5_MUSICIAN.MusicianID
+        ) 
+        /* %JoinPKPK(W5_SONG,:%New," = "," AND") */
+         and W5_SONG.SongID = :new.SongID AND
+        W5_SONG.AlbumID = :new.AlbumID;
+
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_ALBUM  W5_SONG on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_ALBUM"
+    CHILD_OWNER="", CHILD_TABLE="W5_SONG"
+    P2C_VERB_PHRASE="R/120", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_120", FK_COLUMNS="AlbumID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_ALBUM
+      WHERE
+        /* %JoinFKPK(:%New,W5_ALBUM," = "," AND") */
+        :new.AlbumID = W5_ALBUM.AlbumID;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_SONG because W5_ALBUM does not exist.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_SONG AFTER UPDATE ON W5_SONG for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_SONG 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_MUSICIAN  W5_SONG on child update no action */
+  /* ERWIN_RELATION:CHECKSUM="00020f51", PARENT_OWNER="", PARENT_TABLE="W5_MUSICIAN"
+    CHILD_OWNER="", CHILD_TABLE="W5_SONG"
+    P2C_VERB_PHRASE="R/119", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_119", FK_COLUMNS="MusicianID" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_MUSICIAN
+    WHERE
+      /* %JoinFKPK(:%New,W5_MUSICIAN," = "," AND") */
+      :new.MusicianID = W5_MUSICIAN.MusicianID;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    :new.MusicianID IS NOT NULL AND
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_SONG because W5_MUSICIAN does not exist.'
+    );
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_ALBUM  W5_SONG on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_ALBUM"
+    CHILD_OWNER="", CHILD_TABLE="W5_SONG"
+    P2C_VERB_PHRASE="R/120", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_120", FK_COLUMNS="AlbumID" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_ALBUM
+    WHERE
+      /* %JoinFKPK(:%New,W5_ALBUM," = "," AND") */
+      :new.AlbumID = W5_ALBUM.AlbumID;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_SONG because W5_ALBUM does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+
+CREATE  TRIGGER tD_W5_STAFF AFTER DELETE ON W5_STAFF for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- DELETE trigger on W5_STAFF 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+    /* W5_STAFF  W5_CONTRACT on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000e06e", PARENT_OWNER="", PARENT_TABLE="W5_STAFF"
+    CHILD_OWNER="", CHILD_TABLE="W5_CONTRACT"
+    P2C_VERB_PHRASE="R/109", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_109", FK_COLUMNS="StaffID" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_CONTRACT
+      WHERE
+        /*  %JoinFKPK(W5_CONTRACT,:%Old," = "," AND") */
+        W5_CONTRACT.StaffID = :old.StaffID;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete W5_STAFF because W5_CONTRACT exists.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_STAFF AFTER UPDATE ON W5_STAFF for each row
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
+-- UPDATE trigger on W5_STAFF 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:38:16 2023 */
+  /* W5_STAFF  W5_CONTRACT on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00010b57", PARENT_OWNER="", PARENT_TABLE="W5_STAFF"
+    CHILD_OWNER="", CHILD_TABLE="W5_CONTRACT"
+    P2C_VERB_PHRASE="R/109", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_109", FK_COLUMNS="StaffID" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.StaffID <> :new.StaffID
+  THEN
+    SELECT count(*) INTO NUMROWS
+      FROM W5_CONTRACT
+      WHERE
+        /*  %JoinFKPK(W5_CONTRACT,:%Old," = "," AND") */
+        W5_CONTRACT.StaffID = :old.StaffID;
+    IF (NUMROWS > 0)
+    THEN 
+      raise_application_error(
+        -20005,
+        'Cannot update W5_STAFF because W5_CONTRACT exists.'
+      );
+    END IF;
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:38:16 2023
 END;
 /
 

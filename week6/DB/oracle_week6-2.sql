@@ -1,375 +1,326 @@
 
-CREATE TABLE DRIVER07
+CREATE TABLE W5_DEPARTMENTS
 (
-	FirstName             CHAR(25)  NOT NULL ,
-	LastName              CHAR(25)  NOT NULL ,
-	Address               CHAR(25)  NOT NULL ,
-	City                  CHAR(35)  NOT NULL ,
-	State                 CHAR(2)  NOT NULL ,
-	ZipCode               CHAR(9)  NOT NULL ,
-	Sex                   CHAR(1)  NOT NULL ,
-	DriverLicenseNumber   INT  NOT NULL ,
-	BirthDate             DATE  NOT NULL ,
-	HGT                   INTEGER  NOT NULL ,
-	WGT                   CHAR(2)  NOT NULL ,
-	EYES                  INTEGER  NOT NULL ,
-	DriverSignature       ORDImage  NOT NULL 
+	Dno                   NUMBER  NOT NULL ,
+	Dname                 CHAR(25)  NOT NULL ,
+	DBudget               NUMBER  NOT NULL  CONSTRAINT  department_dbudget_784439241 CHECK (DBudget
+BETWEEN
+200000000 AND
+600000000)
 );
 
 
 
-CREATE UNIQUE INDEX XPKDRIVER07 ON DRIVER07
-(DriverLicenseNumber  ASC);
+CREATE UNIQUE INDEX XPKW5_DEPARTMENTS ON W5_DEPARTMENTS
+(Dno  ASC);
 
 
 
-ALTER TABLE DRIVER07
-	ADD CONSTRAINT  XPKDRIVER07 PRIMARY KEY (DriverLicenseNumber);
+ALTER TABLE W5_DEPARTMENTS
+	ADD CONSTRAINT  XPKW5_DEPARTMENTS PRIMARY KEY (Dno);
 
 
 
-CREATE TABLE OFFICE07
+CREATE TABLE W5_DEPENDENTS
 (
-	OfficerPersonalNumber  DECIMAL(3)  NOT NULL ,
-	OfficerSignature      ORDImage  NOT NULL 
+	Name                  CHAR(18)  NOT NULL ,
+	Eno                   NUMBER  NOT NULL ,
+	Age                   NUMBER  NOT NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKOFFICE07 ON OFFICE07
-(OfficerPersonalNumber  ASC);
+CREATE UNIQUE INDEX XPKW5_DEPENDENTS ON W5_DEPENDENTS
+(Name  ASC,Eno  ASC);
 
 
 
-ALTER TABLE OFFICE07
-	ADD CONSTRAINT  XPKOFFICE07 PRIMARY KEY (OfficerPersonalNumber);
+ALTER TABLE W5_DEPENDENTS
+	ADD CONSTRAINT  XPKW5_DEPENDENTS PRIMARY KEY (Name,Eno);
 
 
 
-CREATE TABLE VEHICLE07
+CREATE TABLE W5_EMPLOYEES
 (
-	VIN                   CHAR(6)  NOT NULL ,
-	VehicleLicense        CHAR(16)  NOT NULL ,
-	State                 CHAR(2)  NOT NULL ,
-	Color                 CHAR(18)  NULL ,
-	Year                  DECIMAL(2)  NOT NULL ,
-	Make                  CHAR(18)  NOT NULL ,
-	Type                  CHAR(18)  NOT NULL ,
-	RegistedOwner         CHAR(18)  NOT NULL ,
-	Address               CHAR(18)  NULL 
+	Eno                   NUMBER   DEFAULT  1 NOT NULL ,
+	Ename                 CHAR(18)  NOT NULL ,
+	Salary                NUMBER  NOT NULL  CONSTRAINT  employees_salary_301039442 CHECK (Salary
+BETWEEN 2000000
+AND 6000000),
+	Age                   NUMBER  NOT NULL ,
+	Hiredate              DATE  NOT NULL ,
+	Manager               NUMBER  NOT NULL ,
+	Dno                   NUMBER  NOT NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKVEHICLE07 ON VEHICLE07
-(VIN  ASC);
+CREATE UNIQUE INDEX XPKW5_EMPLOYEES ON W5_EMPLOYEES
+(Eno  ASC);
 
 
 
-ALTER TABLE VEHICLE07
-	ADD CONSTRAINT  XPKVEHICLE07 PRIMARY KEY (VIN);
+ALTER TABLE W5_EMPLOYEES
+	ADD CONSTRAINT  XPKW5_EMPLOYEES PRIMARY KEY (Eno);
 
 
 
-CREATE TABLE VIOLATION07
+CREATE TABLE W5_OFFICES
 (
-	ViolationNumber       CHAR(18)  NOT NULL ,
-	Month                 DECIMAL(2)  NOT NULL ,
-	Day                   DECIMAL(2)  NOT NULL ,
-	Year                  DECIMAL(2)  NOT NULL ,
-	TimeHour              DECIMAL(4)  NOT NULL ,
-	Dist                  DECIMAL(1)  NOT NULL ,
-	Detach                DECIMAL(2)  NOT NULL ,
-	Miles                 INTEGER  NOT NULL ,
-	Direction             CHAR(1)  NOT NULL ,
-	ReferenceLocation     CHAR(18)  NOT NULL ,
-	StreetName            CHAR(5)  NOT NULL ,
-	DriverLicenseNumber   INTEGER  NOT NULL ,
-	OfficerPersonalNumber  DECIMAL(3)  NOT NULL ,
-	VIN                   CHAR(6)  NOT NULL ,
-	WarningLevel          CHAR(1)  NOT NULL 
+	One                   NUMBER  NOT NULL ,
+	Area                  CHAR(20)  NOT NULL ,
+	Floor                 NUMBER  NOT NULL  CONSTRAINT  offices_floor_1970824790 CHECK (Floor
+IN ( 1, 2, 3, 4, 5, 6,
+7, 8, 9)),
+	Dno                   NUMBER  NOT NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKVIOLATION07 ON VIOLATION07
-(ViolationNumber  ASC);
+CREATE UNIQUE INDEX XPKW5_OFFICES ON W5_OFFICES
+(One  ASC);
 
 
 
-ALTER TABLE VIOLATION07
-	ADD CONSTRAINT  XPKVIOLATION07 PRIMARY KEY (ViolationNumber);
+ALTER TABLE W5_OFFICES
+	ADD CONSTRAINT  XPKW5_OFFICES PRIMARY KEY (One);
 
 
 
-CREATE TABLE VIOLATION_DETAIL07
+CREATE TABLE W5_PHONES
 (
-	ViolationItem         CHAR(18)  NOT NULL 
+	PhoneNo               CHAR(12)  NOT NULL ,
+	One                   NUMBER  NOT NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKVIOLATION_DETAIL07 ON VIOLATION_DETAIL07
-(ViolationItem  ASC);
+CREATE UNIQUE INDEX XPKW5_PHONES ON W5_PHONES
+(PhoneNo  ASC,One  ASC);
 
 
 
-ALTER TABLE VIOLATION_DETAIL07
-	ADD CONSTRAINT  XPKVIOLATION_DETAIL07 PRIMARY KEY (ViolationItem);
+ALTER TABLE W5_PHONES
+	ADD CONSTRAINT  XPKW5_PHONES PRIMARY KEY (PhoneNo,One);
 
 
 
-CREATE TABLE VIOLATION_ENROLL07
+CREATE TABLE W5_PROJECTS
 (
-	ViolationNumber       CHAR(18)  NOT NULL ,
-	ViolationItem         CHAR(18)  NOT NULL 
+	Pno                   NUMBER  NOT NULL ,
+	Dno                   NUMBER  NOT NULL ,
+	Pname                 CHAR(18)  NOT NULL ,
+	PBudget               NUMBER   DEFAULT  20000000 NOT NULL 
 );
 
 
 
-CREATE UNIQUE INDEX XPKVIOLATION_ENROLL07 ON VIOLATION_ENROLL07
-(ViolationNumber  ASC,ViolationItem  ASC);
+CREATE UNIQUE INDEX XPKW5_PROJECTS ON W5_PROJECTS
+(Pno  ASC);
 
 
 
-ALTER TABLE VIOLATION_ENROLL07
-	ADD CONSTRAINT  XPKVIOLATION_ENROLL07 PRIMARY KEY (ViolationNumber,ViolationItem);
+ALTER TABLE W5_PROJECTS
+	ADD CONSTRAINT  XPKW5_PROJECTS PRIMARY KEY (Pno);
 
 
 
-ALTER TABLE VIOLATION07
-	ADD (CONSTRAINT  R_148 FOREIGN KEY (DriverLicenseNumber) REFERENCES DRIVER07(DriverLicenseNumber));
+ALTER TABLE W5_DEPENDENTS
+	ADD (CONSTRAINT  R_125 FOREIGN KEY (Eno) REFERENCES W5_EMPLOYEES(Eno));
 
 
 
-ALTER TABLE VIOLATION07
-	ADD (CONSTRAINT  R_149 FOREIGN KEY (VIN) REFERENCES VEHICLE07(VIN));
+ALTER TABLE W5_EMPLOYEES
+	ADD (CONSTRAINT  R_126 FOREIGN KEY (Dno) REFERENCES W5_DEPARTMENTS(Dno));
 
 
 
-ALTER TABLE VIOLATION07
-	ADD (CONSTRAINT  R_140 FOREIGN KEY (OfficerPersonalNumber) REFERENCES OFFICE07(OfficerPersonalNumber));
+ALTER TABLE W5_EMPLOYEES
+	ADD (CONSTRAINT  R_129 FOREIGN KEY (Eno) REFERENCES W5_EMPLOYEES(Eno) ON DELETE SET NULL);
 
 
 
-ALTER TABLE VIOLATION_ENROLL07
-	ADD (CONSTRAINT  R_141 FOREIGN KEY (ViolationNumber) REFERENCES VIOLATION07(ViolationNumber));
+ALTER TABLE W5_OFFICES
+	ADD (CONSTRAINT  R_127 FOREIGN KEY (Dno) REFERENCES W5_DEPARTMENTS(Dno));
 
 
 
-ALTER TABLE VIOLATION_ENROLL07
-	ADD (CONSTRAINT  R_144 FOREIGN KEY (ViolationItem) REFERENCES VIOLATION_DETAIL07(ViolationItem));
+ALTER TABLE W5_PHONES
+	ADD (CONSTRAINT  R_128 FOREIGN KEY (One) REFERENCES W5_OFFICES(One));
 
 
 
-CREATE  TRIGGER tD_DRIVER07 AFTER DELETE ON DRIVER07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- DELETE trigger on DRIVER07 
+ALTER TABLE W5_PROJECTS
+	ADD (CONSTRAINT  R_122 FOREIGN KEY (Dno) REFERENCES W5_DEPARTMENTS(Dno));
+
+
+
+CREATE  TRIGGER tD_W5_DEPARTMENTS AFTER DELETE ON W5_DEPARTMENTS for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- DELETE trigger on W5_DEPARTMENTS 
 DECLARE NUMROWS INTEGER;
 BEGIN
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* DRIVER07 Given VIOLATION07 on parent delete restrict */
-    /* ERWIN_RELATION:CHECKSUM="0000f624", PARENT_OWNER="", PARENT_TABLE="DRIVER07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/128", C2P_VERB_PHRASE="Target", 
-    FK_CONSTRAINT="R_148", FK_COLUMNS="DriverLicenseNumber" */
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_DEPARTMENTS  W5_PROJECTS on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0002f0d9", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_PROJECTS"
+    P2C_VERB_PHRASE="R/122", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_122", FK_COLUMNS="Dno" */
     SELECT count(*) INTO NUMROWS
-      FROM VIOLATION07
+      FROM W5_PROJECTS
       WHERE
-        /*  %JoinFKPK(VIOLATION07,:%Old," = "," AND") */
-        VIOLATION07.DriverLicenseNumber = :old.DriverLicenseNumber;
+        /*  %JoinFKPK(W5_PROJECTS,:%Old," = "," AND") */
+        W5_PROJECTS.Dno = :old.Dno;
     IF (NUMROWS > 0)
     THEN
       raise_application_error(
         -20001,
-        'Cannot delete DRIVER07 because VIOLATION07 exists.'
+        'Cannot delete W5_DEPARTMENTS because W5_PROJECTS exists.'
+      );
+    END IF;
+
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_DEPARTMENTS  W5_EMPLOYEES on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_EMPLOYEES"
+    P2C_VERB_PHRASE="R/126", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_126", FK_COLUMNS="Dno" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_EMPLOYEES
+      WHERE
+        /*  %JoinFKPK(W5_EMPLOYEES,:%Old," = "," AND") */
+        W5_EMPLOYEES.Dno = :old.Dno;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete W5_DEPARTMENTS because W5_EMPLOYEES exists.'
+      );
+    END IF;
+
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_DEPARTMENTS  W5_OFFICES on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_OFFICES"
+    P2C_VERB_PHRASE="R/127", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_127", FK_COLUMNS="Dno" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_OFFICES
+      WHERE
+        /*  %JoinFKPK(W5_OFFICES,:%Old," = "," AND") */
+        W5_OFFICES.Dno = :old.Dno;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete W5_DEPARTMENTS because W5_OFFICES exists.'
       );
     END IF;
 
 
--- ERwin Builtin Mon Oct 16 19:51:48 2023
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
 END;
 /
 
-CREATE  TRIGGER tU_DRIVER07 AFTER UPDATE ON DRIVER07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- UPDATE trigger on DRIVER07 
+CREATE  TRIGGER tU_W5_DEPARTMENTS AFTER UPDATE ON W5_DEPARTMENTS for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- UPDATE trigger on W5_DEPARTMENTS 
 DECLARE NUMROWS INTEGER;
 BEGIN
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* DRIVER07 Given VIOLATION07 on parent update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00012dc7", PARENT_OWNER="", PARENT_TABLE="DRIVER07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/128", C2P_VERB_PHRASE="Target", 
-    FK_CONSTRAINT="R_148", FK_COLUMNS="DriverLicenseNumber" */
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_DEPARTMENTS  W5_PROJECTS on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00034fd4", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_PROJECTS"
+    P2C_VERB_PHRASE="R/122", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_122", FK_COLUMNS="Dno" */
   IF
     /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
-    :old.DriverLicenseNumber <> :new.DriverLicenseNumber
+    :old.Dno <> :new.Dno
   THEN
     SELECT count(*) INTO NUMROWS
-      FROM VIOLATION07
+      FROM W5_PROJECTS
       WHERE
-        /*  %JoinFKPK(VIOLATION07,:%Old," = "," AND") */
-        VIOLATION07.DriverLicenseNumber = :old.DriverLicenseNumber;
+        /*  %JoinFKPK(W5_PROJECTS,:%Old," = "," AND") */
+        W5_PROJECTS.Dno = :old.Dno;
     IF (NUMROWS > 0)
     THEN 
       raise_application_error(
         -20005,
-        'Cannot update DRIVER07 because VIOLATION07 exists.'
+        'Cannot update W5_DEPARTMENTS because W5_PROJECTS exists.'
+      );
+    END IF;
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_DEPARTMENTS  W5_EMPLOYEES on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_EMPLOYEES"
+    P2C_VERB_PHRASE="R/126", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_126", FK_COLUMNS="Dno" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.Dno <> :new.Dno
+  THEN
+    SELECT count(*) INTO NUMROWS
+      FROM W5_EMPLOYEES
+      WHERE
+        /*  %JoinFKPK(W5_EMPLOYEES,:%Old," = "," AND") */
+        W5_EMPLOYEES.Dno = :old.Dno;
+    IF (NUMROWS > 0)
+    THEN 
+      raise_application_error(
+        -20005,
+        'Cannot update W5_DEPARTMENTS because W5_EMPLOYEES exists.'
+      );
+    END IF;
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_DEPARTMENTS  W5_OFFICES on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_OFFICES"
+    P2C_VERB_PHRASE="R/127", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_127", FK_COLUMNS="Dno" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.Dno <> :new.Dno
+  THEN
+    SELECT count(*) INTO NUMROWS
+      FROM W5_OFFICES
+      WHERE
+        /*  %JoinFKPK(W5_OFFICES,:%Old," = "," AND") */
+        W5_OFFICES.Dno = :old.Dno;
+    IF (NUMROWS > 0)
+    THEN 
+      raise_application_error(
+        -20005,
+        'Cannot update W5_DEPARTMENTS because W5_OFFICES exists.'
       );
     END IF;
   END IF;
 
 
--- ERwin Builtin Mon Oct 16 19:51:48 2023
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
 END;
 /
 
 
-CREATE  TRIGGER tD_OFFICE07 AFTER DELETE ON OFFICE07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- DELETE trigger on OFFICE07 
+CREATE  TRIGGER tI_W5_DEPENDENTS BEFORE INSERT ON W5_DEPENDENTS for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- INSERT trigger on W5_DEPENDENTS 
 DECLARE NUMROWS INTEGER;
 BEGIN
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* OFFICE07 Issue VIOLATION07 on parent delete restrict */
-    /* ERWIN_RELATION:CHECKSUM="0000f935", PARENT_OWNER="", PARENT_TABLE="OFFICE07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/130", C2P_VERB_PHRASE="Issued", 
-    FK_CONSTRAINT="R_140", FK_COLUMNS="OfficerPersonalNumber" */
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_EMPLOYEES  W5_DEPENDENTS on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="000101e7", PARENT_OWNER="", PARENT_TABLE="W5_EMPLOYEES"
+    CHILD_OWNER="", CHILD_TABLE="W5_DEPENDENTS"
+    P2C_VERB_PHRASE="R/125", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_125", FK_COLUMNS="Eno" */
     SELECT count(*) INTO NUMROWS
-      FROM VIOLATION07
+      FROM W5_EMPLOYEES
       WHERE
-        /*  %JoinFKPK(VIOLATION07,:%Old," = "," AND") */
-        VIOLATION07.OfficerPersonalNumber = :old.OfficerPersonalNumber;
-    IF (NUMROWS > 0)
-    THEN
-      raise_application_error(
-        -20001,
-        'Cannot delete OFFICE07 because VIOLATION07 exists.'
-      );
-    END IF;
-
-
--- ERwin Builtin Mon Oct 16 19:51:48 2023
-END;
-/
-
-CREATE  TRIGGER tU_OFFICE07 AFTER UPDATE ON OFFICE07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- UPDATE trigger on OFFICE07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* OFFICE07 Issue VIOLATION07 on parent update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00012bfe", PARENT_OWNER="", PARENT_TABLE="OFFICE07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/130", C2P_VERB_PHRASE="Issued", 
-    FK_CONSTRAINT="R_140", FK_COLUMNS="OfficerPersonalNumber" */
-  IF
-    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
-    :old.OfficerPersonalNumber <> :new.OfficerPersonalNumber
-  THEN
-    SELECT count(*) INTO NUMROWS
-      FROM VIOLATION07
-      WHERE
-        /*  %JoinFKPK(VIOLATION07,:%Old," = "," AND") */
-        VIOLATION07.OfficerPersonalNumber = :old.OfficerPersonalNumber;
-    IF (NUMROWS > 0)
-    THEN 
-      raise_application_error(
-        -20005,
-        'Cannot update OFFICE07 because VIOLATION07 exists.'
-      );
-    END IF;
-  END IF;
-
-
--- ERwin Builtin Mon Oct 16 19:51:48 2023
-END;
-/
-
-
-CREATE  TRIGGER tD_VEHICLE07 AFTER DELETE ON VEHICLE07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- DELETE trigger on VEHICLE07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* VEHICLE07 Given VIOLATION07 on parent delete restrict */
-    /* ERWIN_RELATION:CHECKSUM="0000df7e", PARENT_OWNER="", PARENT_TABLE="VEHICLE07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/129", C2P_VERB_PHRASE="Target", 
-    FK_CONSTRAINT="R_149", FK_COLUMNS="VIN" */
-    SELECT count(*) INTO NUMROWS
-      FROM VIOLATION07
-      WHERE
-        /*  %JoinFKPK(VIOLATION07,:%Old," = "," AND") */
-        VIOLATION07.VIN = :old.VIN;
-    IF (NUMROWS > 0)
-    THEN
-      raise_application_error(
-        -20001,
-        'Cannot delete VEHICLE07 because VIOLATION07 exists.'
-      );
-    END IF;
-
-
--- ERwin Builtin Mon Oct 16 19:51:48 2023
-END;
-/
-
-CREATE  TRIGGER tU_VEHICLE07 AFTER UPDATE ON VEHICLE07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- UPDATE trigger on VEHICLE07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* VEHICLE07 Given VIOLATION07 on parent update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00010197", PARENT_OWNER="", PARENT_TABLE="VEHICLE07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/129", C2P_VERB_PHRASE="Target", 
-    FK_CONSTRAINT="R_149", FK_COLUMNS="VIN" */
-  IF
-    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
-    :old.VIN <> :new.VIN
-  THEN
-    SELECT count(*) INTO NUMROWS
-      FROM VIOLATION07
-      WHERE
-        /*  %JoinFKPK(VIOLATION07,:%Old," = "," AND") */
-        VIOLATION07.VIN = :old.VIN;
-    IF (NUMROWS > 0)
-    THEN 
-      raise_application_error(
-        -20005,
-        'Cannot update VEHICLE07 because VIOLATION07 exists.'
-      );
-    END IF;
-  END IF;
-
-
--- ERwin Builtin Mon Oct 16 19:51:48 2023
-END;
-/
-
-
-CREATE  TRIGGER tI_VIOLATION07 BEFORE INSERT ON VIOLATION07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- INSERT trigger on VIOLATION07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* DRIVER07 Given VIOLATION07 on child insert restrict */
-    /* ERWIN_RELATION:CHECKSUM="00035bc4", PARENT_OWNER="", PARENT_TABLE="DRIVER07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/128", C2P_VERB_PHRASE="Target", 
-    FK_CONSTRAINT="R_148", FK_COLUMNS="DriverLicenseNumber" */
-    SELECT count(*) INTO NUMROWS
-      FROM DRIVER07
-      WHERE
-        /* %JoinFKPK(:%New,DRIVER07," = "," AND") */
-        :new.DriverLicenseNumber = DRIVER07.DriverLicenseNumber;
+        /* %JoinFKPK(:%New,W5_EMPLOYEES," = "," AND") */
+        :new.Eno = W5_EMPLOYEES.Eno;
     IF (
       /* %NotnullFK(:%New," IS NOT NULL AND") */
       
@@ -378,130 +329,203 @@ BEGIN
     THEN
       raise_application_error(
         -20002,
-        'Cannot insert VIOLATION07 because DRIVER07 does not exist.'
-      );
-    END IF;
-
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* VEHICLE07 Given VIOLATION07 on child insert restrict */
-    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="VEHICLE07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/129", C2P_VERB_PHRASE="Target", 
-    FK_CONSTRAINT="R_149", FK_COLUMNS="VIN" */
-    SELECT count(*) INTO NUMROWS
-      FROM VEHICLE07
-      WHERE
-        /* %JoinFKPK(:%New,VEHICLE07," = "," AND") */
-        :new.VIN = VEHICLE07.VIN;
-    IF (
-      /* %NotnullFK(:%New," IS NOT NULL AND") */
-      
-      NUMROWS = 0
-    )
-    THEN
-      raise_application_error(
-        -20002,
-        'Cannot insert VIOLATION07 because VEHICLE07 does not exist.'
-      );
-    END IF;
-
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* OFFICE07 Issue VIOLATION07 on child insert restrict */
-    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="OFFICE07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/130", C2P_VERB_PHRASE="Issued", 
-    FK_CONSTRAINT="R_140", FK_COLUMNS="OfficerPersonalNumber" */
-    SELECT count(*) INTO NUMROWS
-      FROM OFFICE07
-      WHERE
-        /* %JoinFKPK(:%New,OFFICE07," = "," AND") */
-        :new.OfficerPersonalNumber = OFFICE07.OfficerPersonalNumber;
-    IF (
-      /* %NotnullFK(:%New," IS NOT NULL AND") */
-      
-      NUMROWS = 0
-    )
-    THEN
-      raise_application_error(
-        -20002,
-        'Cannot insert VIOLATION07 because OFFICE07 does not exist.'
+        'Cannot insert W5_DEPENDENTS because W5_EMPLOYEES does not exist.'
       );
     END IF;
 
 
--- ERwin Builtin Mon Oct 16 19:51:48 2023
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
 END;
 /
 
-CREATE  TRIGGER tD_VIOLATION07 AFTER DELETE ON VIOLATION07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- DELETE trigger on VIOLATION07 
+CREATE  TRIGGER tU_W5_DEPENDENTS AFTER UPDATE ON W5_DEPENDENTS for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- UPDATE trigger on W5_DEPENDENTS 
 DECLARE NUMROWS INTEGER;
 BEGIN
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* VIOLATION07 Include VIOLATION_ENROLL07 on parent delete restrict */
-    /* ERWIN_RELATION:CHECKSUM="00011110", PARENT_OWNER="", PARENT_TABLE="VIOLATION07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION_ENROLL07"
-    P2C_VERB_PHRASE="R/131", C2P_VERB_PHRASE="Included", 
-    FK_CONSTRAINT="R_141", FK_COLUMNS="ViolationNumber" */
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_EMPLOYEES  W5_DEPENDENTS on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="0000fde1", PARENT_OWNER="", PARENT_TABLE="W5_EMPLOYEES"
+    CHILD_OWNER="", CHILD_TABLE="W5_DEPENDENTS"
+    P2C_VERB_PHRASE="R/125", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_125", FK_COLUMNS="Eno" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_EMPLOYEES
+    WHERE
+      /* %JoinFKPK(:%New,W5_EMPLOYEES," = "," AND") */
+      :new.Eno = W5_EMPLOYEES.Eno;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_DEPENDENTS because W5_EMPLOYEES does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+END;
+/
+
+
+CREATE  TRIGGER tI_W5_EMPLOYEES BEFORE INSERT ON W5_EMPLOYEES for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- INSERT trigger on W5_EMPLOYEES 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_DEPARTMENTS  W5_EMPLOYEES on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="000209f7", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_EMPLOYEES"
+    P2C_VERB_PHRASE="R/126", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_126", FK_COLUMNS="Dno" */
     SELECT count(*) INTO NUMROWS
-      FROM VIOLATION_ENROLL07
+      FROM W5_DEPARTMENTS
       WHERE
-        /*  %JoinFKPK(VIOLATION_ENROLL07,:%Old," = "," AND") */
-        VIOLATION_ENROLL07.ViolationNumber = :old.ViolationNumber;
+        /* %JoinFKPK(:%New,W5_DEPARTMENTS," = "," AND") */
+        :new.Dno = W5_DEPARTMENTS.Dno;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_EMPLOYEES because W5_DEPARTMENTS does not exist.'
+      );
+    END IF;
+
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_EMPLOYEES  W5_EMPLOYEES on child insert set null */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_EMPLOYEES"
+    CHILD_OWNER="", CHILD_TABLE="W5_EMPLOYEES"
+    P2C_VERB_PHRASE="R/129", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_129", FK_COLUMNS="Eno" */
+    UPDATE W5_EMPLOYEES
+      SET
+        /* %SetFK(W5_EMPLOYEES,NULL) */
+        W5_EMPLOYEES.Eno = NULL
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM W5_EMPLOYEES
+            WHERE
+              /* %JoinFKPK(:%New,W5_EMPLOYEES," = "," AND") */
+              :new.Eno = W5_EMPLOYEES.Eno
+        ) 
+        /* %JoinPKPK(W5_EMPLOYEES,:%New," = "," AND") */
+         and W5_EMPLOYEES.Eno = :new.Eno;
+
+
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+END;
+/
+
+CREATE  TRIGGER tD_W5_EMPLOYEES AFTER DELETE ON W5_EMPLOYEES for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- DELETE trigger on W5_EMPLOYEES 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_EMPLOYEES  W5_DEPENDENTS on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0001bd03", PARENT_OWNER="", PARENT_TABLE="W5_EMPLOYEES"
+    CHILD_OWNER="", CHILD_TABLE="W5_DEPENDENTS"
+    P2C_VERB_PHRASE="R/125", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_125", FK_COLUMNS="Eno" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_DEPENDENTS
+      WHERE
+        /*  %JoinFKPK(W5_DEPENDENTS,:%Old," = "," AND") */
+        W5_DEPENDENTS.Eno = :old.Eno;
     IF (NUMROWS > 0)
     THEN
       raise_application_error(
         -20001,
-        'Cannot delete VIOLATION07 because VIOLATION_ENROLL07 exists.'
+        'Cannot delete W5_EMPLOYEES because W5_DEPENDENTS exists.'
       );
     END IF;
 
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_EMPLOYEES  W5_EMPLOYEES on parent delete set null */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_EMPLOYEES"
+    CHILD_OWNER="", CHILD_TABLE="W5_EMPLOYEES"
+    P2C_VERB_PHRASE="R/129", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_129", FK_COLUMNS="Eno" */
+    UPDATE W5_EMPLOYEES
+      SET
+        /* %SetFK(W5_EMPLOYEES,NULL) */
+        W5_EMPLOYEES.Eno = NULL
+      WHERE
+        /* %JoinFKPK(W5_EMPLOYEES,:%Old," = "," AND") */
+        W5_EMPLOYEES.Eno = :old.Eno;
 
--- ERwin Builtin Mon Oct 16 19:51:48 2023
+
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
 END;
 /
 
-CREATE  TRIGGER tU_VIOLATION07 AFTER UPDATE ON VIOLATION07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- UPDATE trigger on VIOLATION07 
+CREATE  TRIGGER tU_W5_EMPLOYEES AFTER UPDATE ON W5_EMPLOYEES for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- UPDATE trigger on W5_EMPLOYEES 
 DECLARE NUMROWS INTEGER;
 BEGIN
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* VIOLATION07 Include VIOLATION_ENROLL07 on parent update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00047faf", PARENT_OWNER="", PARENT_TABLE="VIOLATION07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION_ENROLL07"
-    P2C_VERB_PHRASE="R/131", C2P_VERB_PHRASE="Included", 
-    FK_CONSTRAINT="R_141", FK_COLUMNS="ViolationNumber" */
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_EMPLOYEES  W5_DEPENDENTS on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="000415c7", PARENT_OWNER="", PARENT_TABLE="W5_EMPLOYEES"
+    CHILD_OWNER="", CHILD_TABLE="W5_DEPENDENTS"
+    P2C_VERB_PHRASE="R/125", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_125", FK_COLUMNS="Eno" */
   IF
     /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
-    :old.ViolationNumber <> :new.ViolationNumber
+    :old.Eno <> :new.Eno
   THEN
     SELECT count(*) INTO NUMROWS
-      FROM VIOLATION_ENROLL07
+      FROM W5_DEPENDENTS
       WHERE
-        /*  %JoinFKPK(VIOLATION_ENROLL07,:%Old," = "," AND") */
-        VIOLATION_ENROLL07.ViolationNumber = :old.ViolationNumber;
+        /*  %JoinFKPK(W5_DEPENDENTS,:%Old," = "," AND") */
+        W5_DEPENDENTS.Eno = :old.Eno;
     IF (NUMROWS > 0)
     THEN 
       raise_application_error(
         -20005,
-        'Cannot update VIOLATION07 because VIOLATION_ENROLL07 exists.'
+        'Cannot update W5_EMPLOYEES because W5_DEPENDENTS exists.'
       );
     END IF;
   END IF;
 
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* DRIVER07 Given VIOLATION07 on child update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="DRIVER07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/128", C2P_VERB_PHRASE="Target", 
-    FK_CONSTRAINT="R_148", FK_COLUMNS="DriverLicenseNumber" */
+  /* W5_EMPLOYEES  W5_EMPLOYEES on parent update set null */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_EMPLOYEES"
+    CHILD_OWNER="", CHILD_TABLE="W5_EMPLOYEES"
+    P2C_VERB_PHRASE="R/129", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_129", FK_COLUMNS="Eno" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.Eno <> :new.Eno
+  THEN
+    UPDATE W5_EMPLOYEES
+      SET
+        /* %SetFK(W5_EMPLOYEES,NULL) */
+        W5_EMPLOYEES.Eno = NULL
+      WHERE
+        /* %JoinFKPK(W5_EMPLOYEES,:%Old," = ",",") */
+        W5_EMPLOYEES.Eno = :old.Eno;
+  END IF;
+
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_DEPARTMENTS  W5_EMPLOYEES on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_EMPLOYEES"
+    P2C_VERB_PHRASE="R/126", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_126", FK_COLUMNS="Dno" */
   SELECT count(*) INTO NUMROWS
-    FROM DRIVER07
+    FROM W5_DEPARTMENTS
     WHERE
-      /* %JoinFKPK(:%New,DRIVER07," = "," AND") */
-      :new.DriverLicenseNumber = DRIVER07.DriverLicenseNumber;
+      /* %JoinFKPK(:%New,W5_DEPARTMENTS," = "," AND") */
+      :new.Dno = W5_DEPARTMENTS.Dno;
   IF (
     /* %NotnullFK(:%New," IS NOT NULL AND") */
     
@@ -510,198 +534,141 @@ BEGIN
   THEN
     raise_application_error(
       -20007,
-      'Cannot update VIOLATION07 because DRIVER07 does not exist.'
+      'Cannot update W5_EMPLOYEES because W5_DEPARTMENTS does not exist.'
     );
   END IF;
 
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* VEHICLE07 Given VIOLATION07 on child update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="VEHICLE07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/129", C2P_VERB_PHRASE="Target", 
-    FK_CONSTRAINT="R_149", FK_COLUMNS="VIN" */
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_EMPLOYEES  W5_EMPLOYEES on child update no action */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_EMPLOYEES"
+    CHILD_OWNER="", CHILD_TABLE="W5_EMPLOYEES"
+    P2C_VERB_PHRASE="R/129", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_129", FK_COLUMNS="Eno" */
   SELECT count(*) INTO NUMROWS
-    FROM VEHICLE07
+    FROM W5_EMPLOYEES
     WHERE
-      /* %JoinFKPK(:%New,VEHICLE07," = "," AND") */
-      :new.VIN = VEHICLE07.VIN;
+      /* %JoinFKPK(:%New,W5_EMPLOYEES," = "," AND") */
+      :new.Eno = W5_EMPLOYEES.Eno;
   IF (
     /* %NotnullFK(:%New," IS NOT NULL AND") */
-    
+    :new.Eno IS NOT NULL AND
     NUMROWS = 0
   )
   THEN
     raise_application_error(
       -20007,
-      'Cannot update VIOLATION07 because VEHICLE07 does not exist.'
-    );
-  END IF;
-
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* OFFICE07 Issue VIOLATION07 on child update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="OFFICE07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION07"
-    P2C_VERB_PHRASE="R/130", C2P_VERB_PHRASE="Issued", 
-    FK_CONSTRAINT="R_140", FK_COLUMNS="OfficerPersonalNumber" */
-  SELECT count(*) INTO NUMROWS
-    FROM OFFICE07
-    WHERE
-      /* %JoinFKPK(:%New,OFFICE07," = "," AND") */
-      :new.OfficerPersonalNumber = OFFICE07.OfficerPersonalNumber;
-  IF (
-    /* %NotnullFK(:%New," IS NOT NULL AND") */
-    
-    NUMROWS = 0
-  )
-  THEN
-    raise_application_error(
-      -20007,
-      'Cannot update VIOLATION07 because OFFICE07 does not exist.'
+      'Cannot update W5_EMPLOYEES because W5_EMPLOYEES does not exist.'
     );
   END IF;
 
 
--- ERwin Builtin Mon Oct 16 19:51:48 2023
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
 END;
 /
 
 
-CREATE  TRIGGER tD_VIOLATION_DETAIL07 AFTER DELETE ON VIOLATION_DETAIL07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- DELETE trigger on VIOLATION_DETAIL07 
+CREATE  TRIGGER tI_W5_OFFICES BEFORE INSERT ON W5_OFFICES for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- INSERT trigger on W5_OFFICES 
 DECLARE NUMROWS INTEGER;
 BEGIN
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* VIOLATION_DETAIL07 Assign VIOLATION_ENROLL07 on parent delete restrict */
-    /* ERWIN_RELATION:CHECKSUM="00010da0", PARENT_OWNER="", PARENT_TABLE="VIOLATION_DETAIL07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION_ENROLL07"
-    P2C_VERB_PHRASE="R/132", C2P_VERB_PHRASE="Assigned", 
-    FK_CONSTRAINT="R_144", FK_COLUMNS="ViolationItem" */
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_DEPARTMENTS  W5_OFFICES on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000f7c7", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_OFFICES"
+    P2C_VERB_PHRASE="R/127", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_127", FK_COLUMNS="Dno" */
     SELECT count(*) INTO NUMROWS
-      FROM VIOLATION_ENROLL07
+      FROM W5_DEPARTMENTS
       WHERE
-        /*  %JoinFKPK(VIOLATION_ENROLL07,:%Old," = "," AND") */
-        VIOLATION_ENROLL07.ViolationItem = :old.ViolationItem;
+        /* %JoinFKPK(:%New,W5_DEPARTMENTS," = "," AND") */
+        :new.Dno = W5_DEPARTMENTS.Dno;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_OFFICES because W5_DEPARTMENTS does not exist.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+END;
+/
+
+CREATE  TRIGGER tD_W5_OFFICES AFTER DELETE ON W5_OFFICES for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- DELETE trigger on W5_OFFICES 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_OFFICES  W5_PHONES on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000da57", PARENT_OWNER="", PARENT_TABLE="W5_OFFICES"
+    CHILD_OWNER="", CHILD_TABLE="W5_PHONES"
+    P2C_VERB_PHRASE="R/128", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_128", FK_COLUMNS="One" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_PHONES
+      WHERE
+        /*  %JoinFKPK(W5_PHONES,:%Old," = "," AND") */
+        W5_PHONES.One = :old.One;
     IF (NUMROWS > 0)
     THEN
       raise_application_error(
         -20001,
-        'Cannot delete VIOLATION_DETAIL07 because VIOLATION_ENROLL07 exists.'
+        'Cannot delete W5_OFFICES because W5_PHONES exists.'
       );
     END IF;
 
 
--- ERwin Builtin Mon Oct 16 19:51:48 2023
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
 END;
 /
 
-CREATE  TRIGGER tU_VIOLATION_DETAIL07 AFTER UPDATE ON VIOLATION_DETAIL07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- UPDATE trigger on VIOLATION_DETAIL07 
+CREATE  TRIGGER tU_W5_OFFICES AFTER UPDATE ON W5_OFFICES for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- UPDATE trigger on W5_OFFICES 
 DECLARE NUMROWS INTEGER;
 BEGIN
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* VIOLATION_DETAIL07 Assign VIOLATION_ENROLL07 on parent update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00012c75", PARENT_OWNER="", PARENT_TABLE="VIOLATION_DETAIL07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION_ENROLL07"
-    P2C_VERB_PHRASE="R/132", C2P_VERB_PHRASE="Assigned", 
-    FK_CONSTRAINT="R_144", FK_COLUMNS="ViolationItem" */
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_OFFICES  W5_PHONES on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00021a60", PARENT_OWNER="", PARENT_TABLE="W5_OFFICES"
+    CHILD_OWNER="", CHILD_TABLE="W5_PHONES"
+    P2C_VERB_PHRASE="R/128", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_128", FK_COLUMNS="One" */
   IF
     /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
-    :old.ViolationItem <> :new.ViolationItem
+    :old.One <> :new.One
   THEN
     SELECT count(*) INTO NUMROWS
-      FROM VIOLATION_ENROLL07
+      FROM W5_PHONES
       WHERE
-        /*  %JoinFKPK(VIOLATION_ENROLL07,:%Old," = "," AND") */
-        VIOLATION_ENROLL07.ViolationItem = :old.ViolationItem;
+        /*  %JoinFKPK(W5_PHONES,:%Old," = "," AND") */
+        W5_PHONES.One = :old.One;
     IF (NUMROWS > 0)
     THEN 
       raise_application_error(
         -20005,
-        'Cannot update VIOLATION_DETAIL07 because VIOLATION_ENROLL07 exists.'
+        'Cannot update W5_OFFICES because W5_PHONES exists.'
       );
     END IF;
   END IF;
 
-
--- ERwin Builtin Mon Oct 16 19:51:48 2023
-END;
-/
-
-
-CREATE  TRIGGER tI_VIOLATION_ENROLL07 BEFORE INSERT ON VIOLATION_ENROLL07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- INSERT trigger on VIOLATION_ENROLL07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* VIOLATION07 Include VIOLATION_ENROLL07 on child insert restrict */
-    /* ERWIN_RELATION:CHECKSUM="00025108", PARENT_OWNER="", PARENT_TABLE="VIOLATION07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION_ENROLL07"
-    P2C_VERB_PHRASE="R/131", C2P_VERB_PHRASE="Included", 
-    FK_CONSTRAINT="R_141", FK_COLUMNS="ViolationNumber" */
-    SELECT count(*) INTO NUMROWS
-      FROM VIOLATION07
-      WHERE
-        /* %JoinFKPK(:%New,VIOLATION07," = "," AND") */
-        :new.ViolationNumber = VIOLATION07.ViolationNumber;
-    IF (
-      /* %NotnullFK(:%New," IS NOT NULL AND") */
-      
-      NUMROWS = 0
-    )
-    THEN
-      raise_application_error(
-        -20002,
-        'Cannot insert VIOLATION_ENROLL07 because VIOLATION07 does not exist.'
-      );
-    END IF;
-
-    /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-    /* VIOLATION_DETAIL07 Assign VIOLATION_ENROLL07 on child insert restrict */
-    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="VIOLATION_DETAIL07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION_ENROLL07"
-    P2C_VERB_PHRASE="R/132", C2P_VERB_PHRASE="Assigned", 
-    FK_CONSTRAINT="R_144", FK_COLUMNS="ViolationItem" */
-    SELECT count(*) INTO NUMROWS
-      FROM VIOLATION_DETAIL07
-      WHERE
-        /* %JoinFKPK(:%New,VIOLATION_DETAIL07," = "," AND") */
-        :new.ViolationItem = VIOLATION_DETAIL07.ViolationItem;
-    IF (
-      /* %NotnullFK(:%New," IS NOT NULL AND") */
-      
-      NUMROWS = 0
-    )
-    THEN
-      raise_application_error(
-        -20002,
-        'Cannot insert VIOLATION_ENROLL07 because VIOLATION_DETAIL07 does not exist.'
-      );
-    END IF;
-
-
--- ERwin Builtin Mon Oct 16 19:51:48 2023
-END;
-/
-
-CREATE  TRIGGER tU_VIOLATION_ENROLL07 AFTER UPDATE ON VIOLATION_ENROLL07 for each row
--- ERwin Builtin Mon Oct 16 19:51:48 2023
--- UPDATE trigger on VIOLATION_ENROLL07 
-DECLARE NUMROWS INTEGER;
-BEGIN
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* VIOLATION07 Include VIOLATION_ENROLL07 on child update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00025454", PARENT_OWNER="", PARENT_TABLE="VIOLATION07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION_ENROLL07"
-    P2C_VERB_PHRASE="R/131", C2P_VERB_PHRASE="Included", 
-    FK_CONSTRAINT="R_141", FK_COLUMNS="ViolationNumber" */
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_DEPARTMENTS  W5_OFFICES on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_OFFICES"
+    P2C_VERB_PHRASE="R/127", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_127", FK_COLUMNS="Dno" */
   SELECT count(*) INTO NUMROWS
-    FROM VIOLATION07
+    FROM W5_DEPARTMENTS
     WHERE
-      /* %JoinFKPK(:%New,VIOLATION07," = "," AND") */
-      :new.ViolationNumber = VIOLATION07.ViolationNumber;
+      /* %JoinFKPK(:%New,W5_DEPARTMENTS," = "," AND") */
+      :new.Dno = W5_DEPARTMENTS.Dno;
   IF (
     /* %NotnullFK(:%New," IS NOT NULL AND") */
     
@@ -710,21 +677,65 @@ BEGIN
   THEN
     raise_application_error(
       -20007,
-      'Cannot update VIOLATION_ENROLL07 because VIOLATION07 does not exist.'
+      'Cannot update W5_OFFICES because W5_DEPARTMENTS does not exist.'
     );
   END IF;
 
-  /* ERwin Builtin Mon Oct 16 19:51:48 2023 */
-  /* VIOLATION_DETAIL07 Assign VIOLATION_ENROLL07 on child update restrict */
-  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="VIOLATION_DETAIL07"
-    CHILD_OWNER="", CHILD_TABLE="VIOLATION_ENROLL07"
-    P2C_VERB_PHRASE="R/132", C2P_VERB_PHRASE="Assigned", 
-    FK_CONSTRAINT="R_144", FK_COLUMNS="ViolationItem" */
+
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+END;
+/
+
+
+CREATE  TRIGGER tI_W5_PHONES BEFORE INSERT ON W5_PHONES for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- INSERT trigger on W5_PHONES 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_OFFICES  W5_PHONES on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000ee8e", PARENT_OWNER="", PARENT_TABLE="W5_OFFICES"
+    CHILD_OWNER="", CHILD_TABLE="W5_PHONES"
+    P2C_VERB_PHRASE="R/128", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_128", FK_COLUMNS="One" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_OFFICES
+      WHERE
+        /* %JoinFKPK(:%New,W5_OFFICES," = "," AND") */
+        :new.One = W5_OFFICES.One;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_PHONES because W5_OFFICES does not exist.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_PHONES AFTER UPDATE ON W5_PHONES for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- UPDATE trigger on W5_PHONES 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_OFFICES  W5_PHONES on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="0000f24c", PARENT_OWNER="", PARENT_TABLE="W5_OFFICES"
+    CHILD_OWNER="", CHILD_TABLE="W5_PHONES"
+    P2C_VERB_PHRASE="R/128", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_128", FK_COLUMNS="One" */
   SELECT count(*) INTO NUMROWS
-    FROM VIOLATION_DETAIL07
+    FROM W5_OFFICES
     WHERE
-      /* %JoinFKPK(:%New,VIOLATION_DETAIL07," = "," AND") */
-      :new.ViolationItem = VIOLATION_DETAIL07.ViolationItem;
+      /* %JoinFKPK(:%New,W5_OFFICES," = "," AND") */
+      :new.One = W5_OFFICES.One;
   IF (
     /* %NotnullFK(:%New," IS NOT NULL AND") */
     
@@ -733,12 +744,79 @@ BEGIN
   THEN
     raise_application_error(
       -20007,
-      'Cannot update VIOLATION_ENROLL07 because VIOLATION_DETAIL07 does not exist.'
+      'Cannot update W5_PHONES because W5_OFFICES does not exist.'
     );
   END IF;
 
 
--- ERwin Builtin Mon Oct 16 19:51:48 2023
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+END;
+/
+
+
+CREATE  TRIGGER tI_W5_PROJECTS BEFORE INSERT ON W5_PROJECTS for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- INSERT trigger on W5_PROJECTS 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+    /* W5_DEPARTMENTS  W5_PROJECTS on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000ff6d", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_PROJECTS"
+    P2C_VERB_PHRASE="R/122", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_122", FK_COLUMNS="Dno" */
+    SELECT count(*) INTO NUMROWS
+      FROM W5_DEPARTMENTS
+      WHERE
+        /* %JoinFKPK(:%New,W5_DEPARTMENTS," = "," AND") */
+        :new.Dno = W5_DEPARTMENTS.Dno;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert W5_PROJECTS because W5_DEPARTMENTS does not exist.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+END;
+/
+
+CREATE  TRIGGER tU_W5_PROJECTS AFTER UPDATE ON W5_PROJECTS for each row
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
+-- UPDATE trigger on W5_PROJECTS 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Thu Oct 12 17:39:22 2023 */
+  /* W5_DEPARTMENTS  W5_PROJECTS on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="0001031f", PARENT_OWNER="", PARENT_TABLE="W5_DEPARTMENTS"
+    CHILD_OWNER="", CHILD_TABLE="W5_PROJECTS"
+    P2C_VERB_PHRASE="R/122", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_122", FK_COLUMNS="Dno" */
+  SELECT count(*) INTO NUMROWS
+    FROM W5_DEPARTMENTS
+    WHERE
+      /* %JoinFKPK(:%New,W5_DEPARTMENTS," = "," AND") */
+      :new.Dno = W5_DEPARTMENTS.Dno;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update W5_PROJECTS because W5_DEPARTMENTS does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Thu Oct 12 17:39:22 2023
 END;
 /
 
