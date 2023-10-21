@@ -1,0 +1,162 @@
+SQL> -- Q1.
+SQL> ALTER TABLE ARTIST08
+  2  ADD CONSTRAINT ARTIST_NATIONALITY CHECK
+  3  (nationality IN ('Spanish', 'Russian', 'German', 'French', 'United States'));
+
+테이블이 변경되었습니다.
+
+SQL> 
+SQL> INSERT INTO ARTIST08 (artistid, lastname, firstname, nationality, dateofbirth, datedeceased) values (10440, 'Miro3', 'Joan3', 'Japan', 1900, 1983);
+INSERT INTO ARTIST08 (artistid, lastname, firstname, nationality, dateofbirth, datedeceased) values (10440, 'Miro3', 'Joan3', 'Japan', 1900, 1983)
+*
+1행에 오류:
+ORA-02290: 체크 제약조건(ST2022112416.ARTIST_NATIONALITY)이 위배되었습니다 
+
+
+SQL> 
+SQL> -- Q2.
+SQL> ALTER TABLE ARTIST08
+  2  MODIFY nationality CHAR(30) DEFAULT 'United States';
+
+테이블이 변경되었습니다.
+
+SQL> 
+SQL> INSERT INTO ARTIST08 (artistid, lastname, firstname, dateofbirth, datedeceased) values(10441, 'Miro4', 'Joan4', 1910, 1985);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> SELECT * FROM ARTIST08;
+
+  ARTISTID LASTNAME                  FIRSTNAME                                  
+---------- ------------------------- -------------------------                  
+NATIONALITY                    DATEOFBIRTH DATEDECEASED                         
+------------------------------ ----------- ------------                         
+         1 Miro                      Joan                                       
+Spanish                               1893         1983                         
+                                                                                
+         2 Kandinsky                 Wassily                                    
+Russian                               1866         1944                         
+                                                                                
+         3 Klee                      Paul                                       
+German                                1879         1940                         
+                                                                                
+
+  ARTISTID LASTNAME                  FIRSTNAME                                  
+---------- ------------------------- -------------------------                  
+NATIONALITY                    DATEOFBIRTH DATEDECEASED                         
+------------------------------ ----------- ------------                         
+         4 Matisse                   Henri                                      
+French                                1869         1954                         
+                                                                                
+         5 Chagall                   Marc                                       
+French                                1887         1985                         
+                                                                                
+        11 Sargent                   John Singer                                
+United States                         1856         1925                         
+                                                                                
+
+  ARTISTID LASTNAME                  FIRSTNAME                                  
+---------- ------------------------- -------------------------                  
+NATIONALITY                    DATEOFBIRTH DATEDECEASED                         
+------------------------------ ----------- ------------                         
+        17 Tobey                     Mark                                       
+United States                         1890         1976                         
+                                                                                
+        18 Horiuchi                  Paul                                       
+United States                         1906         1999                         
+                                                                                
+        19 Graves                    Morris                                     
+United States                         1920         2001                         
+                                                                                
+
+  ARTISTID LASTNAME                  FIRSTNAME                                  
+---------- ------------------------- -------------------------                  
+NATIONALITY                    DATEOFBIRTH DATEDECEASED                         
+------------------------------ ----------- ------------                         
+     10441 Miro4                     Joan4                                      
+United States                         1910         1985                         
+                                                                                
+
+10 행이 선택되었습니다.
+
+SQL> 
+SQL> -- Q3.
+SQL> DESC ARTIST08;
+ 이름                                      널?      유형
+ ----------------------------------------- -------- ----------------------------
+ ARTISTID                                  NOT NULL NUMBER(38)
+ LASTNAME                                  NOT NULL CHAR(25)
+ FIRSTNAME                                 NOT NULL CHAR(25)
+ NATIONALITY                                        CHAR(30)
+ DATEOFBIRTH                                        NUMBER(4)
+ DATEDECEASED                                       NUMBER(4)
+
+SQL> 
+SQL> ALTER TABLE ARTIST08
+  2  MODIFY dateofbirth NUMBER(4) NOT NULL;
+
+테이블이 변경되었습니다.
+
+SQL> 
+SQL> DESC ARTIST08;
+ 이름                                      널?      유형
+ ----------------------------------------- -------- ----------------------------
+ ARTISTID                                  NOT NULL NUMBER(38)
+ LASTNAME                                  NOT NULL CHAR(25)
+ FIRSTNAME                                 NOT NULL CHAR(25)
+ NATIONALITY                                        CHAR(30)
+ DATEOFBIRTH                               NOT NULL NUMBER(4)
+ DATEDECEASED                                       NUMBER(4)
+
+SQL> 
+SQL> -- Q4.
+SQL> SELECT s.sname, s.age
+  2  FROM SAILOR08 s
+  3  WHERE NOT EXISTS (
+  4      SELECT b.bid
+  5      FROM BOAT08 b
+  6      MINUS
+  7      SELECT r.bid
+  8      FROM RESERVE08 r
+  9      WHERE r.sid = s.sid
+ 10  );
+
+SNAME                                                     AGE                   
+-------------------------------------------------- ----------                   
+Dustin                                                   45.2                   
+
+SQL> 
+SQL> -- Q5.
+SQL> DESC EMPLOYEE08;
+ 이름                                      널?      유형
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(38)
+ NAME                                      NOT NULL CHAR(50)
+ DEPARTMENT                                NOT NULL CHAR(20)
+ BUDGET                                             NUMBER(38)
+
+SQL> 
+SQL> ALTER TABLE EMPLOYEE08 RENAME TO EMPLOYEE08_V2;
+
+테이블이 변경되었습니다.
+
+SQL> ALTER TABLE EMPLOYEE08_V2 DROP COLUMN budget;
+
+테이블이 변경되었습니다.
+
+SQL> ALTER TABLE EMPLOYEE08_V2 ADD age NUMBER(3);
+
+테이블이 변경되었습니다.
+
+SQL> 
+SQL> DESC EMPLOYEE08_V2;
+ 이름                                      널?      유형
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(38)
+ NAME                                      NOT NULL CHAR(50)
+ DEPARTMENT                                NOT NULL CHAR(20)
+ AGE                                                NUMBER(3)
+
+SQL> 
+SQL> spool off;

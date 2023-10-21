@@ -1,0 +1,10 @@
+Q1. ARTIST08 테이블의 Nationality를 Spanish, Russian, German, French, United States만 입력 가능하도록 CHECK 제약조건을 추가하시오. 
+
+Q2. ARTIST08 테이블에서 Nationality의 기본 값을 'United States'로 설정하는 Default 제약조건을 추가하시오. 
+
+Q3. 다음 ARTIST08 테이블에서 DateOfBirth 컬럼의 속성을 NULL -> NOT NULL로 수정하시오. 
+
+Q4. 모든 배를 예약한 적이 있는 뱃사람의 이름과 나이를 출력하시오. (NOT EXISTS와 MINUS 사용)
+
+Q5. EMPLOYEE08 테이블의 이름을 EMPLOYEE08_V2로 변경하고, 컬럼 Budget을 삭제하고 Age를 출력하시오. 
+Age의 데이터 타입은 NUMBER(3)이다. 
