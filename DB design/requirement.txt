@@ -1,0 +1,32 @@
+연합 해킹동아리 GRAPE의 시스템을 DB설계하였다. 
+GRAPE의 회원 구조는 Noob-Entry-Pioneer의 3단계로 이루어져 있으며, 각 단계별 Hackademy 사이트 접속 권한과 Hacker Trainee 스터디 역할이 다르다. 
+
+모든 회원은 처음 동아리에 들어오면 Noob이 된다. 
+Noob에서 EntryPoint 테스트를 통과하고(85점 이상) 회비를 납부하면 Entry가 된다. 
+Pioneer는 Entry 중에서 선발한다. 
+
+Noob은 Hackademy 사이트 내의 Noob 페이지만 볼 수 있다. 
+Entry는 Hackademy 사이트 내의 Noob 페이지와 Entry 페이지, Wiki 페이지를 볼 수 있고 Noob 페이지와 Wiki 페이지만 수정할 수 있다. 
+Pioneer는 Hackademy 사이트 내의 Noob 페이지, Entry 페이지, Wiki 페이지, Admin 페이지를 볼 수 있고 수정할 수 있다.
+
+모든 Entry와 Pioneer는 Hacker Trainee 스터디에 참여해야 한다. 
+또한 각 Entry와 Pioneer는 최대 1개의 스터디에만 참여 가능하다. 
+각 스터디는 1명의 Pioneer와 1명의 Entry가 반드시 존재해야 하며, 각 스터디의 최대 정원은 Pioneer 1명, Entry 4명이다.  
+
+MEMBER
+* MemberID: 회원의 고유 식별자 (Primary Key) 
+MemberName: 회원의 이름 
+Status: 회원의 상태(Noob, Entry, Pioneer)
+EntryPointScore: EntryPoint 점수 
+HasPaidDues: 회비 납부 여부 
+* StudyGroupID: 참여 중인 스터디의 ID (Foreign Key) 
+
+HACKADEMY
+* MemberID: 회원의 고유 식별자 (Primary Key) 
+AccessPage: 접속할 수 있는 페이지(Noob, Entry, Wiki, Admin)
+EditPermission: 수정할 수 있는 페이지 (Noob, Entry, Wiki, Admin)  
+
+HACKER_TRAINEE
+* StudyGroupID: 스터디의 고유 식별자 (Primary Key)
+* MemberID: 스터디에 참여한 회원 ID (Foreign Key) 
+EntryCount: 스터디에 참여 중인 Entry 회원 수 
