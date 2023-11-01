@@ -1,0 +1,231 @@
+SQL> 
+SQL> Set ServerOutput On;
+SQL> 
+SQL> /* Q1 */
+SQL> DECLARE
+  2  max_sal emp.sal%TYPE;
+  3  min_sal emp.sal%TYPE;
+  4  BEGIN
+  5  SELECT MAX(sal), MIN(sal)
+  6  INTO max_sal, min_sal
+  7  FROM EMP;
+  8  DBMS_OUTPUT.PUT_LINE('사원 중에 최고 급여는 ' || max_sal || '원, 최저 급여는 ' || min_sal || '원이다.');
+  9  END;
+ 10  /
+사원 중에 최고 급여는 5000원, 최저 급여는 800원이다.                            
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> /* Q2 */
+SQL> DECLARE
+  2  i NUMBER := 0;
+  3  j NUMBER := 0;
+  4  str VARCHAR(11);
+  5  BEGIN
+  6  str := '*';
+  7  FOR i IN 1..10 LOOP
+  8  DBMS_OUTPUT.PUT_LINE(str);
+  9  str := str || '*';
+ 10  END LOOP;
+ 11  END;
+ 12  /
+*                                                                               
+**                                                                              
+***                                                                             
+****                                                                            
+*****                                                                           
+******                                                                          
+*******                                                                         
+********                                                                        
+*********                                                                       
+**********                                                                      
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> /* Q3 */
+SQL> DECLARE
+  2      v_eno emp.empno%TYPE := 7698;
+  3      v_sal emp.sal%TYPE;
+  4      v_grade salgrade.grade%TYPE;
+  5      v_low salgrade.losal%TYPE;
+  6      v_high salgrade.hisal%TYPE;
+  7  BEGIN
+  8      SELECT sal
+  9      INTO v_sal
+ 10      FROM emp
+ 11      WHERE empno = v_eno;
+ 12  
+ 13      FOR v_grade IN 1..5 LOOP
+ 14          SELECT losal, hisal
+ 15          INTO v_low, v_high
+ 16          FROM salgrade
+ 17          WHERE grade = v_grade;
+ 18  
+ 19          IF (v_low <= v_sal AND v_sal <= v_high) THEN
+ 20              DBMS_OUTPUT.put_LINE('7698 사원의 급여 등급은 ' || v_grade || '입니다');
+ 21              EXIT;
+ 22          END IF;
+ 23      END LOOP;
+ 24  EXCEPTION
+ 25      WHEN NO_DATA_FOUND THEN
+ 26          DBMS_OUTPUT.put_LINE('No data found for the given criteria.');
+ 27      WHEN TOO_MANY_ROWS THEN
+ 28          DBMS_OUTPUT.put_LINE('Too many rows returned for the given criteria.');
+ 29  END;
+ 30  /
+Too many rows returned for the given criteria.                                  
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> /* Q4 */
+SQL> DECLARE
+  2  v_newEmp emp%ROWTYPE;
+  3  v_oldEmp emp%ROWTYPE;
+  4  v_oldEno emp.empno%TYPE := '7369';
+  5  BEGIN
+  6  SELECT * INTO v_oldEmp
+  7  FROM EMP
+  8  WHERE empno = v_oldEno;
+  9  v_newEmp.empno := '7370';
+ 10  v_newEmp.ename := 'JASON';
+ 11  v_newEmp.job :=  'ANALYST';
+ 12  v_newEmp.sal := 900;
+ 13  v_newEmp.comm := NULL;
+ 14  v_newEmp.mgr := v_oldEmp.mgr;
+ 15  v_newEmp.hiredate := v_oldEmp.hiredate;
+ 16  v_newEmp.deptno := v_oldEmp.deptno;
+ 17  INSERT INTO EMP VALUES (v_newEmp.empno, v_newEmp.ename, v_newEmp.job, v_newEmp.mgr, v_newEmp.hiredate, v_newEmp.sal, v_newEmp.comm, v_newEmp.deptno);
+ 18  commit;
+ 19  END;
+ 20  /
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> select * from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7369 SMITH      CLERK           7902 80/12/17        800                  
+        20                                                                      
+                                                                                
+      7499 ALLEN      SALESMAN        7698 81/02/20       1600        300       
+        30                                                                      
+                                                                                
+      7521 WARD       SALESMAN        7698 81/02/22       1250        500       
+        30                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7566 JONES      MANAGER         7839 81/04/02       2975                  
+        20                                                                      
+                                                                                
+      7654 MARTIN     SALESMAN        7698 81/09/28       1250       1400       
+        30                                                                      
+                                                                                
+      7698 BLAKE      MANAGER         7839 81/05/01       2850                  
+        30                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7782 CLARK      MANAGER         7839 81/06/09       2450                  
+        10                                                                      
+                                                                                
+      7788 SCOTT      ANALYST         7566 87/01/13       3000                  
+        20                                                                      
+                                                                                
+      7839 KING       PRESIDENT            81/11/17       5000                  
+        10                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7844 TURNER     SALESMAN        7698 81/09/08       1500          0       
+        30                                                                      
+                                                                                
+      7876 ADAMS      CLERK           7788 87/10/23       1100                  
+        20                                                                      
+                                                                                
+      7900 JAMES      CLERK           7698 81/12/03        950                  
+        30                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7902 FORD       ANALYST         7566 81/12/03       3000                  
+        20                                                                      
+                                                                                
+      7934 MILLER     CLERK           7782 82/01/23       1300                  
+        10                                                                      
+                                                                                
+      7370 JASON      ANALYST         7902 80/12/17        900                  
+        20                                                                      
+                                                                                
+
+15 행이 선택되었습니다.
+
+SQL> 
+SQL> /* Q5 */
+SQL> DECLARE
+  2      TYPE EmpRec IS RECORD (
+  3          ename EMP.ENAME%TYPE,
+  4          sal EMP.SAL%TYPE
+  5      );
+  6  
+  7      TYPE EmpTable IS TABLE OF EmpRec INDEX BY PLS_INTEGER;
+  8  
+  9      avg_sal NUMBER;
+ 10      high_sal_employees EmpTable;
+ 11      idx PLS_INTEGER := 1;
+ 12  
+ 13  BEGIN
+ 14      SELECT AVG(sal) INTO avg_sal FROM EMP;
+ 15  
+ 16      DBMS_OUTPUT.PUT_LINE(' - 평균 급여 : ' || avg_sal);
+ 17  
+ 18      FOR rec IN (SELECT ename, sal FROM EMP WHERE sal > avg_sal ORDER BY sal ASC) LOOP
+ 19          high_sal_employees(idx).ename := rec.ename;
+ 20          high_sal_employees(idx).sal := rec.sal;
+ 21          idx := idx + 1;
+ 22      END LOOP;
+ 23  
+ 24      DBMS_OUTPUT.PUT_LINE('사원명     급여');
+ 25      DBMS_OUTPUT.PUT_LINE('------    ------');
+ 26  
+ 27      FOR i IN 1..high_sal_employees.COUNT LOOP
+ 28          DBMS_OUTPUT.PUT_LINE(RPAD(high_sal_employees(i).ename, 10) || LPAD(TO_CHAR(high_sal_employees(i).sal), 6));
+ 29      END LOOP;
+ 30  
+ 31      DBMS_OUTPUT.PUT_LINE('- 총 인원수: ' || (idx - 1) || '명');
+ 32  END;
+ 33  /
+- 평균 급여 : 1995                                                              
+사원명     급여                                                                 
+------    ------                                                                
+CLARK       2450                                                                
+BLAKE       2850                                                                
+JONES       2975                                                                
+FORD        3000                                                                
+SCOTT       3000                                                                
+KING        5000                                                                
+- 총 인원수: 6명                                                                
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> spool off;
