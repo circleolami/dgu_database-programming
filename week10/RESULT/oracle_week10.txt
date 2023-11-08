@@ -1,0 +1,196 @@
+SQL> 
+SQL> Set ServerOutput On;
+SQL> 
+SQL> /* Q1 */
+SQL> DECLARE
+  2    v_job EMP.JOB%TYPE;
+  3    v_counter NUMBER := 0;
+  4  BEGIN
+  5    DBMS_OUTPUT.PUT_LINE('직책명');
+  6    DBMS_OUTPUT.PUT_LINE('==========');
+  7  
+  8    FOR c IN (SELECT DISTINCT JOB FROM EMP WHERE DEPTNO = 10 ORDER BY JOB)
+  9    LOOP
+ 10      v_job := c.JOB;
+ 11      v_counter := v_counter + 1;
+ 12      DBMS_OUTPUT.PUT_LINE(v_job);
+ 13    END LOOP;
+ 14  
+ 15    DBMS_OUTPUT.PUT_LINE(chr(10)||chr(13) || '직책의 수 : ' || v_counter);
+ 16  END;
+ 17  /
+직책명                                                                          
+==========                                                                      
+CLERK                                                                           
+MANAGER                                                                         
+PRESIDENT                                                                       
+
+직책의 수 : 3                                                                 
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> 
+SQL> /* Q2 */
+SQL> SET SERVEROUTPUT ON;
+SQL> 
+SQL> DECLARE
+  2    CURSOR c_manager IS
+  3      SELECT EMPNO, ENAME FROM EMP WHERE JOB = 'MANAGER' ORDER BY EMPNO;
+  4    v_emp_record c_manager%ROWTYPE;
+  5    v_total_count NUMBER := 0;
+  6  BEGIN
+  7    DBMS_OUTPUT.PUT_LINE('사원번호'||'    '||'사원명');
+  8    DBMS_OUTPUT.PUT_LINE('======='||' '||'=======');
+  9  
+ 10    OPEN c_manager;
+ 11    LOOP
+ 12      FETCH c_manager INTO v_emp_record;
+ 13      EXIT WHEN c_manager%NOTFOUND;
+ 14  
+ 15      DBMS_OUTPUT.PUT_LINE(rpad(v_emp_record.EMPNO, 7) || rpad(v_emp_record.ENAME, 10));
+ 16      v_total_count := v_total_count + 1;
+ 17    END LOOP;
+ 18    CLOSE c_manager;
+ 19  
+ 20    DBMS_OUTPUT.PUT_LINE(chr(10)||chr(13) || '총 인원 수 : ' || v_total_count);
+ 21  END;
+ 22  /
+사원번호    사원명                                                              
+======= =======                                                                 
+7566   JONES                                                                    
+7698   BLAKE                                                                    
+7782   CLARK                                                                    
+
+총 인원 수 : 3                                                                
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> 
+SQL> /* Q3 */
+SQL> CREATE OR REPLACE PROCEDURE EMP_INPUT (
+  2    p_empno IN EMP.EMPNO%TYPE,
+  3    p_ename IN EMP.ENAME%TYPE,
+  4    p_job IN EMP.JOB%TYPE,
+  5    p_mgr IN EMP.MGR%TYPE,
+  6    p_hiredate IN EMP.HIREDATE%TYPE DEFAULT SYSDATE,
+  7    p_sal IN EMP.SAL%TYPE
+  8  ) AS
+  9    v_deptno EMP.DEPTNO%TYPE;
+ 10    v_comm EMP.COMM%TYPE;
+ 11  BEGIN
+ 12    SELECT DEPTNO INTO v_deptno FROM EMP WHERE EMPNO = p_mgr;
+ 13  
+ 14    IF p_job = 'SALESMAN' THEN
+ 15      v_comm := 10;
+ 16    ELSE
+ 17      v_comm := NULL;
+ 18    END IF;
+ 19  
+ 20    INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+ 21    VALUES (p_empno, p_ename, p_job, p_mgr, p_hiredate, p_sal, v_comm, v_deptno);
+ 22  
+ 23    COMMIT;
+ 24  EXCEPTION
+ 25    WHEN DUP_VAL_ON_INDEX THEN
+ 26      DBMS_OUTPUT.PUT_LINE('중복된 사원번호입니다.');
+ 27  END EMP_INPUT;
+ 28  /
+
+프로시저가 생성되었습니다.
+
+SQL> 
+SQL> EXECUTE EMP_INPUT(7900, 'ALVIN', 'SALESMAN', 7788, SYSDATE, 1500);
+중복된 사원번호입니다.                                                          
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> EXECUTE EMP_INPUT(7904, 'ALVIN', 'SALESMAN', 7788, SYSDATE, 1500);
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> EXECUTE EMP_INPUT(7367, 'JOHN', 'CLERK', 7902, SYSDATE, 1200);
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> 
+SQL> /* Q4 */
+SQL> CREATE OR REPLACE FUNCTION D_E_CNT(p_dname IN DEPT.DNAME%TYPE)
+  2  RETURN NUMBER IS
+  3    v_emp_count NUMBER;
+  4  BEGIN
+  5    SELECT COUNT(*)
+  6    INTO v_emp_count
+  7    FROM EMP e
+  8    JOIN DEPT d ON e.DEPTNO = d.DEPTNO
+  9    WHERE d.DNAME = p_dname;
+ 10  
+ 11    RETURN v_emp_count;
+ 12  END;
+ 13  /
+
+함수가 생성되었습니다.
+
+SQL> 
+SQL> VAR empCnt NUMBER
+SQL> EXEC :empCnt := D_E_CNT('SALES');
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> DECLARE
+  2    empCnt NUMBER;
+  3  BEGIN
+  4    empCnt := D_E_CNT('SALES');
+  5    DBMS_OUTPUT.PUT_LINE('소속 사원 수: ' || empCnt);
+  6  END;
+  7  /
+소속 사원 수: 6                                                                 
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> /* Q5 */
+SQL> CREATE OR REPLACE TRIGGER SHOPS_INPUT
+  2  BEFORE INSERT ON SHOPS
+  3  FOR EACH ROW
+  4  DECLARE
+  5    v_total_profit SHOPS.SHOP_PROFIT%TYPE;
+  6    v_total_cost SHOPS.SHOP_COST%TYPE;
+  7    v_net_profit NUMBER;
+  8  BEGIN
+  9    SELECT SUM(SHOP_PROFIT), SUM(SHOP_COST) INTO v_total_profit, v_total_cost FROM SHOPS;
+ 10  
+ 11    v_net_profit := v_total_profit - v_total_cost;
+ 12  
+ 13    DBMS_OUTPUT.PUT_LINE('<INSERT문이 실행되기 전까지의 손익 현황>');
+ 14    DBMS_OUTPUT.PUT_LINE('총 수익: ' || v_total_profit);
+ 15    DBMS_OUTPUT.PUT_LINE('총 비용: ' || v_total_cost);
+ 16    DBMS_OUTPUT.PUT_LINE('총 순이익: ' || v_net_profit);
+ 17  END;
+ 18  /
+
+트리거가 생성되었습니다.
+
+SQL> 
+SQL> SET SERVEROUTPUT ON;
+SQL> 
+SQL> INSERT INTO SHOPS VALUES (500, '동국상점5', 2500000, 800000);
+<INSERT문이 실행되기 전까지의 손익 현황>                                        
+총 수익: 11300000                                                               
+총 비용: 4900000                                                                
+총 순이익: 6400000                                                              
+
+1 개의 행이 만들어졌습니다.
+
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> spool off;
