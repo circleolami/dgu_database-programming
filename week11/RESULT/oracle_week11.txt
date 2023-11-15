@@ -1,0 +1,901 @@
+SQL> 
+SQL> Set ServerOutput On;
+SQL> 
+SQL> DROP TABLE DEPT CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE EMP CASCADE CONSTRAINTS PURGE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE student CASCADE CONSTRAINTS;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE course CASCADE CONSTRAINTS;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE professor CASCADE CONSTRAINTS;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE enroll CASCADE CONSTRAINTS;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE teach CASCADE CONSTRAINTS;
+
+테이블이 삭제되었습니다.
+
+SQL> 
+SQL> CREATE TABLE student
+  2  (
+  3      s_id       VARCHAR2(10),
+  4      s_name  VARCHAR2(50)   not null,
+  5      s_addr    VARCHAR2(200),
+  6      s_year     NUMBER(1)   not null,
+  7      s_college    VARCHAR2(50)   not null,
+  8      s_major   VARCHAR2(50)   not null,
+  9      s_pwd       VARCHAR2(10)   not null,
+ 10      CONSTRAINT s_pk PRIMARY KEY (s_id)
+ 11  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> 
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20011234', '김민준','서울시 강남구 도곡동 123', 4, 'AI융합학부', '컴퓨터공학','1234');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20011235', '이지아','경기도 성남시 분당구 서현동 234', 4, 'AI융합학부', '컴퓨터공학','1235');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20011236', '최유나','서울시 마포구 합정동 345', 4, 'AI융합학부', '컴퓨터공학','1236');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20011237', '정하은','인천시 연수구 송도동 456', 4, 'AI융합학부', '컴퓨터공학','1237');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20021245', '한지우','부산시 해운대구 중동 567', 3, 'AI융합학부', '컴퓨터공학','3123');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20021246', '송하준','대구시 수성구 범어동 678', 3, 'AI융합학부', '컴퓨터공학','3124');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20021247', '안준호','광주시 서구 치평동 789', 3, 'AI융합학부', '컴퓨터공학','3125');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20023451', '김지수','울산시 남구 신정동 890', 3, 'AI융합학부', '멀티미디어공학','3451');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20012454', '박윤서','제주시 제주동 901', 4, 'AI융합학부', '멀티미디어공학','3454');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO student (s_id, s_name, s_addr, s_year, s_college, s_major, s_pwd) VALUES
+  2  ('20012456', '송태윤','서울시 용산구 한남동 123', 4, 'AI융합학부', '멀티미디어공학','3456');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> CREATE TABLE course
+  2  (
+  3      c_id      VARCHAR2(10),
+  4      c_id_no  NUMBER(1),
+  5      c_name  VARCHAR2(50),
+  6      c_unit     NUMBER(1),
+  7      CONSTRAINT c_pk PRIMARY KEY (c_id, c_id_no)
+  8  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO course VALUES ('C100', 3, '프로그래밍기초', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('C200', 3, '자료구조와실습', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('C300', 3, '데이터베이스시스템', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('C400', 3, '데이터베이스프로그래밍', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('C500', 3, '운영체제', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('C600', 3, '공개SW프로젝트', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('C700', 3, '데이터통신입문', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('C800', 3, '인공지능', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('C900', 3, '객체지향프로그래밍', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('M100', 3, '컴퓨터그래픽스', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('M200', 3, '계산적사고법', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('M300', 3, '컴퓨터알고리즘과실습', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('M400', 3, '시스템소프트웨어와실습', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('M500', 3, '컴퓨터구성', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('M600', 3, '컴퓨터구조', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO course VALUES ('M700', 3, '양자컴퓨팅', 3) ;
+
+1 개의 행이 만들어졌습니다.
+
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE professor
+  2  (
+  3      p_id          VARCHAR2(10),
+  4      p_name      VARCHAR2(50)   not null,
+  5      p_college    VARCHAR2(50)   not null,
+  6      p_major      VARCHAR2(50)   not null,
+  7      p_pwd         VARCHAR2(10)   not null,
+  8      CONSTRAINT p_pk PRIMARY KEY (p_id)
+  9  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO professor VALUES ('CS4580', '안영일', 'AI융합학부', '컴퓨터공학','4580');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO professor VALUES ('CS4581', '조정환', 'AI융합학부', '컴퓨터공학','4581');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO professor VALUES ('CS4582', '이영희', 'AI융합학부', '컴퓨터공학','4582');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO professor VALUES ('CS4583', '윤정남', 'AI융합학부', '컴퓨터공학','4583');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO professor VALUES ('CS4584', '송대영', 'AI융합학부', '컴퓨터공학','4584');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO professor VALUES ('CS4585', '김영미', 'AI융합학부', '컴퓨터공학','4585');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO professor VALUES ('MM4570', '최미숙', 'AI융합학부', '멀티미디어공학','4570');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO professor VALUES ('MM4571', '박종호', 'AI융합학부', '멀티미디어공학','4571');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO professor VALUES ('MM4572', '정혜숙', 'AI융합학부', '멀티미디어공학','4572');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE enroll
+  2  (
+  3      s_id        VARCHAR2(10),
+  4      c_id        VARCHAR2(10),
+  5      c_id_no    NUMBER(1),
+  6      e_year      NUMBER(4),
+  7      e_semester    NUMBER(1),
+  8      e_score    NUMBER(3),
+  9      CONSTRAINT e_pk PRIMARY KEY (s_id, c_id, c_id_no),
+ 10      CONSTRAINT e_c_id_fk FOREIGN KEY (c_id, c_id_no) REFERENCES  course (c_id, c_id_no)
+ 11  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO enroll VALUES ( '20011234', 'C100', 3, 2024, 1, 60);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011234', 'C200', 3, 2024, 1, 57);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011234', 'C300', 3, 2024, 1, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011234', 'C400', 3, 2024, 1, 85);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011234', 'C500', 3, 2024, 1, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011234', 'C600', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011234', 'C700', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011235', 'C100', 3, 2023, 2, 76);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011235', 'C200', 3, 2024, 1, 78);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011235', 'C300', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011235', 'C400', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011235', 'C500', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011235', 'C600', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011235', 'C700', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011235', 'C900', 3, 2024, 1, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011236', 'C100', 3, 2023, 2, 67);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011236', 'C200', 3, 2024, 1, 95);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011236', 'C300', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011236', 'C400', 3, 2024, 1, 95);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011236', 'C500', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011236', 'C600', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011236', 'C700', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011236', 'C900', 3, 2024, 1, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011237', 'C100', 3, 2023, 2, 45);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011237', 'C200', 3, 2024, 1, 68);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011237', 'C300', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011237', 'C400', 3, 2024, 1, 88);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011237', 'C500', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011237', 'C600', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011237', 'C700', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011237', 'C900', 3, 2024, 1, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20021245', 'C100', 3, 2023, 2, 75);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20021245', 'C200', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011245', 'C900', 3, 2024, 1, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20021246', 'C100', 3, 2023, 2, 91);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20021246', 'C200', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20011246', 'C900', 3, 2024, 1, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20021247', 'C100', 3, 2023, 2, 87);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20021247', 'C200', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012454', 'C100', 3, 2023, 2, 67);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012454', 'M100', 3, 2023, 2, 57);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012454', 'M200', 3, 2024, 1, 71);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012454', 'M300', 3, 2024, 1, 83);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012454', 'M400', 3, 2024, 1, 89);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012454', 'M500', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012456', 'C100', 3, 2023, 2, 96);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012456', 'C200', 3, 2024, 1, 87);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012456', 'M100', 3, 2023, 2, 63);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012456', 'M200', 3, 2024, 1, 68);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012456', 'M300', 3, 2024, 1, 98);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012456', 'M400', 3, 2024, 1, 85);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO enroll VALUES ( '20012456', 'M500', 3, 2023, 2, null);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> CREATE TABLE teach
+  2  (
+  3      p_id      VARCHAR2(10),
+  4      c_id      VARCHAR2(10),
+  5      c_id_no  NUMBER(1),
+  6      t_year    NUMBER(4),
+  7      t_semester    NUMBER(1),
+  8      t_time    NUMBER(1),
+  9      t_where  VARCHAR2(50),
+ 10      t_max    NUMBER(2),
+ 11      CONSTRAINT t_pk PRIMARY KEY (p_id, c_id, c_id_no,t_year,t_semester ),
+ 12      CONSTRAINT t_c_id_fk FOREIGN KEY (c_id, c_id_no) REFERENCES  course (c_id, c_id_no)
+ 13   );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO teach VALUES ( 'CS4580', 'C100', 3 , 2024, 1, 4, '인-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'CS4581', 'C200', 3 , 2024, 1, 5, '인-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'CS4581', 'C200', 3 , 2023, 2, 5, '인-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'CS4581', 'C300', 3 , 2024, 1, 2, '인-416', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'CS4582', 'C400', 3 , 2024, 1, 6, '인-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'CS4582', 'C400', 3 , 2023, 2, 6, '인-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'CS4583', 'C500', 3 , 2024, 1, 3, '인-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'CS4583', 'C700', 3 , 2023, 2, 4, '인-310', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'CS4584', 'C600', 3 , 2023, 2, 1, '인-309', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'CS4584', 'C800', 3 , 2024, 1, 7, '인-309', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'MM4570', 'M100', 3 , 2024, 1, 5, '숭-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'MM4570', 'M400', 3 , 2024, 1, 5, '숭-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'MM4571', 'M200', 3 , 2024, 1, 3, '숭-417', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'MM4571', 'M200', 3 , 2023, 2, 3, '숭-417', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'MM4571', 'M500', 3 , 2023, 2, 6, '숭-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'MM4572', 'M300', 3 , 2024, 1, 3, '숭-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'MM4572', 'M300', 3 , 2023, 2, 3, '숭-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'MM4572', 'C900', 3 , 2024, 1, 2, '숭-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO teach VALUES ( 'MM4572', 'M700', 3 , 2024, 1, 8, '숭-201', 5);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> CREATE TABLE DEPT (DEPTNO NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY,
+  2     DNAME VARCHAR2(14) ,
+  3     LOC VARCHAR2(13) ) ;
+
+테이블이 생성되었습니다.
+
+SQL> INSERT INTO DEPT VALUES(10,'ACCOUNTING','NEW YORK');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO DEPT VALUES(20,'RESEARCH','DALLAS');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO DEPT VALUES(30,'SALES','CHICAGO');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO DEPT VALUES(40,'OPERATIONS','BOSTON');
+
+1 개의 행이 만들어졌습니다.
+
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> CREATE TABLE EMP
+  2         (EMPNO NUMBER(4) CONSTRAINT PK_EMP PRIMARY KEY,
+  3     ENAME VARCHAR2(10),
+  4     JOB VARCHAR2(9),
+  5     MGR NUMBER(4),
+  6     HIREDATE DATE,
+  7     SAL NUMBER(7,2),
+  8     COMM NUMBER(7,2),
+  9     DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT);
+
+테이블이 생성되었습니다.
+
+SQL> INSERT INTO EMP VALUES(7369,'SMITH','CLERK',7902,to_date('17-12-1980','dd-mm-yyyy'),800,NULL,20);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7499,'ALLEN','SALESMAN',7698,to_date('20-2-1981','dd-mm-yyyy'),1600,300,30);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7521,'WARD','SALESMAN',7698,to_date('22-2-1981','dd-mm-yyyy'),1250,500,30);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7566,'JONES','MANAGER',7839,to_date('2-4-1981','dd-mm-yyyy'),2975,NULL,20);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7654,'MARTIN','SALESMAN',7698,to_date('28-9-1981','dd-mm-yyyy'),1250,1400,30);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7698,'BLAKE','MANAGER',7839,to_date('1-5-1981','dd-mm-yyyy'),2850,NULL,30);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7782,'CLARK','MANAGER',7839,to_date('9-6-1981','dd-mm-yyyy'),2450,NULL,10);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7788,'SCOTT','ANALYST',7566,to_date('13-1-1987','dd-mm-yyyy'),3000,NULL,20);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7839,'KING','PRESIDENT',NULL,to_date('17-11-1981','dd-mm-yyyy'),5000,NULL,10);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7844,'TURNER','SALESMAN',7698,to_date('8-9-1981','dd-mm-yyyy'),1500,0,30);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7876,'ADAMS','CLERK',7788,to_date('13-12-1987', 'dd-mm-rr')-51,1100,NULL,20);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7900,'JAMES','CLERK',7698,to_date('3-12-1981','dd-mm-yyyy'),950,NULL,30);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7902,'FORD','ANALYST',7566,to_date('3-12-1981','dd-mm-yyyy'),3000,NULL,20);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO EMP VALUES(7934,'MILLER','CLERK',7782,to_date('23-1-1982','dd-mm-yyyy'),1300,NULL,10);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> COMMIT;
+
+커밋이 완료되었습니다.
+
+SQL> 
+SQL> /* Q1 */
+SQL> 
+SQL> DECLARE
+  2      nYear NUMBER := 2023;
+  3      nSemester NUMBER := 1;
+  4      sCourseId VARCHAR2(10) := 'C100';
+  5      nCourseIdNo NUMBER := 3;
+  6      sStudentId VARCHAR2(10) := '20011234';
+  7      nTeachMax NUMBER;
+  8      nCnt NUMBER;
+  9  
+ 10      /* 수강신청 인원 초과 여부 확인 */
+ 11      CURSOR c_teachMax IS
+ 12          SELECT t_max
+ 13          FROM teach
+ 14          WHERE t_year = nYear AND t_semester = nSemester AND c_id = sCourseId AND c_id_no = nCourseIdNo;
+ 15  
+ 16      /* 수강생 수 확인 */
+ 17      CURSOR c_enrollCnt IS
+ 18          SELECT COUNT(*)
+ 19          FROM enroll
+ 20          WHERE e_year = nYear AND e_semester = nSemester AND c_id = sCourseId AND c_id_no = nCourseIdNo;
+ 21  
+ 22      /* 시간표 중복 확인 */
+ 23      CURSOR c_duplicate_time IS
+ 24          SELECT COUNT(*)
+ 25          FROM (
+ 26              SELECT t_time FROM teach
+ 27              WHERE t_year = nYear AND t_semester = nSemester AND c_id = sCourseId AND c_id_no = nCourseIdNo
+ 28              INTERSECT
+ 29              SELECT t.t_time FROM teach t, enroll e
+ 30              WHERE e.s_id = sStudentId AND e.e_year = nYear AND e.e_semester = nSemester AND t.t_year = nYear AND t.t_semester = nSemester AND e.c_id = t.c_id AND e.c_id_no = t.c_id_no
+ 31          );
+ 32  
+ 33  BEGIN
+ 34      /* 에러 처리 3 : 수강신청 인원 초과 여부 */
+ 35      OPEN c_teachMax;
+ 36      FETCH c_teachMax INTO nTeachMax;
+ 37      CLOSE c_teachMax;
+ 38  
+ 39      OPEN c_enrollCnt;
+ 40      FETCH c_enrollCnt INTO nCnt;
+ 41      CLOSE c_enrollCnt;
+ 42  
+ 43      IF (nCnt >= nTeachMax) THEN
+ 44          DBMS_OUTPUT.PUT_LINE('수강신청 인원 초과입니다.');
+ 45      ELSE
+ 46          DBMS_OUTPUT.PUT_LINE('수강신청 인원 초과가 아닙니다.');
+ 47      END IF;
+ 48  
+ 49      /* 에러 처리 4 : 신청한 과목을 시간 중복 여부 */
+ 50      OPEN c_duplicate_time;
+ 51      FETCH c_duplicate_time INTO nCnt;
+ 52      CLOSE c_duplicate_time;
+ 53  
+ 54      IF (nCnt > 0) THEN
+ 55          DBMS_OUTPUT.PUT_LINE('시간표 중복입니다.');
+ 56      ELSE
+ 57          DBMS_OUTPUT.PUT_LINE('시간표 중복이 아닙니다.');
+ 58      END IF;
+ 59  END;
+ 60  /
+수강신청 인원 초과가 아닙니다.                                                  
+시간표 중복이 아닙니다.                                                         
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> 
+SQL> /* Q2 */
+SQL> 
+SQL> DROP PROCEDURE EMP_DELETE;
+
+프로시저가 삭제되었습니다.
+
+SQL> 
+SQL> CREATE OR REPLACE PROCEDURE EMP_DELETE(eNo IN EMP.EMPNO%TYPE)
+  2   IS
+  3   no_sub_employee EXCEPTION;
+  4   employ_name EMP.ENAME%TYPE;
+  5   sub EMP%ROWTYPE;
+  6       dept_name DEPT.DNAME%TYPE;
+  7   CURSOR subCursor(m_no EMP.EMPNO%TYPE)
+  8   IS
+  9   SELECT * FROM EMP WHERE MGR = eNO;
+ 10   BEGIN
+ 11       DBMS_OUTPUT.PUT_LINE(chr(10) || chr(13));
+ 12   SELECT ename
+ 13   INTO employ_name
+ 14   FROM EMP
+ 15   WHERE empno = eNo;
+ 16  
+ 17       DBMS_OUTPUT.PUT_LINE('삭제할 사원 이름 : ' || employ_name || chr(10) || chr(13));
+ 18  
+ 19       OPEN subCursor(eNo);
+ 20       LOOP
+ 21   FETCH subCursor INTO sub;
+ 22   EXIT WHEN subCursor%NOTFOUND;
+ 23   END LOOP;
+ 24       IF (subCursor%ROWCOUNT = 0) THEN
+ 25   RAISE no_sub_employee;
+ 26   END IF;
+ 27       CLOSE subCursor;
+ 28       DBMS_OUTPUT.PUT_LINE('<부하직원 정보>');
+ 29   DBMS_OUTPUT.PUT_LINE('사원번호      이름          부서명        직책          관리자번호');
+ 30       DBMS_OUTPUT.PUT_LINE('---------     ---------     ---------     ---------     ----------');
+ 31  
+ 32   OPEN subCursor(eNo);
+ 33   LOOP
+ 34   FETCH subCursor INTO sub;
+ 35   EXIT WHEN subCursor%NOTFOUND;
+ 36           SELECT dname INTO dept_name
+ 37           FROM DEPT WHERE deptno = sub.deptno;
+ 38           DBMS_OUTPUT.PUT_LINE(
+ 39               rpad(TO_CHAR(sub.empno), 14) || rpad(sub.ename, 14)
+ 40               || rpad(dept_name,14) || rpad(sub.job, 14) || rpad(TO_CHAR(sub.mgr), 14));
+ 41   UPDATE EMP SET MGR = NULL WHERE empno = sub.empno;
+ 42   END LOOP;
+ 43       CLOSE subCursor;
+ 44       commit;
+ 45   EXCEPTION
+ 46   WHEN no_sub_employee THEN
+ 47       DBMS_OUTPUT.PUT_LINE('부하직원이 없는 사원입니다.');
+ 48   WHEN NO_DATA_FOUND THEN
+ 49       DBMS_OUTPUT.PUT_LINE('존재하지 않는 사원입니다.');
+ 50   WHEN OTHERS THEN
+ 51       rollback;
+ 52   END;
+ 53   /
+
+프로시저가 생성되었습니다.
+
+SQL> 
+SQL> exec emp_delete(7566);
+
+                                                                              
+삭제할 사원 이름 : JONES
+                                                      
+<부하직원 정보>                                                                 
+사원번호      이름          부서명        직책          관리자번호              
+---------     ---------     ---------     ---------     ----------              
+7788          SCOTT         RESEARCH      ANALYST       7566                    
+7902          FORD          RESEARCH      ANALYST       7566                    
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> exec emp_delete(7934);
+
+                                                                              
+삭제할 사원 이름 : MILLER
+                                                     
+부하직원이 없는 사원입니다.                                                     
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> exec emp_delete(9999);
+
+                                                                              
+존재하지 않는 사원입니다.                                                       
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+
+SQL> select * from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7369 SMITH      CLERK           7902 80/12/17        800                  
+        20                                                                      
+                                                                                
+      7499 ALLEN      SALESMAN        7698 81/02/20       1600        300       
+        30                                                                      
+                                                                                
+      7521 WARD       SALESMAN        7698 81/02/22       1250        500       
+        30                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7566 JONES      MANAGER         7839 81/04/02       2975                  
+        20                                                                      
+                                                                                
+      7654 MARTIN     SALESMAN        7698 81/09/28       1250       1400       
+        30                                                                      
+                                                                                
+      7698 BLAKE      MANAGER         7839 81/05/01       2850                  
+        30                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7782 CLARK      MANAGER         7839 81/06/09       2450                  
+        10                                                                      
+                                                                                
+      7788 SCOTT      ANALYST              87/01/13       3000                  
+        20                                                                      
+                                                                                
+      7839 KING       PRESIDENT            81/11/17       5000                  
+        10                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7844 TURNER     SALESMAN        7698 81/09/08       1500          0       
+        30                                                                      
+                                                                                
+      7876 ADAMS      CLERK           7788 87/10/23       1100                  
+        20                                                                      
+                                                                                
+      7900 JAMES      CLERK           7698 81/12/03        950                  
+        30                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM       
+---------- ---------- --------- ---------- -------- ---------- ----------       
+    DEPTNO                                                                      
+----------                                                                      
+      7902 FORD       ANALYST              81/12/03       3000                  
+        20                                                                      
+                                                                                
+      7934 MILLER     CLERK           7782 82/01/23       1300                  
+        10                                                                      
+                                                                                
+
+14 행이 선택되었습니다.
+
+SQL> 
+SQL> spool off
