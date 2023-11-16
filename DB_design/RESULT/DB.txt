@@ -1,0 +1,149 @@
+SQL> 
+SQL> Set ServerOutput On;
+SQL> 
+SQL> DROP TABLE HACKER_TRAINEE;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE MEMBER;
+
+테이블이 삭제되었습니다.
+
+SQL> DROP TABLE HACKADEMY;
+
+테이블이 삭제되었습니다.
+
+SQL> 
+SQL> -- MEMBER 테이블 생성
+SQL> CREATE TABLE MEMBER (
+  2      MemberID CHAR(10) PRIMARY KEY NOT NULL,
+  3      MemberName CHAR(18) NOT NULL,
+  4      Status CHAR(7) NOT NULL,
+  5      EntryPointScore INTEGER,
+  6      HasPaidDues SMALLINT NOT NULL
+  7  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> -- HACKADEMY 테이블 생성
+SQL> CREATE TABLE HACKADEMY (
+  2      MemberID CHAR(10) PRIMARY KEY NOT NULL,
+  3      AccessPage SMALLINT NOT NULL,
+  4      EditPermission SMALLINT
+  5  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> -- HACKER_TRAINEE 테이블 생성
+SQL> CREATE TABLE HACKER_TRAINEE (
+  2      StudyGroupID CHAR(18) PRIMARY KEY NOT NULL,
+  3      EntryCount INTEGER NOT NULL,
+  4      MemberID CHAR(10) NOT NULL,
+  5      FOREIGN KEY (MemberID) REFERENCES MEMBER(MemberID)
+  6  );
+
+테이블이 생성되었습니다.
+
+SQL> 
+SQL> INSERT INTO MEMBER VALUES (2022112416, '김가은', 'Pioneer', 100, 1);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO MEMBER VALUES (2022112417, '이유진', 'Entry', 80, 1);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO MEMBER VALUES (2022112418, '송윤재', 'Noob', 56, 0);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO MEMBER VALUES (2022112419, '이철수', 'Entry', 88, 1);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO MEMBER VALUES (2022112420, '박찬혁', 'Pioneer', 99, 1);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> INSERT INTO HACKADEMY VALUES (2022112416, 3, 1);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO HACKADEMY VALUES (2022112417, 2, 1);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO HACKADEMY VALUES (2022112418, 1, 0);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO HACKADEMY VALUES (2022112419, 2, 1);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO HACKADEMY VALUES (2022112420, 3, 1);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> INSERT INTO HACKER_TRAINEE VALUES ('1001', 3, 2022112416);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO HACKER_TRAINEE VALUES ('1002', 4, 2022112417);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO HACKER_TRAINEE VALUES ('1003', 4, 2022112418);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO HACKER_TRAINEE VALUES ('1004', 4, 2022112419);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> INSERT INTO HACKER_TRAINEE VALUES ('1005', 3, 2022112420);
+
+1 개의 행이 만들어졌습니다.
+
+SQL> 
+SQL> -- MEMBER 테이블 데이터 조회
+SQL> SELECT * FROM MEMBER;
+
+MEMBERID   MEMBERNAME         STATUS  ENTRYPOINTSCORE HASPAIDDUES               
+---------- ------------------ ------- --------------- -----------               
+2022112416 김가은             Pioneer             100           1               
+2022112417 이유진             Entry                80           1               
+2022112418 송윤재             Noob                 56           0               
+2022112419 이철수             Entry                88           1               
+2022112420 박찬혁             Pioneer              99           1               
+
+SQL> 
+SQL> -- HACKADEMY 테이블 데이터 조회
+SQL> SELECT * FROM HACKADEMY;
+
+MEMBERID   ACCESSPAGE EDITPERMISSION                                            
+---------- ---------- --------------                                            
+2022112416          3              1                                            
+2022112417          2              1                                            
+2022112418          1              0                                            
+2022112419          2              1                                            
+2022112420          3              1                                            
+
+SQL> 
+SQL> -- HACKER_TRAINEE 테이블 데이터 조회
+SQL> SELECT * FROM HACKER_TRAINEE;
+
+STUDYGROUPID       ENTRYCOUNT MEMBERID                                          
+------------------ ---------- ----------                                        
+1001                        3 2022112416                                        
+1002                        4 2022112417                                        
+1003                        4 2022112418                                        
+1004                        4 2022112419                                        
+1005                        3 2022112420                                        
+
+SQL> 
+SQL> spool off;
